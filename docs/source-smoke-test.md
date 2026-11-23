@@ -689,3 +689,47 @@ When networking recovers, use at most eight read-only resource requests in a ses
 Repeat creation/update resume comparisons specifically under the same sufficiently fresh generation, including a second identical reference read; the earlier successful mixed-header samples do not prove this. Investigate variable-width text ordering only if real keys of differing widths exist in the bounded sample. Verify combined projection and null-sort-key preflight support before freezing their algorithms. Do not expand downloads solely to manufacture evidence. If a daily refresh changes generation mid-extraction, record the limitation and evaluate a bounded re-extraction/reconciliation policy rather than claim a snapshot.
 
 Source fallback: approved foundation work and fixture-based design may continue. If update extraction cannot be trusted, propose complete bounded-cohort reconciliation with its own durable segments and no automatic deletion. An official dated export may support backfill with provenance after review; it cannot prove live incrementals, deletion semantics or pre-observation SCD2 history. Do not mark Spec 01 complete until its material gates are resolved or a reviewed alternative meets them.
+
+## Durable Bronze phase — bounded live probe, 2026-11-24
+
+One read-only request, no token/retries, at most one projected row. HTTPX used
+`trust_env=False`, no redirects, 3-second connect/5-second request timeout and an
+8-second outer deadline. No response body was logged or committed. Exact request:
+
+```text
+GET https://data.cityofnewyork.us/resource/erm2-nwe9.json
+$select=unique_key,created_date,closed_date,agency,agency_name,complaint_type,descriptor,status,borough,incident_zip,resolution_action_updated_date,:updated_at
+$where=created_date >= '2025-01-01T00:00:00' AND created_date < '2025-01-02T00:00:00'
+$order=created_date ASC,unique_key ASC
+$limit=1
+```
+
+Actual response: **HTTP 200**. Headers:
+
+```text
+x-soda2-data-out-of-date: false
+x-soda2-truth-last-modified: Mon, 23 Nov 2026 02:37:55 GMT
+x-soda2-secondary-last-modified: Mon, 23 Nov 2026 02:37:55 GMT
+```
+
+The existing freshness parser accepted generation `2026-11-23T02:37:55+00:00`.
+This newly verifies a successful response for the combined projection and bounded
+query, with the required metadata. It does **not** verify independent wall-clock
+freshness, repeatable views, cursor coverage, publisher timezone/DST, update/deletion
+completeness or genuine SCD2 changes. The probe did not persist a page or validate
+its records; deterministic repository tests are separate synthetic evidence.
+ADR-001 remains PROPOSED and full Spec 01 remains incomplete.
+
+### One accepted page through the actual adapter/repository
+
+Specific follow-up purpose: test real client-to-Bronze durability after the header-only
+preflight, not repeat source-consistency discovery. Same projection/order/one-day bounds
+and `$limit=1`; existing ApiClient, one-record cap, disposable PostgreSQL DB, 15-second
+outer bound. **One HTTP attempt, HTTP 200**. Client record/type/order/freshness checks
+accepted the page; the repository stored counts **(1 raw version, 1 association,
+1 receipt)** and paused at the cap, `ingest_complete=false`, `published=false`.
+Generation: `2026-11-23T02:37:55+00:00`. Run:
+`c89fd217-fb32-496e-9cbc-32b90b5f2c16`. The disposable database was removed afterward;
+no raw body/record is logged here or committed. Total live requests this phase: **two**.
+No resumability across fresh provider generations, update completeness, source-time
+semantics or SCD2 transition is demonstrated by this single accepted page.

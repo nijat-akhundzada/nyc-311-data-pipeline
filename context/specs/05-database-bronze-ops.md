@@ -1,7 +1,7 @@
 # Spec 05 — Database Bronze Ops
 
 **Owner:** Nizami  
-**Status:** FOUNDATION SCOPE APPROVED / NOT IMPLEMENTED; full scope gated  
+**Status:** BOUNDED BRONZE SLICE LEAD-AUTHORIZED / IMPLEMENTED ON REVIEW BRANCH; full scope gated  
 **Type:** Implementation  
 **Dependencies:** foundation: isolated PostgreSQL 16; full scope: 01 accepted and reviewed shared DB contracts  
 
@@ -29,7 +29,7 @@ PostgreSQL schemas and efficient bulk storage interfaces.
 
 Nizami may implement a small ordered migration framework with a migration ledger and exclusive migration lock, one initial migration creating empty `bronze`, `silver`, `gold`, `ops` namespaces, and isolated PostgreSQL integration tests. Migration bookkeeping is infrastructure metadata, not a pipeline domain contract. Choose and document one lightweight migration approach; coordinate any dependency additions through Firuz's Spec 02 pyproject/lock ownership. An isolated PostgreSQL 16 instance is sufficient initially; verify compatibility with Spec 02 Compose/CI when available, without editing Firuz's files independently.
 
-No bronze data tables, pipeline run/checkpoint/quarantine tables, typed silver, gold model, COPY/upsert repository interfaces or source cursor rules are authorized by this exception. Task 3 below uses `ops.run_history`, conflicting with the current shared contract's `ops.pipeline_runs`; resolve the name in lead/cross-owner review before domain DDL, never create both as a workaround. Full scope retains accepted Spec 01 as a dependency.
+No bronze data tables, pipeline run/checkpoint/quarantine tables, typed silver, gold model, COPY/upsert repository interfaces or source cursor rules are authorized by this exception. The historical `ops.run_history` naming conflict is now resolved by the lead's bounded Bronze contract in favor of `ops.pipeline_runs`; no second history table is permitted. Full scope retains accepted Spec 01 as a dependency.
 
 ### Foundation acceptance criteria
 

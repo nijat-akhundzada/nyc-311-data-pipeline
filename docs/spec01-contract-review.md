@@ -37,14 +37,24 @@ Decision: NOT RECEIVED. Reviewed commit/date/link: not supplied. Tooling coordin
 
 ## Approval/activation record (to be completed by humans)
 
-- Amendment PR and final reviewed commit: PENDING.
+- Amendment PR: [PR #3](https://github.com/nijat-akhundzada/nyc-311-data-pipeline/pull/3); final reviewed commit: PENDING human review.
 - Human peer review identity/date/comment: PENDING.
 - Nijat decision on bounded client policy and risk record: PENDING.
 - Cross-owner decisions above: record independently; no silent approval of DB/lifecycle scope.
 - Human merge and approved implementation base: PENDING.
 - Active permission: NONE YET. After the documentation amendment is reviewed/approved/merged and tooling coordinated, only the five capabilities enumerated in Spec 03 become assignable. No database/publication/CLI permission is inferred.
 
-## Git reconciliation and precise workflow
+## Current PR #3 preparation after PR #1 merge
+
+Fetched origin/main at `bc6647d3828a0c145969cdf19f845b1ea2e9da9c`, GitHub's merge of PR #1. GitHub confirms PR #1 merged, PR #2 closed without merge, and PR #3 open on `docs/01-risk-accepted-client-scope`. PR #3's review/comment endpoints returned empty lists; no owner approval is inferred from merging the foundation exception or closing PR #2. PR #2's proposal remains in PR #3's ancestry; it does not need reopening.
+
+The working tree was clean and the existing PR #3 branch matched its remote before updating. A normal `git merge --no-ff origin/main -m "docs: merge main foundation exceptions into risk review branch"` created merge commit `dc95695d100e7cd27871245899c12dec8a00cace`, with both the previous PR #3 head and fetched main as parents. Git merged Spec 00 automatically without content conflicts. No force push, rebase, main update, teammate-branch change or PR merge was performed by the agent.
+
+Both foundation scopes are retained; Specs 02/05 remain byte-identical to fetched main. Spec 00's imported "only 02/05" foundation wording was qualified to acknowledge the separately conditional client-only exception without enlarging either scope. Specs 00/01/03 still require review/approval/merge before activating that exception, and full Spec 03/domain integration retains its original gates. ADR-001 remains PROPOSED, source evidence is unchanged and unchecked, and the implementation prompt remains inactive.
+
+Precise next step: a human reviewer reads the final PR #3 diff, records the actual bounded-policy/owner decisions and approval against its final head, and a human merges PR #3 after required checks/review. This preparation is not an approval or merge. Only afterward, with Firuz's coordinated tooling available, assign the gated prompt on a new `feat/03-api-client-only-nijat` branch from updated main. Full database/checkpoint/publication/CLI integration remains blocked. If main advances again before review/merge, fetch and merge it normally into this branch and repeat the checks.
+
+## Earlier Git reconciliation and workflow (historical)
 
 Inspected after fetch on 2026-11-23: main=702a7f8; PR #1 foundation head=09222a5, open/unmerged/mergeable, zero recorded reviews/comments; Spec 01 head=56c7281, one commit ahead and zero behind main. Repository open-PR search returned only PR #1; no Spec 01 PR was found. Read-only three-way merge simulation of existing foundation and Spec 01 branches reported no content conflicts. No teammate implementation branch was modified; ongoing foundation implementation is human-reported, not declared complete here.
 

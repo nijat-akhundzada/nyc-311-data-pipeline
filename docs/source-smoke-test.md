@@ -2,7 +2,19 @@
 
 Source: NYC Open Data / Socrata `erm2-nwe9`, `https://data.cityofnewyork.us/resource/erm2-nwe9.json`.
 
+## Latest Spec 01 disposition — 2026-11-23
+
+**NOT ACCEPTED.** A targeted consistency/metadata audit made two request definitions, each attempted normally and once with authorized sandbox escalation. All four attempts failed during DNS resolution (curl 28, HTTP 000); no HTTP response or new source rows were received. This does not establish an API outage or unsupported query. No historical count, successful pagination or invalid-column experiment was repeated. Stop live calls for this session; no retry loop or large download was used.
+
+Historical evidence below remains valid for the observed samples only. Fresh-view repeatability, the identity discrepancy, same-request tracked changes and dataset-specific timezone/DST semantics remain unresolved. A DNS failure is not evidence of stale rows, and unchanged historical samples are not new observations. No genuine SCD2 transition has been demonstrated. The reviewed contract proposal and bounded fallback are now explicit in `context/contracts/README.md` and ADR-001; neither is frozen.
+
+Authoritative references checked: [Socrata floating timestamps](https://dev.socrata.com/docs/datatypes/floating_timestamp.html) specifies no inherent zone; [fixed timestamps](https://dev.socrata.com/docs/datatypes/fixed_timestamp.html) describes UTC offsets/`Z`; [system fields](https://dev.socrata.com/docs/system-fields) describes `:updated_at` and full-replacement effects; [response codes](https://dev.socrata.com/docs/response-codes.html) distinguishes malformed-query/rate-limit/server errors. These do not promise a snapshot token, a guaranteed numeric quota, or complete deletion capture. [NYC's web style guide](https://designsystem.nyc.gov/standards/nyc-web-content-style-guide.html) uses Eastern time for website content; that is contextual support, **not a dataset-specific timestamp/DST contract**. No authoritative dataset-specific timezone confirmation was found in the bounded documentation search. Unrelated cities' 311 datasets and third-party assumptions were not accepted as proof.
+
+Local design audit using Python `zoneinfo` passed: `2025-01-15T12:00:00` in proposed America/New_York has one UTC candidate (17:00Z); `2025-03-09T02:30:00` has zero; `2025-11-02T01:30:00` has two (05:30Z, 06:30Z). The check round-tripped both folds via UTC and counted distinct valid candidates. This verifies the proposed quarantine algorithm on local tzdata, not publisher semantics or live source data. [Python's zoneinfo documentation](https://docs.python.org/3/library/zoneinfo.html) documents IANA zones and fold behavior.
+
 ## Current conclusions
+
+The following conclusions summarize earlier successful probes. The latest disposition above governs current acceptance; unresolved details below have not been silently promoted to verified behavior.
 
 - **Volume:** earlier live count proves 3,655,759 raw rows in the 2025 local-calendar span. No validated/loaded fact count is claimed.
 - **503 diagnosis:** basic and ordered reads now succeed; invalid columns produce a distinct HTTP 400 `query.soql.no-such-column`. A system-field identity query still returned 503. This rules out a blanket lack of SELECT/order/system-field support, but does not identify the server-side cause. DNS errors/timeouts are separate transport failures. No Retry-After header appeared on the captured 503; 429 behavior was not induced.
@@ -642,3 +654,38 @@ Minimal response projection (location, descriptions and other unused fields omit
   }
 ]
 ```
+
+## Spec 01 targeted consistency audit — exact failed requests
+
+Purpose: re-read the previously inconsistent identity and one historical reference in the same projection, capture current freshness markers, and inspect publisher metadata/attachments for timezone statements. A `Cache-Control: no-cache` request asks intermediaries to revalidate; it does not prove freshness or snapshot consistency. Both commands below were attempted once normally and once outside the sandbox after transport failure. No response body or headers were received, and no sort/update/resume inference was made from these failures.
+
+```sh
+curl -fsS --connect-timeout 8 --max-time 20 --get \
+  'https://data.cityofnewyork.us/resource/erm2-nwe9.json' \
+  -H 'Cache-Control: no-cache' \
+  --data-urlencode '$select=unique_key,created_date,closed_date,agency,complaint_type,status,:updated_at' \
+  --data-urlencode '$where=unique_key in ("71208448","63577994")' \
+  --data-urlencode '$order=unique_key ASC' \
+  --data-urlencode '$limit=2' \
+  -D /tmp/nyc311-s01-identities.headers -o /tmp/nyc311-s01-identities.body \
+  -w 'HTTP %{http_code}\n'
+```
+
+Normal result: curl exit 28, `Resolving timed out after 8003 milliseconds`, HTTP 000. Escalated result: curl exit 28, `Resolving timed out after 8004 milliseconds`, HTTP 000. No `Date` or request ID was returned; verification date is the session's 2026-11-23, not a fabricated server timestamp.
+
+```sh
+curl -fsS --connect-timeout 8 --max-time 20 \
+  'https://data.cityofnewyork.us/api/views/erm2-nwe9.json' \
+  -D /tmp/nyc311-s01-metadata.headers -o /tmp/nyc311-s01-metadata.body \
+  -w 'HTTP %{http_code}\n'
+```
+
+Normal result: curl exit 28, `Resolving timed out after 8003 milliseconds`, HTTP 000. Escalated result: curl exit 28, `Resolving timed out after 8002 milliseconds`, HTTP 000. No metadata/attachments were received from this attempt. Earlier metadata inventory remains historical evidence; no new timezone assertion is attributed to it.
+
+### Next bounded evidence collection (not executed)
+
+When networking recovers, use at most eight read-only resource requests in a session, limits at most five records, one in-flight request and at most one retry per failed diagnostic; stop on persistent transport errors. Each call needs a stated unresolved question. Select a few recent, genuinely mutable requests through a fresh bounded creation window; compare direct-ID and ordered-window projections with identical fields and record truth/secondary/freshness markers. Preserve only a minimal sanitized baseline (ID, observed time, source update time, tracked tuple, generation/request ID), then re-observe across a real daily refresh. Do not repeatedly poll waiting for a convenient state change. If the same ID genuinely changes tracked values under comparable fresh views, record before/after evidence; metadata-only changes, absence, mixed stale views and different requests do not satisfy this test.
+
+Repeat creation/update resume comparisons specifically under the same sufficiently fresh generation, including a second identical reference read; the earlier successful mixed-header samples do not prove this. Investigate variable-width text ordering only if real keys of differing widths exist in the bounded sample. Verify combined projection and null-sort-key preflight support before freezing their algorithms. Do not expand downloads solely to manufacture evidence. If a daily refresh changes generation mid-extraction, record the limitation and evaluate a bounded re-extraction/reconciliation policy rather than claim a snapshot.
+
+Source fallback: approved foundation work and fixture-based design may continue. If update extraction cannot be trusted, propose complete bounded-cohort reconciliation with its own durable segments and no automatic deletion. An official dated export may support backfill with provenance after review; it cannot prove live incrementals, deletion semantics or pre-observation SCD2 history. Do not mark Spec 01 complete until its material gates are resolved or a reviewed alternative meets them.

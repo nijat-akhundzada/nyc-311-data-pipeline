@@ -1,6 +1,6 @@
 # ADR-001 — Source API and cross-team contracts
 
-**Status:** PROPOSED — Nijat must ACCEPT before work starts. **Date:** 2026-11-23.
+**Status:** PROPOSED — NOT ACCEPTED. Nijat must accept before source-dependent implementation; separately approved foundation scopes are unchanged. **Date:** 2026-11-23.
 
 ## Decision proposal
 Use NYC Open Data **311 Service Requests (2020 to Present)** dataset `erm2-nwe9`, Socrata JSON API `https://data.cityofnewyork.us/resource/erm2-nwe9.json`. Single public source satisfies source-count requirement when queried across sufficient range. Use keyset pagination over `created_date,unique_key`, persist cursor with bronze page, backfill UTC `[start,end)`, quality threshold 5%, stage then publish silver+gold atomically. SCD2 models **observed successive** `unique_key` attribute changes, not inferred historical versions.
@@ -44,3 +44,23 @@ Some successful responses explicitly reported `X-SODA2-Data-Out-Of-Date: true`; 
 Still blocked: publisher timezone/DST confirmation, reproducibility against sufficiently fresh source views across refreshes, verified update coverage semantics, a genuine tracked same-request attribute change, and lead/cross-owner approval of the final public contract. The service-request state SCD2 remains a candidate, not a demonstrated requirement pass. No historical status reconstruction or fulfillment-time claim is justified. [NYC's metric definitions](https://www.nyc.gov/site/311reporting/faq/faq.page) explain that closure measures agency-recorded closure rather than actual fulfillment.
 
 Parallel foundation work is identified in `context/implementation-readiness.md`; current spec dependency gates remain effective until explicitly amended/approved. No source contract, infrastructure scope exception or ADR acceptance is inferred from successful small probes.
+
+## Current review disposition — Spec 01
+
+**Recommendation: retain PROPOSED.** Proposed version 1 in `context/contracts/README.md` makes the integration decisions concrete for cross-owner review. It supersedes earlier provisional choices only as a proposal, not as an accepted contract. The latest targeted source audit received no HTTP responses after bounded normal/escalated DNS failures. Do not promote previous mixed-freshness samples to fresh-view repeatability or genuine source change evidence.
+
+| Gate | Verified evidence / missing evidence | Risk and defensible fallback |
+|---|---|---|
+| Source/volume | Endpoint/metadata and 3,655,759 raw rows in the queried 2025 local-calendar span were observed earlier; exact proposed UTC span and validated usable count remain unmeasured | Retain bounded 2025 candidate; recount precise approved span and measure validated facts later, never promise 1M usable rows from raw count alone |
+| Pagination | Creation/update syntax and equal-timestamp resume samples passed; repeated comparable fresh views, null-key preflight and variable-width text ordering remain unverified | Text IDs throughout, strict order checks, fail on unpageable records; bounded re-extraction/reconciliation, not offset fallback |
+| Freshness | Both stale and non-stale flags and an identity discrepancy were observed; cause and repeatability unresolved | Reject stale/unknown freshness, pin/compare generation as a conservative proxy; fail/restart on generation change; no assertion of source snapshot isolation |
+| Timezone/DST | Provider types are floating event dates and fixed UTC metadata; no dataset-specific authoritative zone/DST statement found | Proposed America/New_York with explicit assumption review, raw values retained and ambiguous/nonexistent times quarantined; do not claim confirmation or invent offsets |
+| Incremental completeness | System-field filtering/order supported in small samples; late changes, replace behavior in this dataset and disappearance semantics not observed | Overlap plus full bounded-cohort reconciliation; metadata-only changes do not version SCD2; no automatic deletion. Official dated export is backfill-only fallback, not a CDC guarantee |
+| Genuine SCD2 | No same-request tracked change observed across trustworthy successive views | Keep observed request-state dimension as candidate; preserve a small real baseline across daily refreshes. No artificial history or fixture-as-production evidence; alternative needs source-backed review |
+| Team contract approval | Exact candidate scopes, interfaces, lifecycle and transaction rules are written; owners have not approved version 1 | Nijat/Nizami/Firuz review in the Spec 01 PR; physical schema/public API work remains blocked; approved foundation work continues |
+
+The proposed defaults are separate creation/update cursors, page+bronze atomicity, successful-publication watermark distinct from ingest cursor, frozen bounds with 48h overlap/5min lag, strict freshness with bounded retries, observed-time state history, >5% quality failure (zero evaluated fails), and one silver/gold/run-success transaction. Canonical operations history is `ops.pipeline_runs`; the old Spec 05 `ops.run_history` reference is a pending domain-phase correction, not permission for a second table. Domain run associations/page receipts are explicit review items for Nizami, not changes to his approved foundation scope.
+
+No essential gate is marked satisfied by engineering defaults alone. If fresh multi-page extraction remains infeasible, hold source-dependent implementation and review a bounded official export/reconciliation or alternative public-source decision against the same assignment requirements. Current-state snapshots cannot establish unobserved historical state changes. The separately lead-approved Spec 02/05 foundations and source-independent review/design may proceed; full Specs 03–11 retain their dependencies.
+
+Spec 03 preparation is a **review-only contingent handoff** at `docs/spec03-ingestion-handoff.md`, not an approved spec or authorization to implement. Acceptance requires both evidence and explicit human approval; this agent has not accepted the ADR, merged changes or altered teammate branches.

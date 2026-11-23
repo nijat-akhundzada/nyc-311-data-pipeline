@@ -90,9 +90,7 @@ class ApiClient:
             raise IngestionError("configuration")
         self._token = app_token
         http_log = logging.getLogger("httpx")
-        if not any(
-            isinstance(item, _SourceRequestLogFilter) for item in http_log.filters
-        ):
+        if not any(isinstance(item, _SourceRequestLogFilter) for item in http_log.filters):
             http_log.addFilter(_SourceRequestLogFilter())
         self._http = httpx.AsyncClient(
             transport=transport,
@@ -123,11 +121,7 @@ class ApiClient:
         return value
 
     async def fetch_page(self, request: ApiPageRequest) -> Page:
-        if (
-            not isinstance(request, ApiPageRequest)
-            or self._busy
-            or self._http.is_closed
-        ):
+        if not isinstance(request, ApiPageRequest) or self._busy or self._http.is_closed:
             raise IngestionError("configuration")
         self._busy = True
         deadline = self._clock() + PAGE_SECONDS
@@ -159,19 +153,14 @@ class ApiClient:
                         ),
                     )
                     request_id = self._request_id(response)
-                    if (
-                        self._clock() - started >= ATTEMPT_SECONDS
-                        or self._clock() >= deadline
-                    ):
+                    if self._clock() - started >= ATTEMPT_SECONDS or self._clock() >= deadline:
                         raise TimeoutError
                     if response.status_code != 200:
                         raise IngestionError(
                             "api_http",
                             retryable=response.status_code in RETRY_STATUSES,
                         )
-                    generation = validate_freshness(
-                        response.headers, request.pinned_generation
-                    )
+                    generation = validate_freshness(response.headers, request.pinned_generation)
                     try:
                         payload = json.loads(
                             response.content,
@@ -195,38 +184,27 @@ class ApiClient:
                                 "truth_last_modified": utc_text(generation),
                                 "secondary_last_modified": utc_text(
                                     http_date(
-                                        response.headers[
-                                            "X-SODA2-Secondary-Last-Modified"
-                                        ],
+                                        response.headers["X-SODA2-Secondary-Last-Modified"],
                                     )
                                 ),
                             }
                         ),
                     )
-                    if (
-                        self._clock() - started >= ATTEMPT_SECONDS
-                        or self._clock() >= deadline
-                    ):
+                    if self._clock() - started >= ATTEMPT_SECONDS or self._clock() >= deadline:
                         raise TimeoutError
                     return page
             except TimeoutError:
-                error = IngestionError(
-                    "api_transport", retryable=True, request_id=request_id
-                )
+                error = IngestionError("api_transport", retryable=True, request_id=request_id)
             except httpx.DecodingError:
                 error = IngestionError("source_contract", request_id=request_id)
             except httpx.TransportError as exc:
                 retryable = isinstance(
                     exc,
-                    httpx.TimeoutException
-                    | httpx.NetworkError
-                    | httpx.RemoteProtocolError,
+                    httpx.TimeoutException | httpx.NetworkError | httpx.RemoteProtocolError,
                 ) and not _security_failure(exc)
                 error = IngestionError("api_transport", retryable=retryable)
             except IngestionError as exc:
-                error = IngestionError(
-                    exc.category, retryable=exc.retryable, request_id=request_id
-                )
+                error = IngestionError(exc.category, retryable=exc.retryable, request_id=request_id)
             if not error.retryable or attempt == MAX_ATTEMPTS:
                 raise error from None
             delay, invalid = retry_delay(
@@ -236,9 +214,7 @@ class ApiClient:
                 self._jitter,
             )
             if invalid:
-                _LOG.warning(
-                    "invalid_retry_after", extra={"category": "invalid_retry_after"}
-                )
+                _LOG.warning("invalid_retry_after", extra={"category": "invalid_retry_after"})
             # Do not start a wait/attempt which cannot fit the remaining budget.
             if delay + ATTEMPT_SECONDS > deadline - self._clock():
                 raise error from None

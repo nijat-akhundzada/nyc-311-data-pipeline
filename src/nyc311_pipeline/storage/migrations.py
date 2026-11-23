@@ -179,9 +179,7 @@ def read_ledger(conn: psycopg.Connection[Any]) -> tuple[LedgerEntry, ...]:
 def _bootstrap(conn: psycopg.Connection[Any]) -> None:
     with conn.transaction():
         conn.execute(
-            sql.SQL("CREATE SCHEMA IF NOT EXISTS {}").format(
-                sql.Identifier(MIGRATION_SCHEMA)
-            )
+            sql.SQL("CREATE SCHEMA IF NOT EXISTS {}").format(sql.Identifier(MIGRATION_SCHEMA))
         )
         conn.execute(
             sql.SQL(
@@ -200,9 +198,7 @@ def _bootstrap(conn: psycopg.Connection[Any]) -> None:
 def _acquire_lock(conn: psycopg.Connection[Any], lock_timeout_seconds: float) -> None:
     timeout_ms = max(1, int(lock_timeout_seconds * 1000))
     try:
-        conn.execute(
-            "SELECT set_config('lock_timeout', %s, false)", (f"{timeout_ms}ms",)
-        )
+        conn.execute("SELECT set_config('lock_timeout', %s, false)", (f"{timeout_ms}ms",))
         conn.execute("SELECT pg_advisory_lock(%s)", (MIGRATION_LOCK_KEY,))
     except psycopg.errors.LockNotAvailable as exc:
         raise MigrationLockError(
@@ -319,9 +315,9 @@ def rollback_migrations(
                     with conn.transaction():
                         conn.execute(migration.down_path.read_text(encoding="utf-8"))
                         conn.execute(
-                            sql.SQL(
-                                "DELETE FROM {} WHERE version = %s AND checksum = %s"
-                            ).format(_ledger_ident()),
+                            sql.SQL("DELETE FROM {} WHERE version = %s AND checksum = %s").format(
+                                _ledger_ident()
+                            ),
                             (entry.version, entry.checksum),
                         )
                 except psycopg.Error as exc:
@@ -361,7 +357,10 @@ def main(argv: list[str] | None = None) -> int:
         "--migrations-dir",
         type=Path,
         default=DEFAULT_MIGRATIONS_DIR,
-        help=f"directory containing numbered *.{{up,down}}.sql files (default: {DEFAULT_MIGRATIONS_DIR})",
+        help=(
+            f"directory containing numbered *.{{up,down}}.sql files "
+            f"(default: {DEFAULT_MIGRATIONS_DIR})"
+        ),
     )
     parser.add_argument(
         "--lock-timeout-seconds",

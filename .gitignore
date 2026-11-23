@@ -14,4 +14,7 @@ htmlcov/
 *.sqlite
 *.dump
 *.sql.gz
+*.egg-info/
+build/
+dist/
 .DS_Store

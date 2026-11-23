@@ -46,7 +46,7 @@ def maintenance_dsn() -> str:
 @pytest.fixture
 def isolated_db(maintenance_dsn: str):
     """Yield a DSN for a fresh, disposable database that is dropped afterwards."""
-    name = f"nyc311_mig_{uuid.uuid4().hex[:12]}"
+    name = f"nyc311_test_{uuid.uuid4().hex[:12]}"
     with psycopg.connect(maintenance_dsn, autocommit=True) as admin:
         admin.execute(sql.SQL("CREATE DATABASE {}").format(sql.Identifier(name)))
     try:
@@ -59,7 +59,5 @@ def isolated_db(maintenance_dsn: str):
                 (name,),
             )
             admin.execute(
-                sql.SQL("DROP DATABASE IF EXISTS {} WITH (FORCE)").format(
-                    sql.Identifier(name)
-                )
+                sql.SQL("DROP DATABASE IF EXISTS {} WITH (FORCE)").format(sql.Identifier(name))
             )

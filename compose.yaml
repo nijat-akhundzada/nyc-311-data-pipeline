@@ -1,0 +1,39 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: nyc311-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-nyc311}
+      POSTGRES_USER: ${POSTGRES_USER:-nyc311}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-CHANGE_ME_LOCALLY}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER:-nyc311} -d $${POSTGRES_DB:-nyc311}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+
+  # Application verification container.
+  # Placed under 'app' profile so foundation Compose runs db-only by default.
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: nyc311-app
+    profiles:
+      - app
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-nyc311}:${POSTGRES_PASSWORD:-CHANGE_ME_LOCALLY}@db:5432/${POSTGRES_DB:-nyc311}
+    command: ["python", "-c", "import nyc311_pipeline, os; print(f'nyc311_pipeline v{nyc311_pipeline.__version__} connected and ready (uid={os.getuid()})')"]
+
+volumes:
+  postgres_data:
+    name: nyc311_postgres_data

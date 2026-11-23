@@ -231,3 +231,19 @@ nonblocking and does not require expanding the toolchain upgrade scope.
 Remote Actions results must be checked for the pushed head and reported separately;
 local success alone does not establish CI success. No approval, merge, source-contract
 acceptance or full Spec 02 completion is recorded here.
+
+### Recorded GitHub Actions evidence
+
+[CI run 45256616074](https://github.com/nijat-akhundzada/nyc-311-data-pipeline/actions/runs/45256616074)
+completed with **success** for implementation head
+`7618fb8e3e66947abb156394403ab22e6e31b7a4`. GitHub job logs confirm:
+
+- [lint](https://github.com/nijat-akhundzada/nyc-311-data-pipeline/actions/runs/45256616074/job/137979993229): formatting and lint succeeded.
+- [unit](https://github.com/nijat-akhundzada/nyc-311-data-pipeline/actions/runs/45256616074/job/137979993741): **159 passed**; Docker build succeeded; runtime UID **10001**; both owner imports and migration assets verified.
+- [integration](https://github.com/nijat-akhundzada/nyc-311-data-pipeline/actions/runs/45256616074/job/137979993681): **10 passed**, using PostgreSQL 16 service; no skips.
+
+This evidence-recording documentation commit triggers another PR run. Reviewers must
+also require successful checks on the final PR head. No remote job failure was observed
+in this run. Human review/approval remains outstanding; the agent has not merged PR #6.
+The isolated local Compose project, network and synthetic volume were removed after
+verification; the ordinary `nyc311_postgres_data` volume was not touched.

@@ -1,14 +1,14 @@
 # Implementation readiness — 2026-11-23
 
-Status: planning handoff only. ADR-001 remains PROPOSED. No pipeline code, migrations, Docker configuration or CI jobs were implemented. The university assignment remains the assessment source of truth. Existing Spec 02/05 dependencies still require accepted Spec 01; the partial splits below are proposed amendments, not blanket implementation approval.
+Status: foundation-only implementation authorized by the lead on 2026-11-23 through amended Specs 00/02/05; no implementation performed here. ADR-001 remains PROPOSED. The university assignment remains the assessment source of truth. Full Spec 02/05 acceptance and all source-dependent work retain their existing gates. The preparation notes below are superseded by each amended spec's explicit foundation boundaries and acceptance checklist.
 
 ## Ready for bounded independent preparation
 
 | Owner | Exact first tasks | Boundary and evidence |
 |---|---|---|
 | Nijat | Extend the successful small creation/update tie-boundary checks across sufficiently fresh source refreshes; investigate the identity/freshness discrepancy; resolve timezone/DST; retain a small redacted repeated-observation log across daily refreshes | Keep ADR proposed until evidence/review; no production ingestion implementation. Distinguish API tests from DB crash-resume proof. |
-| Firuz | Prepare Spec 02 foundation scope: Python 3.12 package/tooling plan, ruff/pre-commit, fixture-only pytest/CI job design, multi-stage non-root image and Postgres health/volume design | All can be designed without source semantics. Following explicit approval of the split, implement tooling and Postgres-only Compose/test infrastructure; do not invent working pipeline health/CLI or schedule behavior. Coordinate pyproject/lock ownership with Nijat/Nizami. |
-| Nizami | Prepare Spec 05 foundation scope: PostgreSQL 16 migration runner choice, isolated temporary-DB test plan, empty bronze/silver/gold/ops namespace migration design | Following explicit approval of the split, implement migration framework and namespace-only initial migration with fresh/repeat/rollback checks. Run-history/bronze/checkpoint/quarantine tables require reviewed shared field/naming/transaction contracts first. |
+| Firuz | Implement only the approved Spec 02 tooling, fixture-only CI, non-root image and Postgres health/volume foundation | Follow the foundation acceptance checklist; coordinate pyproject/lock with Nijat/Nizami. Application health/CLI and scheduling remain excluded. |
+| Nizami | Implement only the approved Spec 05 migration framework, empty namespaces and isolated PostgreSQL tests | Follow fresh/repeat/rollback/concurrency checks. Domain tables and storage APIs remain blocked on reviewed shared contracts. |
 
 Practical defaults to review: psycopg 3 plus a small ordered SQL migration runner with a migration ledger/advisory lock; avoid adding an ORM solely for migrations. Keep one dependency lock owned through Spec 02. These are recommendations, not accepted ADR choices. Infrastructure tests need PostgreSQL/Docker, not the live public API.
 
@@ -21,7 +21,7 @@ Practical defaults to review: psycopg 3 plus a small ordered SQL migration runne
 
 ## Required specification amendments before work assignment
 
-1. Amend 00/02/05 with explicit foundation-only dependency exceptions if the lead approves parallel implementation. Keep one PR per assigned spec and separate partial versus full acceptance; do not globally remove Spec 01's gate. This document identifies safe work but does not approve those exceptions.
+1. Specs 00/02/05 now contain the lead-authorized foundation-only exceptions. Assign only those portions, retain one spec per implementation PR and separate partial versus full acceptance; Spec 01's source gate remains effective for all other work.
 2. Correct Spec 05 task 3: `ops.run_history` conflicts with lead-controlled contracts/architecture naming `ops.pipeline_runs`. Resolve in the reviewed Spec 01 contract; do not create both names.
 3. Expand Spec 01 acceptance to explicitly cover text-key ties, source freshness headers, update-cursor filtering, exact timezone/DST rules and genuine repeated-observation evidence. Keep unsupported/unverified outcomes visible.
 4. Update Spec 03 and contracts after approval with distinct creation/update/reconciliation scopes, overlap/frozen bounds, out-of-date response policy, bounded transient-error retry and non-snapshot limitations. Never persist progress for a DNS/HTTP failure.
@@ -35,4 +35,4 @@ Target 24–25 November for approved implementation/integration and 26 November 
 
 ## Local Git and GitHub handoff
 
-Git was already initialized on unborn `main`; no remote was configured. The requested initial conventional commit establishes the reviewed scaffold and discovery baseline locally. No remote creation/push or branch-protection action is authorized without an explicit destination. Future changes use feature branches and human review. After the human provides a destination, inspect it before adding `origin`; publish only as explicitly authorized and configure required lint/unit/integration checks when those jobs actually exist.
+The lead supplied `https://github.com/nijat-akhundzada/nyc-311-data-pipeline.git`; `origin` was configured after inspecting local state, and remote refs were empty before publication. Initial commit `702a7f8` was pushed normally to `origin/main`; local `main` tracks it and remote SHA verification matched. Subsequent documentation changes use a feature branch and human PR review. No force push, merge or branch-protection change was performed. Configure required lint/unit/integration checks when those jobs actually exist.

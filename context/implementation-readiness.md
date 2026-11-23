@@ -2,6 +2,8 @@
 
 Status: foundation-only implementation authorized by the lead on 2026-11-23 through amended Specs 00/02/05; no implementation performed here. ADR-001 remains PROPOSED. The university assignment remains the assessment source of truth. Full Spec 02/05 acceptance and all source-dependent work retain their existing gates. The preparation notes below are superseded by each amended spec's explicit foundation boundaries and acceptance checklist.
 
+Current review note: PR #1's foundation documentation is merged. PR #3 separately proposes a client-only Spec 03 exception; it remains inactive until human review/approval/merge and tooling coordination. The full integration blockers below are unchanged; see Specs 00/01/03 and `docs/spec01-contract-review.md` for the conditional slice and actual approval record.
+
 ## Ready for bounded independent preparation
 
 | Owner | Exact first tasks | Boundary and evidence |

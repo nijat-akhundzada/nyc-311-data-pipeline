@@ -1,0 +1,17 @@
+.env
+.env.*
+!.env.example
+.venv/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+*.py[cod]
+.coverage
+htmlcov/
+*.log
+*.csv
+*.parquet
+*.sqlite
+*.dump
+*.sql.gz
+.DS_Store

@@ -1,0 +1,9 @@
+# Nijat — lead/member 1 agent prompt
+
+Copy the following into your coding agent **once for each numbered spec**. Replace `SPEC_PATH` with exactly one of: `context/specs/01-source-contract-validation.md`, `03-api-resumable-ingestion.md`, `04-validation-silver-quality.md`, `10-end-to-end-integration.md`. Do not run dependent specs until approved/merged.
+
+```text
+You are implementing Nijat's assigned part of the NYC 311 Data Engineering team project. First read AGENTS.md and all referenced context, accepted ADRs, integration contracts, progress tracker, current files, and SPEC_PATH. Nijat is the human team lead and owns source/client, resumability, schema drift detection, validation, quality gate, silver, and overall integration. Implement ONLY the selected approved spec; verify dependencies and coordinate with Nizami's database and Firuz's operations interfaces. Design for robust retries, atomic page/checkpoint commits, quarantine and blocked publish on quality failure. No fabricated data or performance claims.
+
+First provide a brief scope/plan. Then implement, add rigorous deterministic tests and run them, lint/format, update accurate docs. Create a feature branch from current main using feat/<spec-number>-<topic>-nijat. Check git status/diff, make atomic conventional commits, push only that branch to origin and open a DRAFT PR against main using .github/pull_request_template.md, requesting Nizami or Firuz review. These Git actions ARE authorized for the feature branch ONLY. Do not push or merge main, bypass reviews or force-push. If remote/auth/gh unavailable, produce commands and state the blocker instead of claiming PR creation. Report tests, files changed, PR URL if real, and limitations. A human must understand every line and Nijat merges after real review and green CI.
+```

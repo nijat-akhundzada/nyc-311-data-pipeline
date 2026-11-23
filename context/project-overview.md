@@ -8,7 +8,7 @@ One public API; Python ingestion with pagination, retries, rate-limit handling a
 ## Product scope
 Primary analytical objective: analyze NYC 311 service-request volumes, resolution times, and service performance across agencies, complaint types, boroughs, and time. See `context/project-discovery.md` for discovery decisions and metric definitions.
 
-Batch-only CLI/service, **no web UI**. Single API source proposed: NYC 311 `erm2-nwe9`, pending source smoke test and lead approval. CI must be green to merge. Data source event timestamps support date-range backfill; mutable request status may support meaningful dimension updates, but **SCD2 must be driven by observed attribute changes**, never synthetic examples disguised as production data.
+Batch-only CLI/service, **no web UI**. Single selected API source: NYC 311 `erm2-nwe9`, retained by Nijat on 2026-11-23 with source-verification evidence still incomplete. Engineering acceptance, limited implementation permission and completed verification are separate decisions (ADR-001). CI must be green to merge. Bounded date-query support has sample evidence; complete incremental/backfill correctness remains to be demonstrated. **SCD2 must be driven by observed attribute changes**, never synthetic examples disguised as production data.
 
 ## Demo definition
 Demonstrate first load, second identical replay, incremental change, date-range backfill, malformed-quality abort without gold changes, killed container resume, DB startup recovery, >=1M data rows, scheduled run, analytical SQL, and before/after performance timing. Capture measured evidence, not screenshots of aspirations.

@@ -1,6 +1,19 @@
 # Integration contracts — proposed version 1 for Spec 01 review
 
-**Not frozen or approved.** Supersedes version 0 as the review proposal only. ADR-001 remains PROPOSED. Nijat approves the source/CLI contract; Nizami reviews persistence/publish/SCD2; Firuz reviews lifecycle/locking/errors. No source-dependent implementation is authorized by this document. Existing approved foundation scopes are unchanged. Physical DDL and implementation remain with their owners.
+**Not frozen or approved.** Supersedes version 0 as the review proposal only. ADR-001 engineering acceptance and source-evidence completion are separate; both remain open. NYC 311 selection is lead-approved. The limited Spec 03 client-only exception activates only after review/approval/merge of its documentation amendment; this file alone grants no implementation permission. Nijat approves the source/client policy; Nizami reviews persistence/publish/SCD2; Firuz reviews lifecycle/locking/errors. Existing approved foundation scopes are unchanged. Physical DDL and implementation remain with their owners.
+
+## Client-only subset proposed for limited implementation
+
+The current ADR risk amendment and Spec 03's client checklist govern this subset after explicit activation; the DB/lifecycle/publish proposals below remain unapproved. Cross-owner decisions are recorded at `docs/spec01-contract-review.md`, not inferred from branch existence or missing objections.
+
+Transport-only types live under `ingestion/models.py`, without DB/runner imports:
+
+- `CreationCursor` and `UpdateCursor` retain the kind/value/key structures below. Validate a nonempty opaque text key without changing it. Creation values are parsed naive source wall times, updates are offset-aware and serialized UTC `Z`; reject mismatched cursor kinds and malformed values.
+- `ApiPageRequest`: kind (`creation`/`update`), creation_start_source and creation_end_source (naive ISO source-wall-time bounds for one interval), nullable matching cursor, limit (integer 1..5,000), nullable pinned_generation (parsed UTC truth-header time); update mode additionally requires aware update_lower_utc/update_upper_utc. Bounds must be strictly increasing. The fixed reviewed field projection is not an arbitrary identifier argument. A future runner, not this slice, constructs requests from multi-interval Scope and persisted state.
+- `Page`: ordered raw records, candidate `next_cursor` (last record or unchanged for an empty response), exhausted (only true for empty response), received_at_utc, generation, request_id and sanitized HTTP metadata. No checkpoint/run ID, transaction, write callback or durable-progress acknowledgement is included. First acceptable page returns generation to its caller; a supplied generation must match.
+- `ApiClient.fetch_page(request: ApiPageRequest) -> Page` performs only a single logical page fetch with the exact retry/freshness policy in ADR-001. It neither loops across pages nor persists anything. `build_query(request)` is pure and emits a parameter mapping; use single-quoted SoQL literals with embedded apostrophes doubled as documented by [Socrata text literals](https://dev.socrata.com/docs/datatypes/text). HTTP query values are passed as parameters, not concatenated into an unescaped URL. Fixture tests do not prove live server collation/coverage.
+
+Freshness header names are case-insensitive; stripped flag values true/false are parsed case-insensitively and other values fail as unknown. Parse truth/secondary HTTP-date timestamps to aware UTC; require secondary >= truth. A pinned-generation change fails immediately. Do not relax mandatory markers to obtain a passing client test; handle missing metadata explicitly. Business-event timezone conversion, quarantine persistence, run/segment orchestration and full shared contracts.py are excluded from this slice.
 
 ## Evidence and remaining decisions
 
@@ -19,7 +32,7 @@ Defaults below are precise proposals to review, not claims about the source. Acc
 
 ## Time and scope
 
-Proposed `SOURCE_EVENT_TIMEZONE=America/New_York`, **not yet publisher-confirmed**. Never treat an offset-free event value as UTC. Keep its exact source text and parsed naive wall time for cursor ordering; store a derived UTC timestamp separately only under the approved interpretation. Fixed `:updated_at` values parse independently as offset-aware UTC; do not localize them again.
+Selected engineering interpretation for the risk proposal: `SOURCE_EVENT_TIMEZONE=America/New_York`, **not publisher-confirmed**. Never treat an offset-free event value as UTC. Keep its exact source text and parsed naive wall time for cursor ordering; store a derived UTC timestamp separately only under an approved interpretation. Fixed `:updated_at` values parse independently as offset-aware UTC; do not localize them again. This selection is an explicit provisional assumption, not completed timezone verification.
 
 DST policy proposal: determine valid UTC candidates by round-trip through the IANA zone. One candidate is valid; zero candidates gives `nonexistent_local_time`; two distinct candidates gives `ambiguous_local_time`. Quarantine the entire affected record, retaining its raw fields/reason, rather than invent a fold. This applies to each nonnull event timestamp needed in silver. Missing optional closure is not a timezone failure. Record the zone/tzdata version in run config. These rules handle ambiguity safely but cannot verify publisher semantics.
 
@@ -47,7 +60,7 @@ On resume, the first revalidated response must match the pinned generation; othe
 
 Retry policy proposal: one in-flight request; default maximum four attempts including the first; connect timeout 5s, per-attempt total timeout 30s, overall per-page deadline 180s. Retry transport timeout/DNS/reset, HTTP 202/408/429/500/502/503/504 and explicitly stale responses. Other HTTP errors, malformed JSON/envelopes, breaking schema drift and order violations fail immediately. No certificate-error retry. Never retry a database commit by re-fetching and assuming it failed.
 
-Between attempts use full jitter from zero to `min(30s, 2**(attempt-1) seconds)`. For valid Retry-After delta-seconds or HTTP-date, wait at least that duration (plus nonnegative jitter), never truncate it. If the required wait or another attempt cannot fit the 180s deadline, fail retryably instead of issuing early. Invalid/negative Retry-After is logged as invalid metadata and uses backoff. Persist categorized final failure/request ID, not bodies/tokens. Do not deliberately trigger rate limits in audit/CI; header handling is fixture-tested. No claim of a known endpoint numeric quota or observed Retry-After behavior.
+Between attempts use full jitter from zero to `min(30s, 2**(attempt-1) seconds)`. For valid Retry-After delta-seconds or HTTP-date, wait at least that duration (plus nonnegative jitter), never truncate it. If the required wait or another attempt cannot fit the 180s deadline, fail retryably instead of issuing early. Invalid/negative Retry-After is logged as invalid metadata and uses backoff. Persist categorized final failure/request ID only in future integration, not this no-DB client slice. Do not deliberately trigger rate limits in audit/CI; header handling must be fixture-tested during implementation and has not yet been implemented/tested. No claim of a known endpoint numeric quota or observed Retry-After behavior.
 
 ## Persistence and component interfaces
 
@@ -55,7 +68,7 @@ These are proposed exact interface responsibilities; shared types live in a Nija
 
 | Interface | Inputs → result | Owner / transaction rule |
 |---|---|---|
-| `ApiClient.fetch_page` | scope, segment_id, cursor or null, limit, pinned_generation or null → Page | Nijat; HTTP only, no DB writes |
+| `ApiClient.fetch_page` | ApiPageRequest → Page | Nijat; transport-only client subset; future runner builds request from Scope/checkpoint; no DB writes |
 | `BronzeRepository.load_checkpoint` | run_id, segment_id → Checkpoint | Nizami; persisted truth only |
 | `BronzeRepository.commit_page` | run_id, expected_checkpoint, Page → CommitResult | Nizami; owns one short transaction for raw rows + run associations + checkpoint + ingest counters |
 | `BronzeRepository.record_source_rejection` | run_id, raw_record, sorted reason_codes → rejection_id | Nizami persistence / Nijat reasons; quarantine without advancing cursor |
@@ -137,6 +150,6 @@ A full provider replace can invalidate generation mid-run and require a new run;
 - [ ] Nizami: raw/run association uniqueness, page receipts/CAS, ledger versus domain boundary, one publish transaction, state/fact relationship.
 - [ ] Firuz: run lifecycle, dataset lock/recovery, paused/error handling and scheduler boundaries.
 - [ ] Resolve Spec 05's old ops.run_history name in its future domain phase; approved foundation scope is unchanged.
-- [ ] Successful fresh preflight/repeatability and genuine same-request tracked change evidence; ADR accepted by human and reviewed/merged before dependent implementation.
+- [ ] Evidence track: fresh preflight/repeatability and genuine same-request tracked changes remain open. Engineering acceptance must record actual human/cross-owner decisions separately; only the explicitly approved client exception may proceed before full Spec 01 completion.
 
 Review-only Spec 03 handoff: `docs/spec03-ingestion-handoff.md`. This proposal intentionally exposes cross-owner decisions instead of freezing guessed interfaces.

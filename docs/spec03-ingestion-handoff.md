@@ -2,6 +2,8 @@
 
 **Status: DRAFT / BLOCKED.** Prepared during Spec 01 to make cross-owner review concrete; this is not approved Spec 03 and contains no implementation. Do not implement until Spec 01/ADR-001 and version 1 contracts are accepted. The existing Spec 03 remains unchanged. Nizami's approved foundation covers infrastructure only, not the domain repository needed here. References: `context/contracts/README.md`, `context/specs/03-api-resumable-ingestion.md`, `docs/source-smoke-test.md`.
 
+**Current amendment:** the paragraph above and full handoff below describe the original full-integration gate. A separate client-only permission is now proposed in Specs 00/01/03; it activates only after that documentation is reviewed/approved/merged and does not unblock this full handoff. Use `prompts/team/NIJAT-SPEC03-CLIENT-ONLY.md` for that bounded slice. Do not implement service.py, shared DB types, repository integration, run lifecycle or CLI from this document under the exception.
+
 ## Entry gates and dependencies
 
 - Human accepts source policy/ADR-001 and shared types/interfaces after Nizami/Firuz review; merge the Spec 01 PR.
@@ -15,7 +17,7 @@
 |---|---|---|
 | `src/nyc311_pipeline/contracts.py` | Nijat-owned shared Scope/RunConfig, typed cursors, Checkpoint, Page/CommitResult/RunResult and protocols in proposed version 1 | Freeze names/field types with owners before implementation |
 | `ingestion/query.py` | Allowlisted projection, source interval construction, tested SoQL escaping, strict creation/update predicates | Pure functions; no HTTP/DB |
-| `ingestion/client.py` | HTTPX lifecycle, token header, bounded fetch, JSON/type/header checks | `fetch_page(scope, segment_id, cursor, limit, pinned_generation)`; no persistence |
+| `ingestion/client.py` | HTTPX lifecycle, token header, bounded fetch, JSON/type/header checks | `fetch_page(request: ApiPageRequest)`; future runner adapts frozen scope/segment/cursor to the request; no persistence |
 | `ingestion/retry.py` | Retry classification, deadlines, injected clock/randomness, Retry-After parsing | No global sleeps in unit tests; no quota invention |
 | `ingestion/freshness.py` | Parse generation/freshness markers, pin/compare policy | Reject explicit stale/unknown views before page acceptance |
 | `ingestion/cursor.py` | Exact source timestamp parsing/order validation, next-cursor construction | Cursor uses wall time for creation, UTC for updates, text key for both |

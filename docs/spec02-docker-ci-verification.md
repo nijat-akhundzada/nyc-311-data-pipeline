@@ -116,3 +116,118 @@ python -m venv .venv
    Remote CI results will be triggered upon branch push to GitHub and recorded in the PR review thread.
 3. **Foundation-Only Boundary:**
    No application run/health CLI, ingestion, scheduler, run history, or domain tables are included in this PR. Application wiring remains gated on accepted Spec 01 and Nijat's integration runner.
+
+---
+
+## 4. PR #6 integration reconciliation (supersedes the local-only caveats above)
+
+This is foundation integration evidence, not full Spec 02 acceptance. ADR-001 remains
+PROPOSED; no source-dependent gate, application runner or domain behavior is added.
+The historical Windows results above are retained as Firuz's original evidence.
+
+### History and conflict resolution
+
+Merged `origin/main` at `01e19e77e0e8359359e61f59726ecd83624d3af1` normally into
+`feat/02-docker-ci-foundation-firuz`; merge commit `adcf34a` retains both parents.
+Firuz's original commits `d3c192c`, `8e7f416`, `e376741`, `c344be8`, and `e891e1d`
+remain ancestors, along with the merged API-client and migration work. No rebase,
+squash, force push, main edit or migration rewrite was performed.
+
+The sole textual conflict was add/add `tests/conftest.py`. Both versions provided
+the same maintenance-DSN and isolated-database fixtures. The combined version uses
+one neutral `nyc311_test_` database prefix and retains per-test creation, connection
+termination and cleanup. A missing DSN still skips local DB tests; CI supplies a DSN.
+A configured unreachable DSN fails, rather than skipping.
+
+Compatibility changes:
+
+- Align pre-commit Ruff with locked Ruff 0.17.6; declare the already locked PyYAML
+  test dependency and pin build setuptools to the existing development-lock version.
+  Both requirements locks remain unchanged: runtime versions are identical in the
+  development lock, and all declared dependencies are covered. Locked installation,
+  editable installation without dependency resolution/build isolation, and
+  `uv pip check` succeeded (34 compatible installed packages).
+- Apply the shared 100-column formatter to the merged Python files. Compare parsed
+  ASTs against `origin/main`: API modules, migration implementation and their owner
+  tests are identical. `git diff origin/main -- db/migrations` is empty.
+- Include existing SQL assets in the non-root image at `/app/db/migrations`.
+  Container callers must supply this existing explicit migrations-directory option;
+  no migration API or default-path semantics changed.
+- Replace the Compose print-only readiness claim with an actual Psycopg connection
+  and `SELECT 1`, followed by the UID assertion. This is a one-shot foundation probe,
+  not a pipeline health endpoint or production runner.
+- Add `.dockerignore` to exclude credentials/local environments and Git metadata
+  from build context. CI jobs are named `lint`, `unit`, `integration`; they install
+  the locked toolchain, collect all existing unit/integration directories, import
+  both owner modules in the image and verify packaged migration assets. The PG
+  healthcheck names the configured role/database explicitly.
+- Add two deterministic infrastructure regression tests for lock compatibility,
+  hook version alignment and complete CI test-directory/runtime-import wiring.
+
+### Actual local verification
+
+Python 3.12.11, pytest 9.2.0, Ruff 0.17.6, Docker 28.5.1, Compose
+2.40.3-desktop.1. Dependencies were installed from `requirements-dev.lock` into
+`/tmp/nyc311-pr6-venv`; no repository virtual environment or real credentials were used.
+
+| Command/check | Actual result |
+| --- | --- |
+| `ruff check .` | Passed |
+| `ruff format --check .` | Passed; 80 files already formatted |
+| `pytest tests/unit -q` | 159 passed |
+| `TEST_DATABASE_URL=<isolated-PG16-DSN> pytest tests -q -ra` | 169 passed, zero skipped (159 unit + 10 integration) |
+| `PRE_COMMIT_HOME=<temporary-cache> pre-commit run --all-files` | All seven hooks passed |
+| `bash scripts/validate-context.sh` | Context validation passed |
+| `git diff --check` | Passed |
+| `docker build -t nyc311-pr6-verify:local .` | Passed |
+| `docker run --rm nyc311-pr6-verify:local id -u` | `10001` |
+| Container imports `ApiClient`, migration module and `discover_migrations('/app/db/migrations')` | Passed; version 0.1.0, one migration discovered |
+
+The integration total includes Nizami's eight migration tests and Firuz's two
+connectivity/isolation tests. No live NYC 311 requests were made. The combined
+fixture cleans up its disposable databases.
+
+### Docker, PostgreSQL and named-volume evidence
+
+To avoid touching a teammate's running containers/data, verification used a temporary
+copy of `compose.yaml`: only the project/container/volume names, host port (55439),
+absolute build context and built image tag were isolated. Original service commands,
+healthcheck, health dependency and volume mount were retained. A temporary env file
+held a synthetic test-only credential; the repository `.env` was not read or changed.
+Project: `nyc311-pr6-verify`; volume: `nyc311_pr6_verify_data`.
+
+- `docker compose ... up -d --wait db` succeeded; inspection reported `healthy`.
+  `SHOW server_version` returned **16.14**.
+- `docker compose ... run --rm app` succeeded with
+  `nyc311_pipeline v0.1.0 database_ready=true uid=10001` after a real `SELECT 1`.
+- Image config ID:
+  `sha256:4c173b34cc2f8332dd3bdec623842121e299c906f5551274b1cab80c86910189`.
+- Inserted `pr6_named_volume_survives` into a synthetic probe table, then ran
+  `docker compose ... up -d --force-recreate --wait db` without deleting its volume.
+  Container changed from `a91c45b5556f` to `8d41d99dee37`; a subsequent SQL query
+  returned the same marker. No production named volume was used.
+
+Controlled negative checks (expected failures, not passing production operations):
+
+- A temporary unused import made Ruff exit **1**; a temporary `assert False` test
+  made pytest exit **1**. These demonstrate local failure propagation, not an
+  intentionally failing remote CI run.
+- An explicitly configured unreachable PostgreSQL DSN made the connectivity test
+  fail with `OperationalError`, exit **1**, and no skip.
+- `pg_isready -h 127.0.0.1 -p 1` inside the DB container returned **2**, no response.
+- After stopping the isolated DB, `docker compose ... run --rm --no-deps app`
+  exited **1** with `OperationalError` (unresolvable stopped-service hostname),
+  without claiming readiness. The isolated DB was subsequently restarted healthy.
+- One initial verification invocation used unsupported `compose run --no-build`;
+  Compose rejected the flag before running the probe. Retried with supported
+  `compose run --rm app`; the real readiness result above is from that successful run.
+
+### Remaining review boundaries
+
+Pre-commit reports an upstream deprecated stage-name warning for the existing
+pre-commit-hooks v4.6.0 configuration; all hooks execute successfully. This is
+nonblocking and does not require expanding the toolchain upgrade scope.
+
+Remote Actions results must be checked for the pushed head and reported separately;
+local success alone does not establish CI success. No approval, merge, source-contract
+acceptance or full Spec 02 completion is recorded here.

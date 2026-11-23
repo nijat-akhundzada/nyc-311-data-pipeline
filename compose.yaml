@@ -32,7 +32,17 @@ services:
         condition: service_healthy
     environment:
       DATABASE_URL: postgresql://${POSTGRES_USER:-nyc311}:${POSTGRES_PASSWORD:-CHANGE_ME_LOCALLY}@db:5432/${POSTGRES_DB:-nyc311}
-    command: ["python", "-c", "import nyc311_pipeline, os; print(f'nyc311_pipeline v{nyc311_pipeline.__version__} connected and ready (uid={os.getuid()})')"]
+    command:
+      - python
+      - -c
+      - |
+        import os
+        import psycopg
+        import nyc311_pipeline
+        with psycopg.connect(os.environ["DATABASE_URL"], connect_timeout=5) as conn:
+            assert conn.execute("SELECT 1").fetchone() == (1,)
+        assert os.getuid() == 10001
+        print(f"nyc311_pipeline v{nyc311_pipeline.__version__} database_ready=true uid={os.getuid()}")
 
 volumes:
   postgres_data:

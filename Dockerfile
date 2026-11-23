@@ -36,6 +36,7 @@ WORKDIR /app
 COPY --from=builder --chown=appuser:appgroup /opt/venv /opt/venv
 COPY --chown=appuser:appgroup src/ /app/src/
 COPY --chown=appuser:appgroup pyproject.toml README.md /app/
+COPY --chown=appuser:appgroup db/migrations/ /app/db/migrations/
 
 ENV PATH="/opt/venv/bin:$PATH" \
     PYTHONDONTWRITEBYTECODE=1 \

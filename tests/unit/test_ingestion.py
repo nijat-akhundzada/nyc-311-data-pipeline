@@ -93,9 +93,7 @@ def no_live_network(monkeypatch):
     monkeypatch.setattr(httpx.AsyncHTTPTransport, "handle_async_request", deny)
 
 
-def fetch(
-    req=None, sequence=None, *, clock=None, calls=None, jitter=lambda _: 0, token=None
-):
+def fetch(req=None, sequence=None, *, clock=None, calls=None, jitter=lambda _: 0, token=None):
     clock = clock or Clock()
     calls = calls if calls is not None else []
     items = sequence if sequence is not None else [ok()]
@@ -135,8 +133,7 @@ def expect_error(category, req=None, sequence=None, **kwargs):
 def test_creation_query_initial_and_resumed():
     initial = build_query(request(limit=3))
     assert initial["$where"] == (
-        "created_date >= '2025-01-01T00:00:00.000' AND "
-        "created_date < '2025-01-02T00:00:00.000'"
+        "created_date >= '2025-01-01T00:00:00.000' AND created_date < '2025-01-02T00:00:00.000'"
     )
     assert initial["$order"] == "created_date ASC,unique_key ASC"
     assert initial["$limit"] == "3"
@@ -271,11 +268,7 @@ def test_update_page_ties_and_offset_normalization():
 
 @pytest.mark.parametrize("kind", ["creation", "update"])
 def test_empty_page_retains_supplied_cursor(kind):
-    cursor = (
-        CreationCursor(CREATED, "10")
-        if kind == "creation"
-        else UpdateCursor(UPDATED, "10")
-    )
+    cursor = CreationCursor(CREATED, "10") if kind == "creation" else UpdateCursor(UPDATED, "10")
     req = request(kind, cursor=cursor)
     page = fetch(req, [ok([])])
     assert page.exhausted and page.records == ()
@@ -326,9 +319,7 @@ def test_invalid_payloads_fail_without_retry(payload):
 
 @pytest.mark.parametrize("body", [b"{", b"\xff", b"[NaN]", b"[Infinity]"])
 def test_invalid_json(body):
-    expect_error(
-        "source_contract", sequence=[httpx.Response(200, content=body, headers=FRESH)]
-    )
+    expect_error("source_contract", sequence=[httpx.Response(200, content=body, headers=FRESH)])
 
 
 def test_row_limit_and_missing_update_key():
@@ -358,11 +349,7 @@ def test_creation_order_or_bounds_violation(payload):
 
 @pytest.mark.parametrize("kind", ["creation", "update"])
 def test_row_equal_to_cursor_is_not_skipped(kind):
-    cursor = (
-        CreationCursor(CREATED, "10")
-        if kind == "creation"
-        else UpdateCursor(UPDATED, "10")
-    )
+    cursor = CreationCursor(CREATED, "10") if kind == "creation" else UpdateCursor(UPDATED, "10")
     expect_error("source_order", request(kind, cursor=cursor), [ok([row()])])
 
 
@@ -410,9 +397,7 @@ def test_missing_freshness_is_permanent(field):
     headers = dict(FRESH)
     headers.pop(field)
     calls = []
-    error = expect_error(
-        "source_freshness_unknown", sequence=[ok(headers=headers)], calls=calls
-    )
+    error = expect_error("source_freshness_unknown", sequence=[ok(headers=headers)], calls=calls)
     assert len(calls) == 1 and not error.retryable
 
 
@@ -530,9 +515,7 @@ def test_four_attempts_and_exponential_jitter_ceiling(mode):
     calls = []
     clock = Clock()
     error = expect_error(
-        {"http": "api_http", "stale": "source_stale", "transport": "api_transport"}[
-            mode
-        ],
+        {"http": "api_http", "stale": "source_stale", "transport": "api_transport"}[mode],
         sequence=[failure],
         calls=calls,
         clock=clock,
@@ -600,11 +583,7 @@ def test_exact_remaining_attempt_budget_and_past_date():
         sequence=[
             httpx.Response(
                 429,
-                headers={
-                    "Retry-After": format_datetime(
-                        NOW - timedelta(seconds=1), usegmt=True
-                    )
-                },
+                headers={"Retry-After": format_datetime(NOW - timedelta(seconds=1), usegmt=True)},
             ),
             ok(),
         ],
@@ -706,9 +685,7 @@ def test_token_header_only_and_sanitized_diagnostics(caplog):
     with caplog.at_level(logging.INFO):
         error = expect_error(
             "api_http",
-            sequence=[
-                httpx.Response(400, headers=headers, text=token + " SECRET_BODY")
-            ],
+            sequence=[httpx.Response(400, headers=headers, text=token + " SECRET_BODY")],
             calls=calls,
             token=token,
         )
@@ -716,9 +693,7 @@ def test_token_header_only_and_sanitized_diagnostics(caplog):
     assert req.headers["X-App-Token"] == token and token not in str(req.url)
     assert error.request_id is None
     assert token not in caplog.text + repr(error) and "SECRET_BODY" not in caplog.text
-    error = expect_error(
-        "api_transport", sequence=[httpx.LocalProtocolError(token)], token=token
-    )
+    error = expect_error("api_transport", sequence=[httpx.LocalProtocolError(token)], token=token)
     assert token not in str(error)
 
 
@@ -732,9 +707,7 @@ def test_no_token_by_default_and_redirect_not_followed():
     calls = []
     expect_error(
         "api_http",
-        sequence=[
-            httpx.Response(302, headers={"Location": "https://not-source.invalid"})
-        ],
+        sequence=[httpx.Response(302, headers={"Location": "https://not-source.invalid"})],
         calls=calls,
     )
     assert len(calls) == 1 and "X-App-Token" not in calls[0][1].headers
@@ -771,12 +744,8 @@ def test_invalid_token_configuration_does_not_expose_value(token):
 
 
 def test_duplicate_json_fields_rejected():
-    body = (
-        b'[{"unique_key":"10","unique_key":"2","created_date":"2025-01-01T12:00:00"}]'
-    )
-    expect_error(
-        "source_contract", sequence=[httpx.Response(200, headers=FRESH, content=body)]
-    )
+    body = b'[{"unique_key":"10","unique_key":"2","created_date":"2025-01-01T12:00:00"}]'
+    expect_error("source_contract", sequence=[httpx.Response(200, headers=FRESH, content=body)])
 
 
 def test_unicode_control_key_rejected():
@@ -804,9 +773,7 @@ def test_oversleep_cannot_issue_a_late_retry():
 
     clock = OversleepClock()
     calls = []
-    error = expect_error(
-        "api_http", sequence=[httpx.Response(503)], clock=clock, calls=calls
-    )
+    error = expect_error("api_http", sequence=[httpx.Response(503)], clock=clock, calls=calls)
     assert error.retryable and len(calls) == 1
 
 

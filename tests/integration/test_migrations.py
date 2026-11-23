@@ -26,26 +26,21 @@ MIGRATIONS_DIR = Path(__file__).resolve().parents[2] / "db" / "migrations"
 DOMAIN_SCHEMAS = ("bronze", "silver", "gold", "ops")
 
 
-def _copy_migrations(
-    tmp_path: Path, extra: dict[int, tuple[str, str]] | None = None
-) -> Path:
+def _copy_migrations(tmp_path: Path, extra: dict[int, tuple[str, str]] | None = None) -> Path:
     directory = tmp_path / "migrations"
     directory.mkdir()
     for source in sorted(MIGRATIONS_DIR.glob("*.sql")):
-        (directory / source.name).write_text(
-            source.read_text(encoding="utf-8"), encoding="utf-8"
-        )
+        (directory / source.name).write_text(source.read_text(encoding="utf-8"), encoding="utf-8")
     for version, (name, script) in (extra or {}).items():
-        (directory / f"{version:04d}_{name}.up.sql").write_text(
-            script, encoding="utf-8"
-        )
+        (directory / f"{version:04d}_{name}.up.sql").write_text(script, encoding="utf-8")
     return directory
 
 
 def _domain_tables(conn: psycopg.Connection) -> list[tuple[str, str]]:
     return conn.execute(
         "SELECT table_schema, table_name FROM information_schema.tables "
-        "WHERE table_schema IN ('bronze', 'silver', 'gold', 'ops') ORDER BY table_schema, table_name"
+        "WHERE table_schema IN ('bronze', 'silver', 'gold', 'ops') "
+        "ORDER BY table_schema, table_name"
     ).fetchall()
 
 
@@ -64,10 +59,7 @@ def test_fresh_migrations_create_four_empty_namespaces(isolated_db: str) -> None
     assert result.skipped == ()
     with psycopg.connect(isolated_db) as conn:
         schemas = {
-            row[0]
-            for row in conn.execute(
-                "SELECT schema_name FROM information_schema.schemata"
-            )
+            row[0] for row in conn.execute("SELECT schema_name FROM information_schema.schemata")
         }
         assert set(DOMAIN_SCHEMAS) <= schemas
         assert _domain_tables(conn) == []
@@ -119,10 +111,7 @@ def test_failing_migration_rolls_back_and_corrected_migration_can_run(
         apply_migrations(isolated_db, migrations_dir=directory)
 
     with psycopg.connect(isolated_db) as conn:
-        assert (
-            conn.execute("SELECT to_regclass('bronze.failed_probe')").fetchone()[0]
-            is None
-        )
+        assert conn.execute("SELECT to_regclass('bronze.failed_probe')").fetchone()[0] is None
         assert conn.execute(
             "SELECT version FROM _migration.applied_migrations ORDER BY version"
         ).fetchall() == [(1,)]
@@ -132,10 +121,7 @@ def test_failing_migration_rolls_back_and_corrected_migration_can_run(
 
     assert corrected.applied == ("0003_fixed_probe",)
     with psycopg.connect(isolated_db) as conn:
-        assert (
-            conn.execute("SELECT to_regclass('bronze.fixed_probe')").fetchone()[0]
-            is not None
-        )
+        assert conn.execute("SELECT to_regclass('bronze.fixed_probe')").fetchone()[0] is not None
         assert conn.execute(
             "SELECT version FROM _migration.applied_migrations ORDER BY version"
         ).fetchall() == [
@@ -147,25 +133,15 @@ def test_failing_migration_rolls_back_and_corrected_migration_can_run(
 def test_rollback_removes_namespace_and_ledger_entry(isolated_db: str) -> None:
     apply_migrations(isolated_db, migrations_dir=MIGRATIONS_DIR)
 
-    result = rollback_migrations(
-        isolated_db, target_version=0, migrations_dir=MIGRATIONS_DIR
-    )
+    result = rollback_migrations(isolated_db, target_version=0, migrations_dir=MIGRATIONS_DIR)
 
     assert result.rolled_back == ("0001_create_namespaces",)
     with psycopg.connect(isolated_db) as conn:
         schemas = {
-            row[0]
-            for row in conn.execute(
-                "SELECT schema_name FROM information_schema.schemata"
-            )
+            row[0] for row in conn.execute("SELECT schema_name FROM information_schema.schemata")
         }
         assert not set(DOMAIN_SCHEMAS) & schemas
-        assert (
-            conn.execute(
-                "SELECT count(*) FROM _migration.applied_migrations"
-            ).fetchone()[0]
-            == 0
-        )
+        assert conn.execute("SELECT count(*) FROM _migration.applied_migrations").fetchone()[0] == 0
 
     assert apply_migrations(isolated_db, migrations_dir=MIGRATIONS_DIR).applied == (
         "0001_create_namespaces",
@@ -188,9 +164,7 @@ def test_edited_applied_migration_is_rejected(isolated_db: str, tmp_path: Path) 
 def test_concurrent_migrations_serialize_without_duplicate_application(
     isolated_db: str, tmp_path: Path
 ) -> None:
-    directory = _copy_migrations(
-        tmp_path, {2: ("slow_probe", "SELECT pg_sleep(0.4);\n")}
-    )
+    directory = _copy_migrations(tmp_path, {2: ("slow_probe", "SELECT pg_sleep(0.4);\n")})
 
     def run() -> tuple[str, ...]:
         return apply_migrations(isolated_db, migrations_dir=directory).applied
@@ -205,7 +179,8 @@ def test_concurrent_migrations_serialize_without_duplicate_application(
     ]
     with psycopg.connect(isolated_db) as conn:
         rows = conn.execute(
-            "SELECT version, count(*) FROM _migration.applied_migrations GROUP BY version ORDER BY version"
+            "SELECT version, count(*) FROM _migration.applied_migrations "
+            "GROUP BY version ORDER BY version"
         ).fetchall()
         assert rows == [(1, 1), (2, 1)]
         assert _domain_tables(conn) == []
@@ -222,6 +197,4 @@ def test_lock_contention_fails_with_clear_error(isolated_db: str) -> None:
 
     report = migration_status(isolated_db)
     assert report.applied == ()
-    assert [migration.label for migration in report.pending] == [
-        "0001_create_namespaces"
-    ]
+    assert [migration.label for migration in report.pending] == ["0001_create_namespaces"]

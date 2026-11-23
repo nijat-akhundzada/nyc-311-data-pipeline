@@ -119,9 +119,7 @@ class ApiPageRequest:
         if type(self.limit) is not int or not 1 <= self.limit <= 5000:
             raise IngestionError("configuration")
         if self.pinned_generation is not None:
-            object.__setattr__(
-                self, "pinned_generation", utc_time(self.pinned_generation)
-            )
+            object.__setattr__(self, "pinned_generation", utc_time(self.pinned_generation))
         if self.kind == "creation":
             if self.update_lower_utc is not None or self.update_upper_utc is not None:
                 raise IngestionError("configuration")

@@ -65,9 +65,9 @@ def test_compose_postgres_service_and_named_volume() -> None:
     volume_mounts = db_service["volumes"]
     data_mount = next((v for v in volume_mounts if "/var/lib/postgresql/data" in v), None)
     assert data_mount is not None, "db service must mount to /var/lib/postgresql/data"
-    assert data_mount.startswith(
-        "postgres_data:"
-    ), "volume mount must use postgres_data named volume"
+    assert data_mount.startswith("postgres_data:"), (
+        "volume mount must use postgres_data named volume"
+    )
 
     # Top-level named volume
     assert "volumes" in compose, "compose.yaml must declare top-level volumes"
@@ -76,9 +76,9 @@ def test_compose_postgres_service_and_named_volume() -> None:
     # app service check (under profile, depends on db health)
     assert "app" in services, "compose.yaml must define app verification service"
     app_service = services["app"]
-    assert app_service.get("profiles") == [
-        "app"
-    ], "app service must be isolated under 'app' profile"
+    assert app_service.get("profiles") == ["app"], (
+        "app service must be isolated under 'app' profile"
+    )
     assert "depends_on" in app_service
     assert "db" in app_service["depends_on"]
     assert app_service["depends_on"]["db"]["condition"] == "service_healthy"
@@ -90,3 +90,64 @@ def test_unavailable_database_connection_failure() -> None:
     unavailable_dsn = "postgresql://nyc311:wrong@127.0.0.1:54329/nonexistent"
     with pytest.raises(psycopg.OperationalError):
         psycopg.connect(unavailable_dsn, connect_timeout=1)
+
+
+def test_shared_locks_cover_all_declared_dependencies() -> None:
+    """Both owners' modules and the infrastructure use one compatible pinned set."""
+    import tomllib
+
+    from packaging.requirements import Requirement
+    from packaging.utils import canonicalize_name
+
+    project = tomllib.loads((REPO_ROOT / "pyproject.toml").read_text())
+
+    def pins(name: str) -> dict[str, str]:
+        result = {}
+        for line in (REPO_ROOT / name).read_text().splitlines():
+            if not line.strip() or line.startswith("#"):
+                continue
+            requirement = Requirement(line)
+            specifiers = list(requirement.specifier)
+            assert len(specifiers) == 1 and specifiers[0].operator == "=="
+            key = canonicalize_name(requirement.name)
+            assert key not in result
+            result[key] = specifiers[0].version
+        return result
+
+    runtime, development = pins("requirements.lock"), pins("requirements-dev.lock")
+    assert all(development[name] == version for name, version in runtime.items())
+    declared = project["project"]["dependencies"]
+    for value in declared:
+        requirement = Requirement(value)
+        assert runtime[canonicalize_name(requirement.name)] in requirement.specifier
+    for value in (
+        project["project"]["optional-dependencies"]["dev"] + project["build-system"]["requires"]
+    ):
+        requirement = Requirement(value)
+        assert development[canonicalize_name(requirement.name)] in requirement.specifier
+    assert runtime["psycopg"] == runtime["psycopg-binary"]
+    assert {"httpx", "psycopg", "pydantic"} <= runtime.keys()
+    assert {"pytest", "ruff", "pyyaml"} <= development.keys()
+    hooks = yaml.safe_load((REPO_ROOT / ".pre-commit-config.yaml").read_text())
+    ruff_hook = next(item for item in hooks["repos"] if item["repo"].endswith("ruff-pre-commit"))
+    assert ruff_hook["rev"] == f"v{development['ruff']}"
+
+
+def test_ci_collects_all_owner_tests_and_imports_runtime_modules() -> None:
+    workflow = yaml.safe_load((REPO_ROOT / ".github/workflows/ci.yml").read_text())
+    assert set(workflow["jobs"]) == {"lint", "unit", "integration"}
+    for name, job in workflow["jobs"].items():
+        assert job["name"] == name
+    unit_steps = workflow["jobs"]["unit"]["steps"]
+    integration = workflow["jobs"]["integration"]
+    assert any("pytest tests/unit" in step.get("run", "") for step in unit_steps)
+    assert any("pytest tests/integration" in step.get("run", "") for step in integration["steps"])
+    database_test = next(
+        step for step in integration["steps"] if "pytest tests/integration" in step.get("run", "")
+    )
+    assert database_test["env"]["TEST_DATABASE_URL"].endswith("/postgres")
+    assert integration["services"]["postgres"]["image"].startswith("postgres:16")
+    assert any("nyc311_pipeline.ingestion" in step.get("run", "") for step in unit_steps)
+    assert any(
+        "discover_migrations('/app/db/migrations')" in step.get("run", "") for step in unit_steps
+    )

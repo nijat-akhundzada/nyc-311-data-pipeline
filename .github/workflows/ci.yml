@@ -1,5 +1,8 @@
 name: CI
 
+permissions:
+  contents: read
+
 on:
   push:
     branches:
@@ -14,7 +17,7 @@ concurrency:
 
 jobs:
   lint:
-    name: Lint & Code Standards
+    name: lint
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -31,7 +34,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements-dev.lock
-          pip install --no-deps -e .
+          pip install --no-deps --no-build-isolation -e .
 
       - name: Run ruff format check
         run: ruff format --check .
@@ -40,7 +43,7 @@ jobs:
         run: ruff check .
 
   unit:
-    name: Unit Tests & Build Verification
+    name: unit
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -57,9 +60,9 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements-dev.lock
-          pip install --no-deps -e .
+          pip install --no-deps --no-build-isolation -e .
 
-      - name: Run deterministic unit smoke tests
+      - name: Run all deterministic unit tests
         run: pytest tests/unit -v
 
       - name: Build multi-stage Docker image
@@ -76,10 +79,10 @@ jobs:
           test "$UID_OUTPUT" -eq 10001
 
       - name: Verify package import in container
-        run: docker run --rm nyc311-pipeline:ci python -c "import nyc311_pipeline; print(f'nyc311_pipeline v{nyc311_pipeline.__version__} successfully imported')"
+        run: docker run --rm nyc311-pipeline:ci python -c "import nyc311_pipeline; from nyc311_pipeline.ingestion import ApiClient; from nyc311_pipeline.storage.migrations import discover_migrations; assert discover_migrations('/app/db/migrations'); print(f'nyc311_pipeline v{nyc311_pipeline.__version__} imports and migration assets verified')"
 
   integration:
-    name: PostgreSQL 16 Integration Tests
+    name: integration
     runs-on: ubuntu-latest
     services:
       postgres:
@@ -91,7 +94,7 @@ jobs:
         ports:
           - 5432:5432
         options: >-
-          --health-cmd pg_isready
+          --health-cmd "pg_isready -U nyc311 -d postgres"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
@@ -110,7 +113,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements-dev.lock
-          pip install --no-deps -e .
+          pip install --no-deps --no-build-isolation -e .
 
       - name: Run database integration tests
         env:

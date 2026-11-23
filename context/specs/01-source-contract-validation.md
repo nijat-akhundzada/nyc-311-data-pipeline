@@ -5,6 +5,23 @@
 **Type:** Decision + audit  
 **Dependencies:** None  
 
+## Lead-authorized durable Bronze slice — 2026-11-24
+
+The project lead explicitly authorizes the minimum durable Bronze implementation
+in the current task, risk-accepting the engineering policies in
+`context/contracts/bronze-v1.md`. This supersedes older source/full-spec dependency
+blocks **only** for Spec 05 raw/run/checkpoint/receipt/association persistence and
+Spec 03 bounded ingestion/resume using the existing client. Separate dependent
+feature PRs preserve the one-spec implementation workflow. No teammate approval
+is inferred; Nizami reviews storage/transactions and Firuz reviews the temporary
+canonical-table ingestion lifecycle adapter. No earlier owner implementation or
+applied migration may be rewritten.
+
+ADR-001 remains PROPOSED; full Spec 01 and full Specs 03/05 are not complete.
+No Silver/Gold, quarantine/quality publication, scheduler, successful watermark
+advancement, fabricated SCD2 history or production pipeline runner is authorized
+by this slice. See the Bronze contract for exact interfaces and limitations.
+
 ## Objective
 Confirm source, scope, semantics, privacy and freeze common contract.
 

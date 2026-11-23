@@ -5,6 +5,23 @@
 **Type:** Implementation  
 **Dependencies:** foundation: isolated PostgreSQL 16; full scope: 01 accepted and reviewed shared DB contracts  
 
+## Lead-authorized durable Bronze slice — 2026-11-24
+
+The project lead explicitly authorizes the minimum durable Bronze implementation
+in the current task, risk-accepting the engineering policies in
+`context/contracts/bronze-v1.md`. This supersedes older source/full-spec dependency
+blocks **only** for Spec 05 raw/run/checkpoint/receipt/association persistence and
+Spec 03 bounded ingestion/resume using the existing client. Separate dependent
+feature PRs preserve the one-spec implementation workflow. No teammate approval
+is inferred; Nizami reviews storage/transactions and Firuz reviews the temporary
+canonical-table ingestion lifecycle adapter. No earlier owner implementation or
+applied migration may be rewritten.
+
+ADR-001 remains PROPOSED; full Spec 01 and full Specs 03/05 are not complete.
+No Silver/Gold, quarantine/quality publication, scheduler, successful watermark
+advancement, fabricated SCD2 history or production pipeline runner is authorized
+by this slice. See the Bronze contract for exact interfaces and limitations.
+
 ## Objective
 PostgreSQL schemas and efficient bulk storage interfaces.
 
@@ -27,7 +44,7 @@ Foundation acceptance is partial only; the full criteria below (page replay, cur
 ## Required implementation tasks
 1. Write forward migrations for bronze/silver/gold/ops and constraints/indexes
 2. Create bronze JSONB raw table with source identity, fingerprints, timestamps, run tracking; choose deterministic conflict keys
-3. Create ops.run_history, ops.ingest_checkpoints and ops.quarantine with statuses/counts/reasons
+3. Create ops.pipeline_runs, ops.ingest_checkpoints and ops.quarantine with statuses/counts/reasons
 4. Create silver normalized typed schema matching source contract
 5. Expose transaction-scoped bulk COPY or batched upsert API and atomic page+checkpoint repository methods
 6. Add schema constraints and rollback-safe migrations, and test concurrency/checkpoint integrity

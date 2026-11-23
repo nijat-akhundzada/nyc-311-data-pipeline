@@ -4,6 +4,14 @@
 
 **Current amendment:** the paragraph above and full handoff below describe the original full-integration gate. A separate client-only permission is now proposed in Specs 00/01/03; it activates only after that documentation is reviewed/approved/merged and does not unblock this full handoff. Use `prompts/team/NIJAT-SPEC03-CLIENT-ONLY.md` for that bounded slice. Do not implement service.py, shared DB types, repository integration, run lifecycle or CLI from this document under the exception.
 
+## Current bounded lead authorization — 2026-11-24
+
+The lead now explicitly authorizes durable Bronze storage and minimum ingestion
+orchestration under `context/contracts/bronze-v1.md`. This supersedes this handoff's
+older blanket service/repository block only for that slice. Spec 05 and Spec 03
+implementation use separate dependent PRs; peer approval is not assumed. All
+Silver/Gold, quality/quarantine, scheduler and full-spec gates remain unchanged.
+
 ## Entry gates and dependencies
 
 - Human accepts source policy/ADR-001 and shared types/interfaces after Nizami/Firuz review; merge the Spec 01 PR.

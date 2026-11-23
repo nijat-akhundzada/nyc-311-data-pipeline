@@ -7,7 +7,16 @@
 - `silver.service_requests`: normalized typed source fields, natural unique key and timestamps.
 - `gold.dim_date`, `gold.dim_agency`, `gold.dim_service_request_state` (Type 2), `gold.fact_service_requests`: star model, 1 row per request at chosen grain; exact cardinality/join strategy finalized in Spec 05/06.
 
-No physical tables or migrations exist yet. Do not mistake this file for an ERD of a running DB.
+Spec 05 foundation (partial, lead-approved): ordered SQL migrations and a private
+`_migration.applied_migrations` ledger now exist, and migration `0001` creates only
+the four empty `bronze`, `silver`, `gold`, `ops` namespaces. No physical domain
+table exists yet. Do not mistake the list above for an ERD of a running DB; see
+`docs/spec05-foundation-verification.md` for executed checks.
+
+The old `ops.run_history` name in the design note below conflicts with the lead's
+canonical `ops.pipeline_runs` proposal. It remains unresolved: no run-history
+table was created in the foundation scope, and the lead must approve the name
+before any domain DDL.
 
 ## Discovery defaults — pending cross-owner review
 

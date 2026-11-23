@@ -1,8 +1,8 @@
 """Shared test setup for source-independent PostgreSQL integration tests.
 
 ``TEST_DATABASE_URL`` must point to a maintenance database on a disposable
-PostgreSQL 16 server. Each integration test creates and drops its own uniquely
-named database, so no schema residue or source data is left behind. No live API
+PostgreSQL 16 server.  Each integration test creates and drops its own uniquely
+named database, so no schema residue or source data is left behind.  No live API
 or application secret is ever used.
 """
 
@@ -46,7 +46,7 @@ def maintenance_dsn() -> str:
 @pytest.fixture
 def isolated_db(maintenance_dsn: str):
     """Yield a DSN for a fresh, disposable database that is dropped afterwards."""
-    name = f"nyc311_infra_{uuid.uuid4().hex[:12]}"
+    name = f"nyc311_test_{uuid.uuid4().hex[:12]}"
     with psycopg.connect(maintenance_dsn, autocommit=True) as admin:
         admin.execute(sql.SQL("CREATE DATABASE {}").format(sql.Identifier(name)))
     try:
@@ -59,5 +59,7 @@ def isolated_db(maintenance_dsn: str):
                 (name,),
             )
             admin.execute(
-                sql.SQL("DROP DATABASE IF EXISTS {} WITH (FORCE)").format(sql.Identifier(name))
+                sql.SQL("DROP DATABASE IF EXISTS {} WITH (FORCE)").format(
+                    sql.Identifier(name)
+                )
             )

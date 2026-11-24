@@ -27,8 +27,10 @@ def validate_freshness(headers: Mapping[str, str], pinned: datetime | None) -> d
         raise IngestionError("source_freshness_unknown") from None
     if flag not in ("true", "false"):
         raise IngestionError("source_freshness_unknown")
-    if pinned is not None and truth != pinned:
-        raise IngestionError("source_generation_changed")
+    # A rejected stale view cannot establish that the authoritative generation changed.
+    # Retry within the existing budget; compare the pin only on an otherwise fresh view.
     if flag == "true" or secondary < truth:
         raise IngestionError("source_stale", retryable=True)
+    if pinned is not None and truth != pinned:
+        raise IngestionError("source_generation_changed")
     return truth

@@ -512,3 +512,62 @@ async def test_missing_update_version_is_not_silently_hidden_by_a_dated_sibling(
             await run(conn, value)
         assert conn.execute("SELECT count(*) FROM ops.quarantine").fetchone()[0] == 2
         assert domain_snapshot(conn)[:3] == (0, 0, 0)
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("stale", [True, False])
+async def test_cross_page_generation_rejection_and_bounded_stale_retry(pipeline_db, stale):
+    from nyc311_pipeline.ingestion.models import IngestionError
+
+    identity = uuid4()
+    with psycopg.connect(pipeline_db, autocommit=True) as conn:
+
+        class IntermittentSource(FixtureSource):
+            injected = False
+            checkpoint_seen = []
+
+            def _respond(self, request):
+                response = super()._respond(request)
+                if self.request.cursor is not None:
+                    self.checkpoint_seen.append(
+                        conn.execute(
+                            "SELECT page_no FROM ops.ingest_checkpoints WHERE run_id=%s",
+                            (identity,),
+                        ).fetchone()[0]
+                    )
+                    if not self.injected:
+                        self.injected = True
+                        response.headers["X-SODA2-Truth-Last-Modified"] = (
+                            "Mon, 23 Nov 2026 00:00:00 GMT"
+                        )
+                        response.headers["X-SODA2-Secondary-Last-Modified"] = (
+                            "Mon, 23 Nov 2026 00:00:00 GMT"
+                        )
+                        response.headers["X-SODA2-Data-Out-Of-Date"] = str(stale).lower()
+                return response
+
+        source = IntermittentSource(document())
+        try:
+            kwargs = dict(
+                start=START, end=END, page_size=7, run_id=identity, fixture_hash=source.fixture_hash
+            )
+            if stale:
+                result = await execute(conn, source, **kwargs)
+                assert result["published"] and result["received_count"] == 20
+                # Neither the stale body's rows nor its cursor committed.
+                assert source.checkpoint_seen[:2] == [1, 1]
+                assert domain_snapshot(conn)[:3] == (20, 20, 20)
+                assert (
+                    conn.execute("SELECT count(*) FROM ops.ingest_page_receipts").fetchone()[0] == 4
+                )
+            else:
+                with pytest.raises(IngestionError, match="source_generation_changed"):
+                    await execute(conn, source, **kwargs)
+                assert source.checkpoint_seen == [1]
+                assert domain_snapshot(conn)[:3] == (0, 0, 0)
+                assert (
+                    conn.execute("SELECT count(*) FROM bronze.raw_service_requests").fetchone()[0]
+                    == 7
+                )
+        finally:
+            await source.aclose()

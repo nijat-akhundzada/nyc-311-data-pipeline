@@ -444,16 +444,49 @@ def test_stale_or_lagging_secondary_retries(changes):
     assert page.generation == GENERATION and len(calls) == 2 and clock.sleeps == [1]
 
 
-def test_generation_change_fails_even_if_stale():
+@pytest.mark.parametrize(
+    "flag,secondary", [("true", GENERATION), ("false", GENERATION - timedelta(days=2))]
+)
+def test_stale_different_generation_retries_without_accepting_it(flag, secondary):
     calls = []
-    req = request(pinned_generation=GENERATION - timedelta(days=1))
+    clock = Clock()
+    old = FRESH | {
+        "X-SODA2-Data-Out-Of-Date": flag,
+        "X-SODA2-Truth-Last-Modified": format_datetime(GENERATION - timedelta(days=1), usegmt=True),
+        "X-SODA2-Secondary-Last-Modified": format_datetime(secondary, usegmt=True),
+    }
+    page = fetch(
+        request(pinned_generation=GENERATION),
+        sequence=[ok(headers=old), ok()],
+        calls=calls,
+        clock=clock,
+    )
+    assert page.generation == GENERATION and len(calls) == 2
+    assert calls[0][1].url == calls[1][1].url
+
+
+def test_fresh_generation_change_still_fails_immediately():
+    calls = []
     error = expect_error(
         "source_generation_changed",
-        req,
-        [ok(headers=FRESH | {"X-SODA2-Data-Out-Of-Date": "true"})],
+        request(pinned_generation=GENERATION - timedelta(days=1)),
+        [ok()],
         calls=calls,
     )
     assert len(calls) == 1 and not error.retryable
+
+
+def test_stale_generation_mismatch_exhausts_existing_four_attempt_budget():
+    calls = []
+    stale = FRESH | {"X-SODA2-Data-Out-Of-Date": "true"}
+    error = expect_error(
+        "source_stale",
+        request(pinned_generation=GENERATION - timedelta(days=1)),
+        [ok(headers=stale)] * 4,
+        calls=calls,
+    )
+    assert error.retryable and len(calls) == 4
+    assert len({str(call[1].url) for call in calls}) == 1
 
 
 @pytest.mark.parametrize("status", [202, 408, 429, 500, 502, 503, 504])

@@ -1,0 +1,4 @@
+# Install on the Docker host AFTER an initial successful incremental publication.
+# Use the actual checkout path. DATABASE_URL/token remain in the checkout's .env.
+# Cron logs contain JSON metadata, never source payloads.
+15 3 * * * COHORT_START=2025-01-01 COHORT_END=2026-01-01 /absolute/path/nyc-311-data-pipeline/scripts/scheduled-run.sh >> /absolute/path/nyc311-scheduler.log 2>&1

@@ -1,5 +1,6 @@
 """Bounded Bronze extraction only. No scheduler, publication or pipeline-success claim."""
 
+from contextlib import nullcontext
 from dataclasses import dataclass
 from typing import Literal, Protocol
 from uuid import UUID, uuid4
@@ -50,6 +51,7 @@ async def ingest(
     run_id: UUID | None = None,
     resume_run_id: UUID | None = None,
     max_records: int | None = None,
+    acquire_lock: bool = True,
 ) -> IngestResult:
     """Resume immutable scope from durable truth, capping only this invocation.
 
@@ -66,7 +68,7 @@ async def ingest(
         raise IngestionError("configuration")
     identity = resume_run_id or run_id or uuid4()
     received = 0
-    with repository.dataset_lock(scope.dataset_id):
+    with repository.dataset_lock(scope.dataset_id) if acquire_lock else nullcontext():
         run = repository.begin_run(identity, scope, resume=resume_run_id is not None)
         if run.ingest_complete:
             return IngestResult(run, "completed", 0)

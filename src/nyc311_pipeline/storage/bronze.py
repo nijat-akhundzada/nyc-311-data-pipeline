@@ -115,7 +115,14 @@ class BronzeRepository:
         )
 
     @_database_errors
-    def begin_run(self, run_id: UUID, scope: IngestScope, *, resume: bool = False) -> IngestRun:
+    def begin_run(
+        self,
+        run_id: UUID,
+        scope: IngestScope,
+        *,
+        resume: bool = False,
+        settings: dict | None = None,
+    ) -> IngestRun:
         """Thin pre-Spec07 adapter to the canonical table; no independent run manager."""
         self._idle()
         self._require_lock(scope.dataset_id)
@@ -170,6 +177,11 @@ class BronzeRepository:
                     "SELECT %s, value FROM jsonb_array_elements_text(%s)",
                     (run_id, Jsonb(scope.segment_ids)),
                 )
+                if settings is not None:
+                    self.connection.execute(
+                        "INSERT INTO ops.run_settings(run_id,config,config_hash) VALUES (%s,%s,%s)",
+                        (run_id, Jsonb(settings), fingerprint(settings)),
+                    )
                 self._event(run_id, "started")
             return self._run(run_id)
 

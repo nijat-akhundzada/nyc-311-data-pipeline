@@ -1,5 +1,9 @@
 # Measured analytics performance — 24 November 2026
 
+Later real-source work increased published counts to 42,738; the measurements below
+remain the original fixed 13,126-fact experiment. They were not rerun or relabeled
+as a larger-scale benchmark.
+
 **PARTIAL assignment evidence: real data, but only 13,126 facts, not one million.**
 All four [analytics queries](../sql/analytics/README.md) executed on that database:
 agency volume/ranking (13 result rows), complaint monthly trends (126), borough

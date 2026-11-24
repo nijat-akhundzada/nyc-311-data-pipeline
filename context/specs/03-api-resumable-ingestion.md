@@ -74,3 +74,14 @@ Use a new branch `feat/03-api-client-only-nijat` from updated main after amendme
 - Branch `feat/03-api-resumable-ingestion-nijat` (shorten if preferred).
 - Conventional atomic commits; open draft PR to `main`; use PR template; request human peer review.
 - Do not change another owner’s directory or common contract without review and documented approval.
+
+
+## Lead-approved real-source follow-up — 2026-11-24
+
+After PR #10, Nijat explicitly approved the bounded stale-response retry amendment:
+reject stale/lagging views within the existing four-attempt/180-second page budget
+before comparing generation. Fresh mismatches remain terminal, unknown metadata
+still fails, and only fresh matching pages may reach durable storage. This replaces
+the old generation-first test, not the accepted-page, checkpoint, identity or publish
+contract. ADR-001 remains PROPOSED. See `docs/source-smoke-test.md` and the current
+`feat/final-real-source-scale` branch evidence; no full-spec acceptance is implied.

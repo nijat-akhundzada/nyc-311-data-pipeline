@@ -10,8 +10,10 @@ a 5% quality gate, atomic Silver/Gold publication and observed-time SCD2.
 source SCD2 observations are still unverified. Synthetic examples are not real history.
 
 
-Final evidence: **27,392 genuine Bronze rows, 13,126 Silver and 13,126 Gold facts**.
-Four analytics queries, actual recovery/cron demonstrations and measured plans are
+Final evidence: **71,492 genuine Bronze rows, 42,738 Silver and 42,738 Gold facts**.
+The approved stale-response retry amendment recovered two daily publications;
+20 re-observed requests showed no tracked changes. Four analytics queries, actual
+recovery/cron demonstrations and measured plans are
 available. **Submission NOT READY:** one million real rows, genuine source SCD2
 changes and final human/CI gates remain open. See the
 [requirement matrix](docs/submission-checklist.md) and

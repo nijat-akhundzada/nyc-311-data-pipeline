@@ -1,11 +1,107 @@
 # Final iteration evidence — 24 November 2026
 
-**PR #10 is merged; real-source follow-up evidence is on a new review branch.
-Submission recommendation: NOT READY.**
-Deadline 26 November 2026. Assignment source: [teacher PDF](source-assignment.pdf).
-PR #9 is merged; this iteration uses the existing modular Python/psycopg system,
-not a new ingestion framework. ADR-001 remains **PROPOSED**. No applied SQL migration,
-shared dependency tooling, API freshness policy or publication contract was changed.
+**Submission recommendation: NOT READY.** Deadline 26 November 2026.
+See the [teacher PDF](source-assignment.pdf) and [requirement matrix](submission-checklist.md).
+Final readiness work started from `6c98a8f`, the merge of
+[PR #11](https://github.com/nijat-akhundzada/nyc-311-data-pipeline/pull/11).
+[PR CI](https://github.com/nijat-akhundzada/nyc-311-data-pipeline/actions/runs/45355202036)
+and [main CI](https://github.com/nijat-akhundzada/nyc-311-data-pipeline/actions/runs/45355638854)
+both succeeded at that baseline. ADR-001 remains **PROPOSED**.
+
+## Final real-source campaign
+
+The retained volume `nyc311_final_real_data` has **299,204 distinct Bronze IDs,
+277,791 published Silver requests and 277,791 published Gold facts**.
+The campaign added 227,712 distinct Bronze IDs and 235,053 facts. Of the
+277,791 facts, 275,518 were eligible for closure metrics. All 86 quarantines
+were for `closed_before_created`. The Gold target fell short by 722,209 facts.
+
+The saved Jan 8–9 UTC run `88f90c05-4851-44b6-8853-3a588118e198` resumed from
+10,000 received rows and checkpoint page 2. The first response was stale. The
+three accepted responses matched the frozen generation
+`2026-11-24T02:42:04Z`. The run exhausted page 5 and published 13,341
+requests from 16,099 received rows in 23.610 seconds.
+
+The campaign used one-day UTC windows, 5,000-row requests, at most one explicit
+resume per retryable window, and a 12-minute window-start budget after the initial
+Jan 9 transport failure. It allowed any in-flight window to finish.
+The window-start budget expired while the final Jan 30–31 window was in flight.
+That window completed successfully.
+
+Across the retained resume and subsequent windows, **26 invocations
+over 23 run IDs** included 22 successful publications.
+The 173 source attempts included 18 HTTP 503s, 66 explicitly stale views and
+one connect timeout. Invocation time totaled 748.474 seconds. The elapsed time
+from the first recorded request to the final result was 860.049 seconds. The
+[canonical window and checkpoint records](evidence/final/real-load-counts.json)
+and the [HTTP and invocation audit](evidence/final/scale-source-audit.json) contain
+per-window counts, generations, timestamps and recovery events.
+
+The Jan 9–10 window failed terminally after a connection timeout with zero
+rows received. The three new runs that exhausted a page budget subsequently
+completed on explicit resume. Canonical history lists no unfinished retryable
+campaign runs.
+
+### Official export and SCD2
+
+NYC Open Data advertises a separate 2010–2019 archive. The current
+2020-present dataset export is a different source view, and no immutable
+2025 release was verified. HEAD and bounded 4 KiB GET probes were made against
+both official CSV routes. The ranged GETs returned HTTP 200 without
+`Content-Range`. The v3 GET listed `erm2-nwe9` as stale, and the legacy GET
+marked its 23 November generation stale despite a fresh HEAD. The legacy route
+advertised a 22 December 2026 sunset. Bulk import remains unimplemented because
+these results leave freshness, completeness and restart identity unresolved.
+[Publisher dataset and archive information](https://data.cityofnewyork.us/Social-Services/311-Service-Requests-from-2010-to-Present/erm2-nwe9/data)
+[Probe evidence](evidence/final/scale-source-audit.json)
+
+The sample used 268 previously published non-closed requests. The five requests
+returned acceptable views for 168 IDs, all on the baseline generation. The
+normalized tracked fields were identical for every accepted ID. SQL found
+0 noncurrent real state versions and
+0 facts referencing a noncurrent state.
+Genuine SCD2 remains **PARTIAL**. [Observations](source-smoke-test.md#final-readiness-scd2-observation)
+
+## Final clean-checkout verification
+
+A clean archive of the merged baseline and a fresh Python 3.12.11 environment
+installed the development lock and editable package. The standard README pip
+commands also succeeded in a separate environment, and `pip check` passed. The
+complete suite ran against a disposable PostgreSQL 16.14 maintenance database.
+`TEST_DATABASE_URL=… .venv/bin/pytest -q` passed all **273 tests in 18.35s**. A
+feature-worktree rerun passed all 273 in 21.14s.
+`ruff check .`, `ruff format --check .`, `pre-commit run --all-files` (seven hooks),
+`bash scripts/validate-context.sh` and `git diff --check` passed.
+
+An isolated Compose copy assigned the database and volume unique names and used
+host port 55442. `docker compose up -d --wait db` and
+`docker compose --profile pipeline build pipeline` succeeded. The runtime user
+was UID 10001. `pipeline migrate` applied 0001–0004 and `pipeline health`
+returned healthy. After restarting the disposable database, health passed and the
+named volume retained 20 Gold facts, two quarantines and one watermark.
+
+| Fixture check | Canonical evidence |
+|---|---|
+| Capped backfill and resume | `1251003f-6291-41da-98ee-e650ce51dc28` paused with five rows, checkpoint page 1 and zero publication. Explicit resume exhausted page 3 and published 20. |
+| Replay | `f009c423-197e-4b7a-a3b6-f69472675983` inserted zero new Bronze rows and kept the Silver and Gold fingerprints and the 20-state count identical. |
+| Gate failure | `81e4912f-5c6f-4a14-89fa-c81033ff9a9c` exited 4 with two of 20 quarantined. The same published fingerprints, state count and watermark count held. |
+| Scheduler wrapper | The explicit initial incremental published 20 fixture requests. `scripts/scheduled-run.sh` then published run `2189ed63-e3f0-472e-a504-7572be9794a2` with zero new Bronze rows and a persisted successful watermark. |
+
+The earlier [recovery drills](failure-recovery-report.md) record the actual
+SIGKILL and database-unavailable runs. The [scheduler evidence](scheduling-evidence.md)
+records the actual host cron trigger. The current fixture rerun used the same
+operational CLI and kept fixtures out of the retained database.
+
+The tracked-file history contains the placeholder `.env.example` and no
+matching dataset dumps or credential files under the checked extensions.
+A targeted Git-history search returned no private-key blocks or matching token
+patterns for GitHub, AWS access-key IDs and OpenAI. These checks are limited to
+the inspected file names and patterns.
+
+## Earlier evidence from merged PRs #10 and #11
+
+The sections below describe the previous experiments and branch delivery as
+observed at the time. The final readiness counts and campaign appear above.
 
 ## Real source and publication
 
@@ -252,23 +348,8 @@ snapshot/deletion/replace/timezone semantics, final-head CI and real teammate re
 remain explicit gates. No speculative export adapter or fabricated history was added.
 
 
-### Current feature-branch delivery
+### Merged source-scale delivery
 
-`feat/final-real-source-scale` is pushed with upstream tracking. The connector
-again denied draft creation (403); gh remains unauthenticated. The code-head
-Actions query returned zero runs. PR #10's successful CI is baseline evidence,
-not proof of this follow-up branch. Do not invent a PR URL or green final checks.
-
-Open the [current comparison](https://github.com/nijat-akhundzada/nyc-311-data-pipeline/compare/main...feat/final-real-source-scale?expand=1)
-as one draft PR, targeting main, using the updated
-[prepared title/body](review/final-submission-pr.md). Alternatively, after `gh`
-authentication:
-
-```sh
-gh pr create --draft --base main --head feat/final-real-source-scale \
-  --title 'fix(ingestion): recover rejected stale views within the existing retry budget' \
-  --body-file docs/review/final-submission-pr.md
-```
-
-Verify lint/unit/integration on its latest head, obtain actual teammate review,
-and let the human lead decide merge. No automatic merge or acceptance of ADR-001.
+The source-scale branch merged in [PR #11](https://github.com/nijat-akhundzada/nyc-311-data-pipeline/pull/11).
+Its [CI](https://github.com/nijat-akhundzada/nyc-311-data-pipeline/actions/runs/45355202036)
+passed. The final readiness handoff is in the [draft PR description](review/final-submission-pr.md).

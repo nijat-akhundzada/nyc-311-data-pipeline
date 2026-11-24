@@ -1,35 +1,32 @@
 # Submission requirement matrix — deadline 26 November 2026
 
-**Recommendation: NOT READY for full assignment submission.** Implementation and
-manual evidence on the final branch require human review; no automatic merge or
-source-verification approval. PASS is scoped to the evidence described here.
+**Recommendation: NOT READY for full assignment submission.** Reviewed against
+the [assignment PDF](source-assignment.pdf). See the [final verification](final-verification.md)
+for commands, measured results and canonical run IDs.
 
-| Requirement | Status | Exact evidence / remaining gap |
+| Requirement | Status | Evidence or remaining gap |
 |---|---|---|
-| Public API, pagination, retries/rate limits, resume | PARTIAL | Existing client/unit/repository tests, real bounded publications and actual kill resume. Cross-view generation consistency blocks reliable large extraction. |
-| Bronze → Silver → Gold and quality quarantine | PASS | Real 71,492 Bronze / 42,738 Silver / 42,738 Gold; three real quarantines. Synthetic >5% gate leaves published hashes unchanged. [Counts](evidence/final/real-load-counts.json), [recovery](failure-recovery-report.md). |
-| Gold star schema and SCD2 implementation | PARTIAL | Existing schema/current fact, exclusion/FK constraints and transition/replay tests. **Zero genuine source-backed tracked changes** observed; 42,738 initial real states only; 20 real IDs re-observed unchanged. |
-| Idempotent incremental and historical backfill | PARTIAL | Fixture replay/incremental/watermark tests and cron pass; real date-window publications pass. Complete real update/deletion/replacement capture is unverified. |
-| Roughly 1M+ genuine source records | FAIL | 71,492 distinct source IDs extracted, 42,738 published; no inflated/synthetic scale data. Latest official export HEAD returned 503; no versioned archive verified. [Real load](final-verification.md). |
-| CTE/window analytics | PASS | Four executable queries, real PostgreSQL outputs and meaningful fixture integration test. [SQL](../sql/analytics/README.md). |
-| Performance optimization with measured plans | PARTIAL | Three before/after real timings, identical results, modest 1.160× full-day median ratio; sparse regression retained. Only 13,126 facts. [Report/plans](performance-report.md). |
-| Actual killed-container recovery | PASS | SIGKILL exit 137, checkpoint page 1 → resumed success exit 0, 20 unique facts. [Recovery](failure-recovery-report.md). |
-| DB unavailable at pipeline startup | PASS | Actual run exit 5, bounded retryable failure, restart then successful run; named-volume rows survived. [Recovery](failure-recovery-report.md). |
-| Malformed batch without partial publication | PASS | Exit 4, 2/20 invalid, retained quarantine; identical hashes across Silver/Gold/watermarks. [Recovery](failure-recovery-report.md). |
-| Schedule and canonical run history | PASS | Actual host cron at 04:31:03Z; run `8e82e869-325a-40e1-8101-07bcc0a22829` published 20 synthetic requests. Temporary job removed. [Cron](scheduling-evidence.md). |
-| Multi-stage non-root Docker, health, volume | PASS | Fresh image UID 10001, PostgreSQL 16.14 healthy; fresh DB migrations/publication, persistence across restart. [Verification](final-verification.md). |
-| Unit/integration, Ruff, hooks and context | PASS | 273 tests (205 unit, 68 PostgreSQL integration), no skips/failures; final commands/results in [verification](final-verification.md). |
-| Final-head GitHub Actions | NOT VERIFIED | PR #10 CI passed; the new scale branch/head still requires a PR CI run; never substitute local results. CI selects all existing unit/integration tests, including analytics. |
-| Feature branches and conventional commit history | PASS | Preserved original team/merge commits and phase commits; [contributions](contributions.md). |
-| Real teammate code reviews and protected main | NOT VERIFIED | Formal review lists empty; PR #5/#6/#9 timelines empty. Main-protection query denied (403). Human evidence required. |
-| README, names/roles, model, commands, reports | PASS | [README](../README.md), [runbook](runbook.md), model, analytics, performance/recovery/source evidence and contribution history. |
-| No committed credentials/datasets | PARTIAL | New evidence contains no source payloads/DSNs; local credentials and real dataset remain outside Git. Targeted tracked-file checks are not a comprehensive historic secret audit. |
-| Individual explanation and final release approval | NOT VERIFIED | Each student must explain assigned/AI-assisted work; only the human lead approves submission. |
+| One public API, pagination, retries and rate limits | PARTIAL | One NYC Open Data dataset, fixture-tested retry policy and measured backfills. Source staleness, HTTP 503 and a connection timeout limited reliable throughput. Actual quota and full source change semantics remain unverified. [Source audit](evidence/final/scale-source-audit.json) |
+| Durable crash resume and checkpoints | PASS | Real frozen-generation resume completed at page 5. Isolated SIGKILL drill resumed from its committed page. [Final verification](final-verification.md), [recovery](failure-recovery-report.md) |
+| Validation, quarantine with reasons and quality gate | PASS | 86 real quarantines. Clean Compose run exited 4 for 2/20 invalid and preserved published fingerprints. [Counts](evidence/final/real-load-counts.json), [recovery](failure-recovery-report.md) |
+| Bronze, Silver, Gold star schema and atomic publication | PASS | 299,204 distinct Bronze IDs, 277,791 Silver requests and 277,791 Gold facts. DB constraints and rollback tests cover the loaded star schema. [Model](data-model.md), [verification](final-verification.md) |
+| Genuine SCD Type 2 changes | PARTIAL | Observed-time SCD2, exclusion constraint and synthetic transition tests. 168 matching source observations from the original generation, zero later-generation comparisons and zero verified genuine transitions. [Source observation](source-smoke-test.md#final-readiness-scd2-observation) |
+| Idempotent replay, incremental and backfill | PASS | Real independent date windows, fixture replay and initial/subsequent incremental runs, plus watermarks and retry tests. Complete publisher change capture remains PARTIAL under the source requirement. [Verification](final-verification.md), [runbook](runbook.md) |
+| Roughly 1M+ genuine records | FAIL | 299,204 distinct Bronze IDs and 277,791 published facts. 722,209 additional distinct facts needed. [Counts](evidence/final/real-load-counts.json) |
+| Performance, EXPLAIN ANALYZE and measured optimization | PARTIAL | Before/after plans and three comparable executions per phase at 277,791 facts. Million-row performance remains unmeasured. [Performance](performance-report.md) |
+| Three recovery demonstrations | PASS | Actual container SIGKILL, PostgreSQL unavailable at startup and malformed batch with identical downstream hashes. [Recovery](failure-recovery-report.md) |
+| Schedule and canonical run history | PASS | Actual host cron with a synthetic source, fresh Compose wrapper run and persisted successful watermark. [Cron](scheduling-evidence.md), [verification](final-verification.md) |
+| Gold analytics, CTEs and window functions | PASS | Four queries executed on 277,791 genuine facts. Before/after result hashes match for all four. [SQL](../sql/analytics/README.md), [plans](performance-report.md) |
+| Multi-stage non-root Docker, health checks and named volumes | PASS | Clean image build, UID 10001, PostgreSQL 16.14, migration/health checks and persisted rows after restart. [Verification](final-verification.md) |
+| Ruff, pre-commit, and unit/integration tests | PASS | 273 tests passed, seven hooks, lint, format, context and whitespace passed. [Verification](final-verification.md) |
+| GitHub Actions before merge | PARTIAL | [PR #11 CI](https://github.com/nijat-akhundzada/nyc-311-data-pipeline/actions/runs/45355202036) and [merged main CI](https://github.com/nijat-akhundzada/nyc-311-data-pipeline/actions/runs/45355638854) passed. Final feature-head CI requires separate evidence. |
+| Protected main and required checks | FAIL | GitHub returned `protected: false` and no active branch rules. [Branch status](https://api.github.com/repos/nijat-akhundzada/nyc-311-data-pipeline/branches/main), [active rules](https://api.github.com/repos/nijat-akhundzada/nyc-311-data-pipeline/rules/branches/main) |
+| Feature branches, atomic conventional commits and preserved history | PASS | Merged feature PRs from all three contributors and conventional commits. [Contributions](contributions.md) |
+| Real teammate code reviews | NOT VERIFIED | The inspected PR review lists, including PR #11, were empty. Submission needs review evidence from teammates. [Contributions](contributions.md) |
+| Repository and README deliverables | PASS | Repository includes code, tests, migrations, Gold SQL, Docker and CI. README names all three members and describes setup, quality, model, replay and Git evidence. [README](../README.md), [runbook](runbook.md) |
+| Credentials and private datasets excluded | PARTIAL | No source payloads or credentials added by the final branch. Tracked-file history and credential-pattern checks passed within their inspected scope. [Verification](final-verification.md) |
+| Individual ownership, Q&A and peer feedback | NOT VERIFIED | Each student's role and actual PR authorship are recorded. Student explanations and peer feedback require human assessment. [Contributions](contributions.md) |
 
-ADR-001 remains **PROPOSED**. Publisher timezone semantics, full update completeness
-and genuine SCD2 observations are not upgraded by engineering tests.
-
-Next actions: obtain stable fresh source views or approve a defensible immutable
-export contract; finish real scale loading and repeat benchmarks; collect genuine
-changes separately; obtain Nizami/Firuz reviews, verify branch protection and green
-final-head CI. Preserve truthful partial evidence if external blockers persist.
+ADR-001 remains **PROPOSED**. The outstanding release gates are one million
+published facts, a genuine SCD2 transition, main protection, real peer review
+and final-head CI.

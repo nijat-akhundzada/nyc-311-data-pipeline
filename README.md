@@ -10,13 +10,13 @@ a 5% quality gate, atomic Silver/Gold publication and observed-time SCD2.
 source SCD2 observations are still unverified. Synthetic examples are not real history.
 
 
-Final evidence: **71,492 genuine Bronze rows, 42,738 Silver and 42,738 Gold facts**.
-The approved stale-response retry amendment recovered two daily publications;
-20 re-observed requests showed no tracked changes. Four analytics queries, actual
-recovery/cron demonstrations and measured plans are
-available. **Submission NOT READY:** one million real rows, genuine source SCD2
-changes and final human/CI gates remain open. See the
-[requirement matrix](docs/submission-checklist.md) and
+Final evidence from the retained NYC Open Data database includes **299,204 distinct
+Bronze IDs, 277,791 published Silver requests, 277,791 Gold facts and 86
+quarantined records**. The saved run resumed on its original source generation.
+The larger SCD2 sample found zero tracked changes across 168 acceptable
+same-generation observations. **Submission NOT READY** pending scale, genuine
+SCD2 evidence, branch protection, teammate review and final-head CI.
+See the [requirement matrix](docs/submission-checklist.md) and
 [exact verification](docs/final-verification.md).
 
 | Contributor | Responsibility |
@@ -30,7 +30,11 @@ contributions, lead-authorized integration and missing peer review evidence.
 
 ## Run a deterministic demonstration
 
-Use a disposable demo database; fixtures are explicitly synthetic. From the checkout:
+Use a disposable demo database for these synthetic fixtures. The default Compose
+database container and volume have fixed names. If another copy is running, use
+an isolated Compose file with unique names and a free host port as described in
+the [verification report](docs/final-verification.md#reproduce-docker-isolation).
+From the checkout:
 
 ```sh
 cp .env.example .env  # Set local PostgreSQL credentials; never commit this file.
@@ -121,8 +125,9 @@ closure duration; they do not reconstruct historical backlog or prove SLA compli
 [Data model](docs/data-model.md) defines the current-request fact and dimensions;
 [analytics definitions](sql/analytics/README.md) state denominators and limitations.
 
-- [Measured performance](docs/performance-report.md): 2.747ms → 2.368ms median
-  for the full-day workload; small-data result, with a slower experiment retained.
+- [Measured performance](docs/performance-report.md) covers 277,791 genuine facts
+  and all four analytics queries. Agency resolution took 138.489 ms before
+  and 94.929 ms after the optional covering index, using median warm execution.
 - [Recovery report](docs/failure-recovery-report.md): actual SIGKILL/resume,
   PostgreSQL outage and quarantined bad batch, all isolated.
 - [Runbook](docs/runbook.md), [cron evidence/setup](docs/scheduling-evidence.md),

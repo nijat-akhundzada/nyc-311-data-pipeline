@@ -23,5 +23,27 @@
     "draft_pr_creation": "HTTP 403 Resource not accessible by integration",
     "gh_auth": "not logged into any GitHub hosts",
     "feature_ci_status": "NOT VERIFIED; zero runs at code head inspection"
+  },
+  "final_submission_baseline": {
+    "checked_on": "2026-11-24",
+    "base_merge": "6c98a8f49bf6356d2e96f0f2f300b1d6240c34f4",
+    "base_pr": "https://github.com/nijat-akhundzada/nyc-311-data-pipeline/pull/11",
+    "base_pr_head": "fc68925c6e268ab2671da155a2fa74635582c939",
+    "pr_ci": {
+      "url": "https://github.com/nijat-akhundzada/nyc-311-data-pipeline/actions/runs/45355202036",
+      "conclusion": "success"
+    },
+    "main_ci": {
+      "url": "https://github.com/nijat-akhundzada/nyc-311-data-pipeline/actions/runs/45355638854",
+      "conclusion": "success"
+    },
+    "pr_11_formal_reviews": [],
+    "main_protection": {
+      "protected": false,
+      "enabled": false,
+      "required_status_checks": [],
+      "active_rules": [],
+      "detailed_endpoint_status": 401
+    }
   }
 }

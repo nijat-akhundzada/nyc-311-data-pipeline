@@ -1,10 +1,47 @@
 # Measured analytics performance — 24 November 2026
 
-Later real-source work increased published counts to 42,738; the measurements below
-remain the original fixed 13,126-fact experiment. They were not rerun or relabeled
-as a larger-scale benchmark.
+## Final readiness benchmark
 
-**PARTIAL assignment evidence: real data, but only 13,126 facts, not one million.**
+The final snapshot contained **277,791 genuine Gold facts** and 299,204 distinct
+Bronze IDs. Dimension counts were 485 dates, 15 agencies, 169 complaint types,
+7 boroughs and 277,791 request states. The scale target remains open.
+
+The resolution query reads metric eligibility, reason and duration for all facts
+grouped by agency. The [agency covering index](../sql/performance/03_agency_resolution_index.sql)
+tests whether PostgreSQL can read those values from the index. The experiment
+restored a snapshot in a disposable database, removed the prior optional date
+index from that copy, and kept the underlying data, SQL and settings fixed.
+`VACUUM (ANALYZE)` refreshed facts and `ANALYZE` collected dimension statistics.
+Each phase ran one untimed result fetch and three warm
+`EXPLAIN (ANALYZE, BUFFERS, FORMAT JSON)` executions per query. Result row counts
+and SHA-256 matched across phases for all five statements.
+
+| Workload | Result rows | Before runs, ms | After runs, ms | Median before → after, ms |
+|---|---:|---|---|---:|
+| Agency volume | 14 | 38.088 / 32.752 / 32.830 | 33.513 / 34.672 / 31.849 | 32.830 → 33.513 |
+| Monthly complaint trends | 168 | 32.821 / 35.711 / 38.581 | 33.667 / 41.749 / 34.629 | 35.711 → 34.629 |
+| Borough shares | 6 | 32.337 / 32.308 / 31.685 | 31.288 / 31.693 / 31.727 | 32.308 → 31.693 |
+| Agency resolution | 14 | 138.489 / 119.810 / 155.034 | 92.999 / 94.929 / 103.982 | 138.489 → 94.929 |
+| Selective daily resolution | 13 | 2.474 / 2.404 / 2.401 | 2.510 / 2.458 / 2.418 | 2.404 → 2.458 |
+
+The candidate occupies **13,803,520 bytes**. The agency-resolution
+median ratio was **1.459×**, a **31.5%** decrease in median execution time.
+PostgreSQL used an index-only scan with zero heap fetches in all three after
+plans. The other queries showed mixed timing changes. See plan nodes and buffer counts in the
+[benchmark JSON](evidence/final/performance.json) under `final_submission`.
+PostgreSQL 16.14 ran in Docker Desktop on Apple M1, with 8 virtual CPUs and
+5,158,379,520 bytes of memory available to the VM. Settings were
+128 MB shared buffers, 4 MB work memory, 4 GB effective cache, random page cost
+4 and two parallel workers per gather. The optional index remains an experiment.
+
+Reproduce with a disposable snapshot and the benchmark candidate absent:
+
+```sh
+DATABASE_URL="$DATABASE_URL" python scripts/benchmark-analytics.py --apply-index --candidate agency
+```
+
+## Original 13,126-fact benchmark
+
 All four [analytics queries](../sql/analytics/README.md) executed on that database:
 agency volume/ranking (13 result rows), complaint monthly trends (126), borough
 shares (6), and recorded resolution performance (13). Each uses a CTE and window

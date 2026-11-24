@@ -1,0 +1,101 @@
+{
+  "dataset": "erm2-nwe9",
+  "synthetic_rows_in_this_database": 0,
+  "counts": {
+    "bronze.raw_service_requests": 27392,
+    "silver.service_requests": 13126,
+    "gold.fact_service_requests": 13126,
+    "gold.dim_service_request_state": 13126,
+    "ops.quarantine": 2
+  },
+  "distinct_source_ids": 27392,
+  "published_distinct_ids": 13126,
+  "real_scd2_closed_versions": 0,
+  "metric_eligible": 13003,
+  "quarantine_reasons": [
+    [
+      [
+        "closed_before_created"
+      ],
+      2
+    ]
+  ],
+  "runs": [
+    {
+      "run_id": "f9c17b1a-46c2-40f8-8597-104b08ede921",
+      "status": "succeeded",
+      "phase": "finished",
+      "received_count": 2495,
+      "raw_inserted_count": 2495,
+      "evaluated_count": 43,
+      "valid_count": 43,
+      "invalid_count": 0,
+      "outside_scope_count": 2452,
+      "started_at": "2026-11-24 04:23:48.739714+00:00",
+      "finished_at": "2026-11-24 04:23:58.094112+00:00",
+      "published_at": "2026-11-24 04:23:58.094112+00:00",
+      "error_category": null
+    },
+    {
+      "run_id": "9d7e3f44-a216-48ef-98fd-b67bb48ad3eb",
+      "status": "failed",
+      "phase": "ingest",
+      "received_count": 5000,
+      "raw_inserted_count": 5000,
+      "evaluated_count": 0,
+      "valid_count": 0,
+      "invalid_count": 0,
+      "outside_scope_count": 0,
+      "started_at": "2026-11-24 04:26:41.377857+00:00",
+      "finished_at": "2026-11-24 04:27:12.640345+00:00",
+      "published_at": null,
+      "error_category": "source_generation_changed"
+    },
+    {
+      "run_id": "d49e9309-6c97-4347-ad49-6c2e8cb08951",
+      "status": "succeeded",
+      "phase": "finished",
+      "received_count": 2499,
+      "raw_inserted_count": 2499,
+      "evaluated_count": 526,
+      "valid_count": 526,
+      "invalid_count": 0,
+      "outside_scope_count": 1973,
+      "started_at": "2026-11-24 04:28:17.866761+00:00",
+      "finished_at": "2026-11-24 04:28:35.163088+00:00",
+      "published_at": "2026-11-24 04:28:35.163088+00:00",
+      "error_category": null
+    },
+    {
+      "run_id": "2710fd95-db45-47ae-9bf4-f95a1524145b",
+      "status": "succeeded",
+      "phase": "finished",
+      "received_count": 14827,
+      "raw_inserted_count": 14827,
+      "evaluated_count": 12559,
+      "valid_count": 12557,
+      "invalid_count": 2,
+      "outside_scope_count": 2268,
+      "started_at": "2026-11-24 04:29:16.763773+00:00",
+      "finished_at": "2026-11-24 04:29:31.844638+00:00",
+      "published_at": "2026-11-24 04:29:31.844638+00:00",
+      "error_category": null
+    },
+    {
+      "run_id": "a890d7cf-f0ac-4770-b968-3da7958e1004",
+      "status": "failed",
+      "phase": "ingest",
+      "received_count": 5000,
+      "raw_inserted_count": 2571,
+      "evaluated_count": 0,
+      "valid_count": 0,
+      "invalid_count": 0,
+      "outside_scope_count": 0,
+      "started_at": "2026-11-24 04:29:55.461107+00:00",
+      "finished_at": "2026-11-24 04:30:12.382687+00:00",
+      "published_at": null,
+      "error_category": "source_generation_changed"
+    }
+  ],
+  "captured_at_utc": "2026-11-24 04:33:01.747017+00:00"
+}

@@ -6,5 +6,17 @@
   },
   "fixture": "fixtures/valid.json",
   "synthetic": true,
-  "wrapper_copy_identical": true
+  "wrapper_copy_identical": true,
+  "canonical_database_row": {
+    "run_id": "8e82e869-325a-40e1-8101-07bcc0a22829",
+    "status": "succeeded",
+    "started_at": "2026-11-24 04:31:16.447001+00:00",
+    "finished_at": "2026-11-24 04:31:16.594008+00:00",
+    "published_at": "2026-11-24 04:31:16.594008+00:00",
+    "received_count": 20,
+    "evaluated_count": 20,
+    "valid_count": 20,
+    "invalid_count": 0,
+    "successful_update_upper_utc": "2026-11-24 04:26:16.443448+00:00"
+  }
 }

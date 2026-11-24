@@ -1,0 +1,62 @@
+[
+  {
+    "url": "https://data.cityofnewyork.us/resource/erm2-nwe9.json?%24select=unique_key%2Ccreated_date%2C%3Aupdated_at&%24where=created_date+%3E%3D+%272025-01-01T00%3A00%3A00%27+AND+created_date+%3C+%272025-01-02T00%3A00%3A00%27&%24order=created_date+ASC%2Cunique_key+ASC&%24limit=1",
+    "status": 200,
+    "headers": {
+      "content-type": "application/json;charset=utf-8",
+      "etag": "\"Zm94dHJvdC4xNTY1NV8xODNfMTk0NzM2SWhxRVB1NFlwVTNxQXNEb2JNb2ZraWxaZzdR---gzipr20PemxcVcY2sNTgFuLq71S5wGQ--gzip--gzip\"",
+      "x-soda2-fields": "[\"unique_key\",\"created_date\",\":updated_at\"]",
+      "x-soda2-types": "[\"text\",\"floating_timestamp\",\"fixed_timestamp\"]",
+      "x-soda2-data-out-of-date": "true",
+      "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+      "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+      "last-modified": "Mon, 23 Nov 2026 02:37:55 GMT"
+    },
+    "body_records": 1
+  },
+  {
+    "url": "https://data.cityofnewyork.us/resource/erm2-nwe9.json?%24select=unique_key%2Ccreated_date%2C%3Aupdated_at&%24where=created_date+%3E%3D+%272025-01-01T00%3A00%3A00%27+AND+created_date+%3C+%272025-01-02T00%3A00%3A00%27+AND+%28created_date+%3E+%272025-01-01T00%3A00%3A00%27+OR+%28created_date+%3D+%272025-01-01T00%3A00%3A00%27+AND+unique_key+%3E+%270%27%29%29&%24order=created_date+ASC%2Cunique_key+ASC&%24limit=1",
+    "status": 200,
+    "headers": {
+      "content-type": "application/json;charset=utf-8",
+      "etag": "\"Zm94dHJvdC4xNTY1NV8xODNfMTk0NzM2OGFEWmR3QmZvNVFRbXlyVjFjMmxvaGVjUzZF---gzipjUMAcMkksZRa8Y3rSwkiqNRxhYo--gzip--gzip\"",
+      "x-soda2-fields": "[\"unique_key\",\"created_date\",\":updated_at\"]",
+      "x-soda2-types": "[\"text\",\"floating_timestamp\",\"fixed_timestamp\"]",
+      "x-soda2-data-out-of-date": "true",
+      "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+      "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+      "last-modified": "Mon, 23 Nov 2026 02:37:55 GMT"
+    },
+    "body_records": 1
+  },
+  {
+    "url": "https://data.cityofnewyork.us/api/views/erm2-nwe9/rows.csv?accessType=DOWNLOAD",
+    "status": 200,
+    "headers": {
+      "server": "nginx",
+      "date": "Tue, 24 Nov 2026 05:57:49 GMT",
+      "content-type": "text/csv; charset=utf-8",
+      "transfer-encoding": "chunked",
+      "connection": "keep-alive",
+      "access-control-allow-origin": "*",
+      "deprecation": "@1791331200",
+      "sunset": "Tue, 22 Dec 2026 00:00:00 GMT",
+      "link": "<https://support.socrata.com/hc/en-us/articles/43491231777047>; rel=\"deprecation\"; type=\"text/html\", <https://support.socrata.com/hc/en-us/articles/43491231777047>; rel=\"sunset\"; type=\"text/html\"",
+      "content-disposition": "attachment; filename=311_Service_Requests_from_2020_to_Present.csv",
+      "cache-control": "public, must-revalidate, max-age=21600",
+      "etag": "\"Zm94dHJvdC4xNTY1NV8xODNfMTk0NzM2OXZFNElNVGlORmdKUnprbTFLdk0tWEFqOUEw---gzipwybGPH6U_taZFuqee4UVX9hg7iI--gzip--gzip\"",
+      "x-soda2-data-out-of-date": "true",
+      "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+      "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+      "last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+      "vary": "Accept-Encoding",
+      "content-encoding": "gzip",
+      "x-socrata-region": "aws-us-east-1-fedramp-prod",
+      "x-socrata-requestid": "052ea25e068e9a82c28aacb924a66271",
+      "strict-transport-security": "max-age=31536000; includeSubDomains"
+    },
+    "first_chunk_bytes": 56346,
+    "starts_csv": true,
+    "body_not_retained": true
+  }
+]

@@ -1,6 +1,6 @@
 # Functional pipeline runbook
 
-Review-branch commands, validated with synthetic fixtures on PostgreSQL 16.
+Commands validated with synthetic fixtures and bounded real publication on PostgreSQL 16.
 Initialize Docker/local credentials as shown in README; fixtures must use a disposable DB.
 
 ## Commands
@@ -64,9 +64,21 @@ Status `Closed` without closure remains valid for volumes but metric-ineligible.
 After one successful incremental, configure `COHORT_START`/`COHORT_END` and adapt
 `docker/scheduler.crontab.example` to the actual checkout. The executable
 `scripts/scheduled-run.sh` invokes the same non-root Compose CLI. Cron time uses the
-host's timezone; choose deliberately. Installing an actual crontab is a human deployment
-step. Interrupted/capped/retryable work must be resumed explicitly before new triggers.
-No cron entry or credentials were installed on the user's machine by the agent.
+host's timezone; choose deliberately. A temporary actual host cron invocation was demonstrated with explicit synthetic
+fixtures and removed; existing jobs were preserved. Production installation remains
+a deliberate deployment step. Interrupted/capped/retryable work must be resumed
+explicitly before new triggers. See `docs/scheduling-evidence.md` for exact run
+metadata and install/inspect/disable commands. Never set SCHEDULE_FIXTURE for a
+production source run.
 
 Schema preflight, provider snapshot/update/deletion semantics and genuine SCD2 evidence
 remain open in ADR-001. See `docs/functional-pipeline-verification.md` for actual results.
+
+## Final iteration evidence
+
+See [final verification](final-verification.md) for real windows and counts,
+[analytics](../sql/analytics/README.md), [measured plans](performance-report.md),
+[executed recovery](failure-recovery-report.md) and
+[release gates](submission-checklist.md). Source generation changes terminate a
+run without publication; start a new audited bounded window only after reviewing
+source freshness. Never remove the generation check merely to reach the volume target.

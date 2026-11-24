@@ -1,6 +1,6 @@
 # Gold analytics
 
-Run from the checkout with PostgreSQL `psql` and the configured maintenance/real DB:
+Run from the checkout with PostgreSQL `psql` and the configured migrated pipeline database:
 
 ```sh
 psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f sql/analytics/01_agency_volume.sql

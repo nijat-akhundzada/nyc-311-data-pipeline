@@ -1,20 +1,35 @@
-# Submission gate checklist (26 Nov 2026)
+# Submission requirement matrix — deadline 26 November 2026
 
-- [ ] Repository contains Python code, tests, versioned migrations, query SQL, Docker and CI
-- [ ] All three named in final README: Nijat Akhundzadeh, Nizami, Firuz
-- [ ] One source API used; documented pagination, bounded retries, 429 handling, resumability
-- [ ] Bronze/silver/gold, rejection quarantine, bad-rate threshold, no failed-run downstream publish
-- [ ] Incremental and date-bounded historical backfill; logical replay produces identical results
-- [ ] Real SCD Type 2 with a changed natural key and unchanged replay test
-- [ ] >=1M **real** rows measured and documented
-- [ ] Gold star schema; analytics queries using both CTE and window functions
-- [ ] Performance BEFORE and AFTER execution plans and raw measured timings
-- [ ] Kill-container, DB-not-ready and bad-input drills actually demonstrated
-- [ ] Run-history records and scheduled execution demonstrated
-- [ ] Multi-stage Docker, non-root, healthchecks, named volume, no secrets in Git
-- [ ] Hooks, pytest unit/integration and GitHub CI passed
-- [ ] Protected main, feature branches, substantive peer reviews and conventional commits evidenced
-- [ ] README explains actual commands, model, rules, idempotency and git exercises
-- [ ] Each author can explain their contribution; final tests from clean clone pass
+**Recommendation: NOT READY for full assignment submission.** Implementation and
+manual evidence on the final branch require human review; no automatic merge or
+source-verification approval. PASS is scoped to the evidence described here.
 
-**Gate:** NOT READY until evidence replaces each box. Record PR links, CI links and benchmark outputs in final README.
+| Requirement | Status | Exact evidence / remaining gap |
+|---|---|---|
+| Public API, pagination, retries/rate limits, resume | PARTIAL | Existing client/unit/repository tests, real bounded publications and actual kill resume. Cross-view generation consistency blocks reliable large extraction. |
+| Bronze → Silver → Gold and quality quarantine | PASS | Real 27,392 Bronze / 13,126 Silver / 13,126 Gold; two real quarantines. Synthetic >5% gate leaves published hashes unchanged. [Counts](evidence/final/real-load-counts.json), [recovery](failure-recovery-report.md). |
+| Gold star schema and SCD2 implementation | PARTIAL | Existing schema/current fact, exclusion/FK constraints and transition/replay tests. **Zero genuine source-backed tracked changes** observed; 13,126 initial real states only. |
+| Idempotent incremental and historical backfill | PARTIAL | Fixture replay/incremental/watermark tests and cron pass; real date-window publications pass. Complete real update/deletion/replacement capture is unverified. |
+| Roughly 1M+ genuine source records | FAIL | 27,392 distinct source IDs extracted, 13,126 published; no inflated/synthetic scale data. Official export probe also stale. [Real load](final-verification.md). |
+| CTE/window analytics | PASS | Four executable queries, real PostgreSQL outputs and meaningful fixture integration test. [SQL](../sql/analytics/README.md). |
+| Performance optimization with measured plans | PARTIAL | Three before/after real timings, identical results, modest 1.160× full-day median ratio; sparse regression retained. Only 13,126 facts. [Report/plans](performance-report.md). |
+| Actual killed-container recovery | PASS | SIGKILL exit 137, checkpoint page 1 → resumed success exit 0, 20 unique facts. [Recovery](failure-recovery-report.md). |
+| DB unavailable at pipeline startup | PASS | Actual run exit 5, bounded retryable failure, restart then successful run; named-volume rows survived. [Recovery](failure-recovery-report.md). |
+| Malformed batch without partial publication | PASS | Exit 4, 2/20 invalid, retained quarantine; identical hashes across Silver/Gold/watermarks. [Recovery](failure-recovery-report.md). |
+| Schedule and canonical run history | PASS | Actual host cron at 04:31:03Z; run `8e82e869-325a-40e1-8101-07bcc0a22829` published 20 synthetic requests. Temporary job removed. [Cron](scheduling-evidence.md). |
+| Multi-stage non-root Docker, health, volume | PASS | Fresh image UID 10001, PostgreSQL 16.14 healthy; fresh DB migrations/publication, persistence across restart. [Verification](final-verification.md). |
+| Unit/integration, Ruff, hooks and context | PASS | 268 tests (202 unit, 66 PostgreSQL integration), no skips/failures; final commands/results in [verification](final-verification.md). |
+| Final-head GitHub Actions | NOT VERIFIED | Check the final PR/head; never substitute local results. CI selects all existing unit/integration tests, including analytics. |
+| Feature branches and conventional commit history | PASS | Preserved original team/merge commits and phase commits; [contributions](contributions.md). |
+| Real teammate code reviews and protected main | NOT VERIFIED | Formal review lists empty; PR #5/#6/#9 timelines empty. Main-protection query denied (403). Human evidence required. |
+| README, names/roles, model, commands, reports | PASS | [README](../README.md), [runbook](runbook.md), model, analytics, performance/recovery/source evidence and contribution history. |
+| No committed credentials/datasets | PARTIAL | New evidence contains no source payloads/DSNs; local credentials and real dataset remain outside Git. Targeted tracked-file checks are not a comprehensive historic secret audit. |
+| Individual explanation and final release approval | NOT VERIFIED | Each student must explain assigned/AI-assisted work; only the human lead approves submission. |
+
+ADR-001 remains **PROPOSED**. Publisher timezone semantics, full update completeness
+and genuine SCD2 observations are not upgraded by engineering tests.
+
+Next actions: obtain stable fresh source views or approve a defensible immutable
+export contract; finish real scale loading and repeat benchmarks; collect genuine
+changes separately; obtain Nizami/Firuz reviews, verify branch protection and green
+final-head CI. Preserve truthful partial evidence if external blockers persist.

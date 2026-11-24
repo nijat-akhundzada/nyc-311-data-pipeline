@@ -1,0 +1,10 @@
+{
+  "invocation_log": "cron_invoked_at=2026-11-24T04:31:03Z\n Container nyc311-final-drills-db  Running\n{\"event\": \"pipeline_requested\", \"run_id\": \"8e82e869-325a-40e1-8101-07bcc0a22829\"}\n{\"checkpoints\": [{\"exhausted\": true, \"page_no\": 2, \"segment_id\": \"0\"}], \"error_category\": null, \"evaluated_count\": 20, \"finished_at\": \"2026-11-24 04:31:16.594008+00:00\", \"heartbeat_at\": \"2026-11-24 04:31:16.594008+00:00\", \"ingest_complete\": true, \"invalid_count\": 0, \"outside_scope_count\": 0, \"phase\": \"finished\", \"published\": true, \"published_at\": \"2026-11-24 04:31:16.594008+00:00\", \"raw_inserted_count\": 0, \"received_count\": 20, \"retryable\": false, \"run_id\": \"8e82e869-325a-40e1-8101-07bcc0a22829\", \"started_at\": \"2026-11-24 04:31:16.447001+00:00\", \"status\": \"succeeded\", \"successful_update_upper_utc\": \"2026-11-24 04:26:16.443448+00:00\", \"valid_count\": 20}\n",
+  "cleanup": {
+    "temporary_entry_removed": true,
+    "other_entries_preserved": true
+  },
+  "fixture": "fixtures/valid.json",
+  "synthetic": true,
+  "wrapper_copy_identical": true
+}

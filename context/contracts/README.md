@@ -2,6 +2,14 @@
 
 **Not frozen or approved.** Supersedes version 0 as the review proposal only. ADR-001 engineering acceptance and source-evidence completion are separate; both remain open. NYC 311 selection is lead-approved. The limited Spec 03 client-only exception activates only after review/approval/merge of its documentation amendment; this file alone grants no implementation permission. Nijat approves the source/client policy; Nizami reviews persistence/publish/SCD2; Firuz reviews lifecycle/locking/errors. Existing approved foundation scopes are unchanged. Physical DDL and implementation remain with their owners.
 
+## Bounded Bronze engineering authorization — 2026-11-24
+
+The lead now authorizes the narrow engineering interface in [Bronze v1](bronze-v1.md)
+for durable ingestion. That document supersedes conflicting **proposed** persistence
+and pre-Spec07 adapter details only for this bounded slice. It does not freeze the
+remaining version 1 contract, claim Nizami/Firuz approval, accept ADR-001 or complete
+source verification. No downstream dependency gate is released.
+
 ## Client-only subset proposed for limited implementation
 
 The current ADR risk amendment and Spec 03's client checklist govern this subset after explicit activation; the DB/lifecycle/publish proposals below remain unapproved. Cross-owner decisions are recorded at `docs/spec01-contract-review.md`, not inferred from branch existence or missing objections.

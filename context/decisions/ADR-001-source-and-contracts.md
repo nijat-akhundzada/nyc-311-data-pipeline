@@ -97,3 +97,13 @@ The candidate state dimension remains keyed by unique_key with tracked status/ag
 Not yet demonstrated: complete incremental/backfill coverage, durable restart and logical replay, actual quarantine/quality-gate abort and atomic silver/gold publication, genuine SCD2 source changes, approximately 1M+ real validated facts, measured EXPLAIN optimization/analytics, scheduled persisted run history, actual kill/DB-not-ready/malformed recovery, and working Docker/CI/review/protection/submission evidence. Other members' ongoing foundation work is not declared complete or changed here. A source raw count or passing future client unit tests satisfies none of those integration demonstrations by itself.
 
 Review/decision ledger: `docs/spec01-contract-review.md`. Approval of the narrow exception does not approve database interfaces by silence; Nizami/Firuz must record their actual domain decisions, and unreviewed integration remains blocked.
+
+## Lead authorization for durable Bronze — 2026-11-24
+
+Status remains **PROPOSED**. The lead explicitly risk-accepts implementation of
+`context/contracts/bronze-v1.md` and the bounded Spec 03/05 slice. This is engineering
+authorization, not completed source verification or recorded peer approval. Existing
+strict retry/freshness policy is reused without relaxation. Publisher timezone/DST,
+stable fresh views/collation, update completeness/replacements/deletions, missing-key
+preflight and genuine SCD2 observations remain open. Deterministic recovery tests
+prove our storage behavior only. Live/API evidence is recorded separately.

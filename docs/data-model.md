@@ -29,3 +29,11 @@ SQL acceptance targets: daily/monthly volume and period change with CTEs and `LA
 ## Spec 01 contract review note
 
 Proposed version 1 at `context/contracts/README.md` supplies the logical field/normalization contract and requires durable run-to-raw associations even for duplicate raw versions. It also separates raw hashes (including source metadata) from tracked SCD2 hashes, canonicalizes operations history as `ops.pipeline_runs`, and defines stale/conflicting observation handling plus one publication transaction. This is a review proposal, not physical DDL or a change to Nizami's foundation scope. Genuine same-request source change evidence and publisher timezone/DST semantics remain missing; no SCD2 acceptance is claimed.
+
+## Bounded Bronze domain implementation (review branch, 2026-11-24)
+
+Migration 0002 adds raw JSONB versions and canonical run/checkpoint/receipt/association
+and event tables under the lead-authorized `context/contracts/bronze-v1.md` interface.
+This is not an accepted full data model: Silver/Gold remain empty and SCD2 source
+evidence remains unproven. No already applied migration is changed. See that contract
+for keys, counts, constraints, publication separation and required cross-owner review.

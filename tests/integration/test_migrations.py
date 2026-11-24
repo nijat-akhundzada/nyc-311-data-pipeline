@@ -29,11 +29,17 @@ DOMAIN_SCHEMAS = ("bronze", "silver", "gold", "ops")
 def _copy_migrations(tmp_path: Path, extra: dict[int, tuple[str, str]] | None = None) -> Path:
     directory = tmp_path / "migrations"
     directory.mkdir()
-    for source in sorted(MIGRATIONS_DIR.glob("*.sql")):
+    for source in sorted(MIGRATIONS_DIR.glob("0001_*.sql")):
         (directory / source.name).write_text(source.read_text(encoding="utf-8"), encoding="utf-8")
     for version, (name, script) in (extra or {}).items():
         (directory / f"{version:04d}_{name}.up.sql").write_text(script, encoding="utf-8")
     return directory
+
+
+@pytest.fixture
+def foundation_dir(tmp_path: Path) -> Path:
+    """Keep the original framework assertions scoped to the 0001 foundation."""
+    return _copy_migrations(tmp_path)
 
 
 def _domain_tables(conn: psycopg.Connection) -> list[tuple[str, str]]:
@@ -52,8 +58,10 @@ def test_server_is_postgresql_16(maintenance_dsn: str) -> None:
     )
 
 
-def test_fresh_migrations_create_four_empty_namespaces(isolated_db: str) -> None:
-    result = apply_migrations(isolated_db, migrations_dir=MIGRATIONS_DIR)
+def test_fresh_migrations_create_four_empty_namespaces(
+    isolated_db: str, foundation_dir: Path
+) -> None:
+    result = apply_migrations(isolated_db, migrations_dir=foundation_dir)
 
     assert result.applied == ("0001_create_namespaces",)
     assert result.skipped == ()
@@ -72,15 +80,15 @@ def test_fresh_migrations_create_four_empty_namespaces(isolated_db: str) -> None
         assert len(rows[0][2]) == 64
 
 
-def test_reapplying_migrations_is_a_noop(isolated_db: str) -> None:
-    apply_migrations(isolated_db, migrations_dir=MIGRATIONS_DIR)
+def test_reapplying_migrations_is_a_noop(isolated_db: str, foundation_dir: Path) -> None:
+    apply_migrations(isolated_db, migrations_dir=foundation_dir)
     with psycopg.connect(isolated_db) as conn:
         before = conn.execute(
             "SELECT version, name, checksum, applied_at FROM _migration.applied_migrations"
         ).fetchall()
 
-    second = apply_migrations(isolated_db, migrations_dir=MIGRATIONS_DIR)
-    third = apply_migrations(isolated_db, migrations_dir=MIGRATIONS_DIR)
+    second = apply_migrations(isolated_db, migrations_dir=foundation_dir)
+    third = apply_migrations(isolated_db, migrations_dir=foundation_dir)
 
     assert second.applied == ()
     assert second.skipped == ("0001_create_namespaces",)
@@ -130,10 +138,12 @@ def test_failing_migration_rolls_back_and_corrected_migration_can_run(
         ]
 
 
-def test_rollback_removes_namespace_and_ledger_entry(isolated_db: str) -> None:
-    apply_migrations(isolated_db, migrations_dir=MIGRATIONS_DIR)
+def test_rollback_removes_namespace_and_ledger_entry(
+    isolated_db: str, foundation_dir: Path
+) -> None:
+    apply_migrations(isolated_db, migrations_dir=foundation_dir)
 
-    result = rollback_migrations(isolated_db, target_version=0, migrations_dir=MIGRATIONS_DIR)
+    result = rollback_migrations(isolated_db, target_version=0, migrations_dir=foundation_dir)
 
     assert result.rolled_back == ("0001_create_namespaces",)
     with psycopg.connect(isolated_db) as conn:
@@ -143,7 +153,7 @@ def test_rollback_removes_namespace_and_ledger_entry(isolated_db: str) -> None:
         assert not set(DOMAIN_SCHEMAS) & schemas
         assert conn.execute("SELECT count(*) FROM _migration.applied_migrations").fetchone()[0] == 0
 
-    assert apply_migrations(isolated_db, migrations_dir=MIGRATIONS_DIR).applied == (
+    assert apply_migrations(isolated_db, migrations_dir=foundation_dir).applied == (
         "0001_create_namespaces",
     )
 
@@ -186,15 +196,17 @@ def test_concurrent_migrations_serialize_without_duplicate_application(
         assert _domain_tables(conn) == []
 
 
-def test_lock_contention_fails_with_clear_error(isolated_db: str) -> None:
+def test_lock_contention_fails_with_clear_error(isolated_db: str, foundation_dir: Path) -> None:
     with psycopg.connect(isolated_db, autocommit=True) as holder:
         holder.execute("SELECT pg_advisory_lock(%s)", (MIGRATION_LOCK_KEY,))
         try:
             with pytest.raises(MigrationLockError, match="another migration process"):
-                apply_migrations(isolated_db, lock_timeout_seconds=0.1)
+                apply_migrations(
+                    isolated_db, lock_timeout_seconds=0.1, migrations_dir=foundation_dir
+                )
         finally:
             holder.execute("SELECT pg_advisory_unlock(%s)", (MIGRATION_LOCK_KEY,))
 
-    report = migration_status(isolated_db)
+    report = migration_status(isolated_db, migrations_dir=foundation_dir)
     assert report.applied == ()
     assert [migration.label for migration in report.pending] == ["0001_create_namespaces"]

@@ -1,31 +1,72 @@
-# Operational runbook — TARGET COMMANDS, NOT YET IMPLEMENTED
+# Functional pipeline runbook
 
-Intended future workflow: copy `.env.example` to `.env` (do not commit real tokens); `docker compose up --build -d db`; migrate schema; `docker compose run --rm pipeline python -m nyc311_pipeline run --mode backfill --start 2025-01-01 --end 2025-02-01`; `docker compose run --rm pipeline python -m nyc311_pipeline run --mode incremental`; inspect run_history and gold, invoke analytics; enable scheduler. All commands and service names must be replaced by **verified commands** before final submission.
+Review-branch commands, validated with synthetic fixtures on PostgreSQL 16.
+Initialize Docker/local credentials as shown in README; fixtures must use a disposable DB.
 
-Required documented failure drills: stop ingestion mid-page and resume; start pipeline while DB is unavailable; inject invalid fixture > threshold, compare silver/gold checksums and quarantine before/after. Run-history fields and meaningful logs must show each outcome.
+## Commands
 
-## Durable Bronze slice (review branch only)
+The Compose `pipeline` service runs as UID 10001 and invokes `python -m nyc311_pipeline`.
+It waits for PostgreSQL health; CLI connection retries are bounded to three attempts.
 
-Use the unchanged migration CLI before constructing the repository:
-`python -m nyc311_pipeline.storage.migrations upgrade` with `DATABASE_URL` supplied
-through the environment. In the image, add `--migrations-dir /app/db/migrations`
-before `upgrade`. Never edit an applied SQL migration.
+```sh
+docker compose --profile pipeline run --rm pipeline migrate
+docker compose --profile pipeline run --rm pipeline health
+docker compose --profile pipeline run --rm pipeline run --mode backfill \
+  --start 2025-01-01 --end 2026-01-01 --fixture /fixtures/valid.json
+```
 
-The bounded programmatic entry point is `ingestion.service.ingest`, not a production
-pipeline CLI. Allocate and retain a UUID before calling it; pass a dedicated psycopg
-connection opened with `autocommit=True` to `BronzeRepository`. Construct an immutable
-`IngestScope` with explicit source-wall-time intervals and page size, then use
-`async with ApiClient(app_token=os.environ.get('SOCRATA_APP_TOKEN'))` and await
-`ingest(client, repository, scope, run_id=identity, max_records=100)`.
+Host equivalent: export `DATABASE_URL`, then use `python -m nyc311_pipeline` with the
+same arguments (fixture paths are relative to the host checkout, e.g. `fixtures/valid.json`).
+`migrate` automatically finds repository or image SQL assets. Never rewrite applied SQL.
 
-To resume, reopen the dedicated connection, rebuild the **same** scope and pass
-`resume_run_id=identity` instead of `run_id`. The service acquires the dataset lock.
-Caps may change; source bounds/page size/policy may not. Read the persisted run and
-checkpoint for progress; source failures raise categorized errors. A lost DB session
-may leave running metadata and requires explicit resume. Generation change requires
-a new audited extraction, never cursor reset. A completed extraction stays
-unpublished: no Silver/Gold result or pipeline success is promised.
+Date-only bounds are UTC midnight. Offset-aware ISO bounds are accepted; naive datetime
+bounds are rejected. A conservative wall-time superset is fetched; exact UTC eligibility
+is checked during validation. Ambiguous/nonexistent New York events quarantine rather
+than being guessed away. Valid outside-scope records are audited, not quality candidates.
 
-Contract and evidence: `context/contracts/bronze-v1.md`,
-`docs/spec03-bronze-ingestion-verification.md`. Review gates and remaining source
-risks remain in force; do not schedule this as a complete production pipeline.
+`--page-size` is 1..5000. `--max-records N` caps newly received rows per invocation;
+paused extraction has `ingest_complete=false,published=false` even if its last page
+was short. Only a fresh accepted empty page proves exhaustion. Re-run with
+`run --resume-run-id UUID` and the same fixture when applicable. Source bounds,
+page size, fixture hash, timezone version and threshold must remain unchanged.
+`report --run-id UUID` shows canonical status, counters, timestamps and checkpoint summaries.
+
+Incremental: `run --mode incremental --start ... --end ... --initial-lower ...`.
+The first run requires the explicit UTC update lower bound; subsequent invocations
+omit it and use the cohort's successfully published upper minus 48 hours. Upper is
+frozen at run start minus five minutes. Backfill does not fabricate an update watermark.
+A zero-candidate incremental fails the required zero-input gate and advances nothing.
+Use periodic complete bounded backfills as reconciliation; never infer deletions.
+
+## Outcomes and recovery
+
+Exit 0 means an invocation completed: inspect `published` and `ingest_complete` to
+distinguish capped pause from successful publication. Exit 2 is configuration/conflict,
+3 source/transport/freshness/order, 4 quality/source-observation conflict, 5 storage/migration.
+Storage/commit uncertainty reports `published=null,status=unknown`; resolve with `report`
+after DB recovery, never assume rollback solely from a connection exception.
+
+The same dataset advisory lock covers extraction, validation and publication. A second
+run is rejected; unfinished functional work requires explicit resume. Session loss
+releases the lock. Source generation changes are terminal; start a new audited run
+with the same frozen cohort after reviewing source consistency. Quality failure leaves
+Bronze/quarantine and prior Silver/Gold intact. Corrected data requires a new run.
+Retryable publication failure resumes retained Bronze/staging without re-fetching it.
+Successful-run resume reports its existing result and does not publish again.
+
+Default invalid threshold is 0.05. `--quality-threshold` or `QUALITY_MAX_INVALID_RATE`
+sets it for new runs; the frozen value wins on resume. Exactly 5% passes, greater fails,
+zero evaluated fails; conflicting equal source updates always fail regardless of percentage.
+Status `Closed` without closure remains valid for volumes but metric-ineligible.
+
+## Cron
+
+After one successful incremental, configure `COHORT_START`/`COHORT_END` and adapt
+`docker/scheduler.crontab.example` to the actual checkout. The executable
+`scripts/scheduled-run.sh` invokes the same non-root Compose CLI. Cron time uses the
+host's timezone; choose deliberately. Installing an actual crontab is a human deployment
+step. Interrupted/capped/retryable work must be resumed explicitly before new triggers.
+No cron entry or credentials were installed on the user's machine by the agent.
+
+Schema preflight, provider snapshot/update/deletion semantics and genuine SCD2 evidence
+remain open in ADR-001. See `docs/functional-pipeline-verification.md` for actual results.

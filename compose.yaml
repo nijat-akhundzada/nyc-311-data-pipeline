@@ -55,6 +55,7 @@ services:
     environment:
       DATABASE_URL: postgresql://${POSTGRES_USER:-nyc311}:${POSTGRES_PASSWORD:-CHANGE_ME_LOCALLY}@db:5432/${POSTGRES_DB:-nyc311}
       SOCRATA_APP_TOKEN: ${SOCRATA_APP_TOKEN:-}
+      QUALITY_MAX_INVALID_RATE: ${QUALITY_MAX_INVALID_RATE:-0.05}
     volumes:
       - ./fixtures:/fixtures:ro
     entrypoint: [python, -m, nyc311_pipeline]

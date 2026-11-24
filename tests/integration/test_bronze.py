@@ -74,8 +74,18 @@ def complete(repo, run_id, checkpoint):
     repo.finish_ingestion(run_id, outcome="completed")
 
 
-def test_domain_migration_up_replay_and_down(bronze_db):
-    assert apply_migrations(bronze_db).applied == ()
+def test_domain_migration_up_replay_and_down(isolated_db, tmp_path):
+    from pathlib import Path
+
+    directory = tmp_path / "original_domain"
+    directory.mkdir()
+    source = Path(__file__).resolve().parents[2] / "db" / "migrations"
+    for path in source.glob("*.sql"):
+        if path.name.startswith(("0001_", "0002_")):
+            (directory / path.name).write_bytes(path.read_bytes())
+    bronze_db = isolated_db
+    apply_migrations(bronze_db, migrations_dir=directory)
+    assert apply_migrations(bronze_db, migrations_dir=directory).applied == ()
     with psycopg.connect(bronze_db) as conn:
         tables = conn.execute(
             "SELECT table_schema,table_name FROM information_schema.tables "
@@ -83,10 +93,12 @@ def test_domain_migration_up_replay_and_down(bronze_db):
         ).fetchall()
         assert len(tables) == 6
         assert all(schema not in {"silver", "gold"} for schema, _ in tables)
-    assert rollback_migrations(bronze_db, target_version=1).rolled_back == (
+    assert rollback_migrations(
+        bronze_db, target_version=1, migrations_dir=directory
+    ).rolled_back == ("0002_bronze_ingestion",)
+    assert apply_migrations(bronze_db, migrations_dir=directory).applied == (
         "0002_bronze_ingestion",
     )
-    assert apply_migrations(bronze_db).applied == ("0002_bronze_ingestion",)
 
 
 def test_atomic_fresh_page_and_exhaustion(repo):

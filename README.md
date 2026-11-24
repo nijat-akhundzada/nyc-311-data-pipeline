@@ -1,28 +1,89 @@
 # NYC 311 Data Engineering Pipeline
 
-**Course:** Data Engineering, Fall 2026 · **Submission deadline:** 26 November 2026 · **Team:** Nijat Akhundzadeh (lead / member 1), Nizami (member 2), Firuz (member 3).
+**Team:** Nijat Akhundzadeh (lead), Nizami, Firuz. **Deadline:** 26 November 2026.
 
-> **Status: specification-only scaffold.** No pipeline implementation, tests, data, migrations, or benchmark results are claimed complete. This repository is a human-reviewed plan for contributors and their AI coding agents.
+Functional review branch: Python 3.12, direct psycopg 3 SQL and PostgreSQL 16.
+Purpose: analyze NYC 311 request volumes, agency performance and recorded
+resolution times. It has resumable Bronze ingestion, staged validation/quarantine,
+a 5% quality gate, atomic Silver/Gold publication and observed-time SCD2.
+**ADR-001 remains PROPOSED:** publisher timezone, complete change capture and genuine
+source SCD2 observations are still unverified. Synthetic examples are not real history.
 
-## Objective
-Build a reliable, dockerized Python + PostgreSQL pipeline consuming one public API, with resumable pagination, bronze/silver/gold, quarantine and quality gating, idempotent incremental and backfill modes, SCD2 in gold, ~1 million source records, scheduled runs, analytics and demonstrated recovery/performance.
+## Run a deterministic demonstration
 
-**Proposed API:** NYC Open Data, 311 Service Requests 2020-present, Socrata dataset `erm2-nwe9` (https://dev.socrata.com/foundry/data.cityofnewyork.us/erm2-nwe9). Confirm endpoint, field names, pagination and quotas in Spec 01 before coding. Never fabricate or replicate records to meet the 1M requirement.
+Use a disposable demo database; fixtures are explicitly synthetic. From the checkout:
 
-## Start here
-Current discovery evidence: `docs/source-smoke-test.md`. Bounded parallel-work recommendations and remaining gates: `context/implementation-readiness.md`. ADR-001 remains proposed; these documents do not claim implementation readiness for the full pipeline.
+```sh
+cp .env.example .env  # Set local PostgreSQL credentials; never commit this file.
+docker compose up -d --wait db
+docker compose --profile pipeline build pipeline
+docker compose --profile pipeline run --rm pipeline migrate
+docker compose --profile pipeline run --rm pipeline health
+docker compose --profile pipeline run --rm pipeline run --mode backfill \
+  --start 2025-01-01 --end 2026-01-01 --fixture /fixtures/valid.json
+# Publishes 20 synthetic requests. Repeating it creates no extra facts/SCD2 versions.
+docker compose --profile pipeline run --rm pipeline run --mode backfill \
+  --start 2025-01-01 --end 2026-01-01 --fixture /fixtures/quality-failure.json
+# Expected exit 4: 10% invalid, quarantine retained, published data unchanged.
+```
 
-1. Lead reviews `context/decisions/ADR-001-source-and-contracts.md` and accepts or changes it **before feature coding**.
-2. Read `AGENTS.md`, `context/architecture.md`, `context/contracts/README.md`, and `context/specs/00-build-plan.md`.
-3. Allocate issues using `context/team-workflow.md`; each member copies their prompt in `prompts/team/` into a coding agent **one approved spec at a time**.
-4. Create feature branches; implement, run checks, commit atomically, push and open **draft PRs**; lead reviews and merges after CI passes. AI must not bypass review.
-5. Read `docs/runbook.md` and `docs/submission-checklist.md` for the final demonstration and submission artifacts.
+Omit `--fixture` only for real API extraction. For a small live check add
+`--max-records 3`; a capped/incomplete run is paused and **never published**.
+Read the emitted run UUID, then resume with the same source/fixture:
 
-## Anticipated execution (after implementation)
-Commands in `docs/runbook.md` are **target interface contracts**, not working commands yet. The codebase begins with directories and documentation, not functioning CLI or Compose services.
+```sh
+docker compose --profile pipeline run --rm pipeline report --run-id UUID
+docker compose --profile pipeline run --rm pipeline run --resume-run-id UUID \
+  --fixture /fixtures/valid.json
+```
 
-## Assignment mapping
-See `context/requirements-traceability.md` and `docs/submission-checklist.md` for evidence requirements. Final README must be updated with **real** setup commands, data model, quality thresholds, idempotency, Git exercises, demonstrated results and the names of all members. Do not claim finished features based on specifications alone.
+Incremental mode requires a creation cohort. The first incremental needs an explicit
+UTC lower bound; later runs use its published watermark with a 48-hour overlap:
 
-## Source and academic integrity
-Assignment: `docs/source-assignment.pdf` (copy of teacher-provided instructions). Students must understand every committed line. No cross-team code sharing; no main force pushes. AI assistance is permitted for learning/debugging, with human-authored review and explanation.
+```sh
+docker compose --profile pipeline run --rm pipeline run --mode incremental \
+  --start 2025-01-01 --end 2026-01-01 --initial-lower 2026-11-01
+```
+
+That real-source command is uncapped; choose a practical cohort before running it.
+Update upper bounds freeze at run start minus five minutes. Bounds are UTC, end-exclusive.
+Run settings/quality policy are frozen; only the invocation cap may change on resume.
+
+## Correctness and operation
+
+- Raw identity: source ID plus canonical projected JSON hash. Page receipts make
+  retries idempotent; raw/association/checkpoint writes commit together.
+- Validation streams bounded batches. New York event-time interpretation is
+  provisional; DST gaps/folds quarantine. Exactly 5% invalid passes; over 5% or zero
+  evaluated fails. Required API sort/envelope violations abort before staging.
+- Silver, all Gold dimensions/facts, run success and update watermark commit in
+  **one transaction**, protected by the existing dataset lock.
+- Gold has one fact per request, date/agency/complaint/borough dimensions and request
+  state SCD2. Only changed status/agency/complaint produces a new observed version.
+  Unknown categories have dimension members; unsupported historical states are never invented.
+- A host-cron wrapper is provided in `scripts/scheduled-run.sh` and
+  `docker/scheduler.crontab.example`. It is not installed automatically.
+
+See [runbook](docs/runbook.md), [data model](docs/data-model.md),
+[engineering contract](context/contracts/functional-v1.md) and
+[actual verification](docs/functional-pipeline-verification.md).
+
+## Development and delivery
+
+```sh
+python3.12 -m venv .venv
+.venv/bin/pip install -r requirements-dev.lock
+.venv/bin/pip install --no-deps --no-build-isolation -e .
+.venv/bin/ruff check .
+.venv/bin/ruff format --check .
+.venv/bin/pytest tests/unit -q
+# TEST_DATABASE_URL must reference a disposable PostgreSQL 16 maintenance database.
+.venv/bin/pytest tests/integration -q
+```
+
+Migration 0001/0002 and original team commits are preserved; changes are delivered by
+conventional commits and a human-reviewed feature PR. CI success is required before
+merge and is never inferred from local tests. Students must understand every line.
+Remaining major work: roughly one million real validated facts, analytical SQL and
+EXPLAIN measurements, real kill/startup/schedule evidence, source/SCD2 observations
+and submission preparation. No scale/performance or assignment completion is claimed.

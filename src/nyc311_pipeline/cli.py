@@ -131,6 +131,13 @@ def main(argv=None):
             root.error("new runs require --start and --end")
         if args.page_size and args.page_size > 5000:
             root.error("--page-size must be <= 5000")
+    if args.command == "run" and not args.resume_run_id and args.quality_threshold is None:
+        try:
+            args.quality_threshold = threshold_value(
+                os.environ.get("QUALITY_MAX_INVALID_RATE", "0.05")
+            )
+        except argparse.ArgumentTypeError:
+            root.error("invalid QUALITY_MAX_INVALID_RATE")
     dsn = os.environ.get("DATABASE_URL")
     if not dsn:
         emit(dict(category="configuration", published=False))
@@ -181,7 +188,7 @@ def main(argv=None):
         emit(
             dict(
                 run_id=str(identity) if identity else None,
-                status="failed",
+                status="unknown" if isinstance(error, (StorageError, psycopg.Error)) else "failed",
                 category=category,
                 retryable=getattr(error, "retryable", False),
                 published=None if isinstance(error, (StorageError, psycopg.Error)) else False,

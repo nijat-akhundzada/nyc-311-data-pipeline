@@ -25,16 +25,20 @@ ORDER BY unique_key COLLATE "C",raw_id
 """
 
 
-def quarantine(conn, run_id, row, reasons):
+def save_rejections(conn, run_id, batch):
+    if not batch:
+        return
     conn.execute(
         """
         INSERT INTO ops.quarantine
           (run_id,unique_key,raw_id,raw_hash,payload,reasons,observed_at)
-        VALUES (%s,%s,%s,%s,%s,%s,%s)
+        SELECT %s,x.unique_key,x.raw_id,x.raw_hash,x.payload,x.reasons,x.observed_at
+        FROM jsonb_to_recordset(%s) AS x(unique_key text,raw_id bigint,raw_hash text,
+                                       payload jsonb,reasons text[],observed_at timestamptz)
         ON CONFLICT (run_id,raw_hash) DO UPDATE SET reasons=ARRAY(
           SELECT DISTINCT x FROM unnest(ops.quarantine.reasons || EXCLUDED.reasons) x ORDER BY x)
         """,
-        (run_id, row[0], row[1], row[2], Jsonb(row[3]), sorted(reasons), row[5]),
+        (run_id, Jsonb(list(batch.values()))),
     )
 
 
@@ -42,6 +46,29 @@ def stage_run(conn, run_id: UUID, settings: dict, batch_size: int = 1000) -> dic
     if not 1 <= batch_size <= 5000:
         raise ValueError("batch_size")
     # WITH HOLD survives batch write commits. No dataset is accumulated in Python.
+    rejections = {}
+
+    def reject(row, reasons):
+        previous = rejections.get(row[2], {})
+        rejections[row[2]] = dict(
+            unique_key=row[0],
+            raw_id=row[1],
+            raw_hash=row[2],
+            payload=row[3],
+            reasons=sorted(set(previous.get("reasons", [])) | set(reasons)),
+            observed_at=utc_text(row[5]),
+        )
+        if len(rejections) >= batch_size:
+            with conn.transaction():
+                save_rejections(conn, run_id, rejections)
+            rejections.clear()
+
+    def flush(batch):
+        with conn.transaction():
+            save_rejections(conn, run_id, rejections)
+            save_batch(conn, run_id, batch)
+        rejections.clear()
+
     cursor = conn.cursor(name="validation_" + uuid4().hex, withhold=True)
     try:
         with conn.transaction():
@@ -64,12 +91,10 @@ def stage_run(conn, run_id: UUID, settings: dict, batch_size: int = 1000) -> dic
                 alternative = validate(other[3])
                 if (alternative.business_hash, alternative.reasons) != (signature, result.reasons):
                     reasons.add("conflicting_source_versions")
-                    with conn.transaction():
-                        quarantine(conn, run_id, first, reasons)
-                        quarantine(conn, run_id, other, reasons | set(alternative.reasons))
+                    reject(first, reasons)
+                    reject(other, reasons | set(alternative.reasons))
                 elif alternative.reasons:
-                    with conn.transaction():
-                        quarantine(conn, run_id, other, alternative.reasons)
+                    reject(other, alternative.reasons)
             outside = False
             if not reasons:
                 created = utc_time(result.data["created_date_utc"])
@@ -77,8 +102,7 @@ def stage_run(conn, run_id: UUID, settings: dict, batch_size: int = 1000) -> dic
                     utc_time(settings["start_utc"]) <= created < utc_time(settings["end_utc"])
                 )
             if reasons:
-                with conn.transaction():
-                    quarantine(conn, run_id, first, reasons)
+                reject(first, reasons)
             outcome = "invalid" if reasons else "outside_scope" if outside else "valid"
             item = dict(
                 unique_key=key,
@@ -94,10 +118,10 @@ def stage_run(conn, run_id: UUID, settings: dict, batch_size: int = 1000) -> dic
             item["stage_hash"] = fingerprint(item)
             pending.append(item)
             if len(pending) >= batch_size:
-                save_batch(conn, run_id, pending)
+                flush(pending)
                 pending.clear()
         if pending:
-            save_batch(conn, run_id, pending)
+            flush(pending)
     finally:
         cursor.close()
     counts = conn.execute(

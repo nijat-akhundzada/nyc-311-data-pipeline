@@ -7,10 +7,10 @@ source-verification approval. PASS is scoped to the evidence described here.
 | Requirement | Status | Exact evidence / remaining gap |
 |---|---|---|
 | Public API, pagination, retries/rate limits, resume | PARTIAL | Existing client/unit/repository tests, real bounded publications and actual kill resume. Cross-view generation consistency blocks reliable large extraction. |
-| Bronze → Silver → Gold and quality quarantine | PASS | Real 27,392 Bronze / 13,126 Silver / 13,126 Gold; two real quarantines. Synthetic >5% gate leaves published hashes unchanged. [Counts](evidence/final/real-load-counts.json), [recovery](failure-recovery-report.md). |
-| Gold star schema and SCD2 implementation | PARTIAL | Existing schema/current fact, exclusion/FK constraints and transition/replay tests. **Zero genuine source-backed tracked changes** observed; 13,126 initial real states only. |
+| Bronze → Silver → Gold and quality quarantine | PASS | Real 71,492 Bronze / 42,738 Silver / 42,738 Gold; three real quarantines. Synthetic >5% gate leaves published hashes unchanged. [Counts](evidence/final/real-load-counts.json), [recovery](failure-recovery-report.md). |
+| Gold star schema and SCD2 implementation | PARTIAL | Existing schema/current fact, exclusion/FK constraints and transition/replay tests. **Zero genuine source-backed tracked changes** observed; 42,738 initial real states only; 20 real IDs re-observed unchanged. |
 | Idempotent incremental and historical backfill | PARTIAL | Fixture replay/incremental/watermark tests and cron pass; real date-window publications pass. Complete real update/deletion/replacement capture is unverified. |
-| Roughly 1M+ genuine source records | FAIL | 27,392 distinct source IDs extracted, 13,126 published; no inflated/synthetic scale data. Official export probe also stale. [Real load](final-verification.md). |
+| Roughly 1M+ genuine source records | FAIL | 71,492 distinct source IDs extracted, 42,738 published; no inflated/synthetic scale data. Latest official export HEAD returned 503; no versioned archive verified. [Real load](final-verification.md). |
 | CTE/window analytics | PASS | Four executable queries, real PostgreSQL outputs and meaningful fixture integration test. [SQL](../sql/analytics/README.md). |
 | Performance optimization with measured plans | PARTIAL | Three before/after real timings, identical results, modest 1.160× full-day median ratio; sparse regression retained. Only 13,126 facts. [Report/plans](performance-report.md). |
 | Actual killed-container recovery | PASS | SIGKILL exit 137, checkpoint page 1 → resumed success exit 0, 20 unique facts. [Recovery](failure-recovery-report.md). |
@@ -18,8 +18,8 @@ source-verification approval. PASS is scoped to the evidence described here.
 | Malformed batch without partial publication | PASS | Exit 4, 2/20 invalid, retained quarantine; identical hashes across Silver/Gold/watermarks. [Recovery](failure-recovery-report.md). |
 | Schedule and canonical run history | PASS | Actual host cron at 04:31:03Z; run `8e82e869-325a-40e1-8101-07bcc0a22829` published 20 synthetic requests. Temporary job removed. [Cron](scheduling-evidence.md). |
 | Multi-stage non-root Docker, health, volume | PASS | Fresh image UID 10001, PostgreSQL 16.14 healthy; fresh DB migrations/publication, persistence across restart. [Verification](final-verification.md). |
-| Unit/integration, Ruff, hooks and context | PASS | 268 tests (202 unit, 66 PostgreSQL integration), no skips/failures; final commands/results in [verification](final-verification.md). |
-| Final-head GitHub Actions | NOT VERIFIED | Check the final PR/head; never substitute local results. CI selects all existing unit/integration tests, including analytics. |
+| Unit/integration, Ruff, hooks and context | PASS | 273 tests (205 unit, 68 PostgreSQL integration), no skips/failures; final commands/results in [verification](final-verification.md). |
+| Final-head GitHub Actions | NOT VERIFIED | PR #10 CI passed; the new scale branch/head still requires a PR CI run; never substitute local results. CI selects all existing unit/integration tests, including analytics. |
 | Feature branches and conventional commit history | PASS | Preserved original team/merge commits and phase commits; [contributions](contributions.md). |
 | Real teammate code reviews and protected main | NOT VERIFIED | Formal review lists empty; PR #5/#6/#9 timelines empty. Main-protection query denied (403). Human evidence required. |
 | README, names/roles, model, commands, reports | PASS | [README](../README.md), [runbook](runbook.md), model, analytics, performance/recovery/source evidence and contribution history. |

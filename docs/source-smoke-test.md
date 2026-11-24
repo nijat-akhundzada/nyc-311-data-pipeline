@@ -746,3 +746,61 @@ terminated on generation mismatch without publication. Exact requests, stale HTT
 The official CSV response was also stale; no unreviewed bulk adapter or relaxed
 freshness policy was used. ADR-001 remains PROPOSED; these observations do not
 establish complete incremental capture or publisher timezone semantics.
+
+## Real-source scale follow-up after PR #10 — 24 November 2026
+
+The lead approved a narrow retry-ordering amendment after actual page traces
+isolated the bottleneck. A fresh 24 November data page was followed by an explicitly
+stale **23 November** completion page. Under the old generation-first policy that
+stale response became a nonretryable generation mismatch; no retry budget was
+exhausted on that page. This is not evidence of a new authoritative refresh during
+the run: the observed header generation regressed. Backend/cache routing is a
+possible cause, not proven. Query builder/cursor order had no demonstrated defect.
+
+Four two-row diagnostic calls compared default and `Cache-Control: no-cache` /
+`Pragma: no-cache` requests. Default keyset pages agreed on fresh generation
+`2026-11-24T02:42:04Z`; revalidation returned stale prior-day views. No cache-header
+change was adopted. HTTP 200 alone never counted as fresh. Server Date differs
+from the client observation clock; timestamps are retained separately and not
+used to infer a guaranteed publisher refresh schedule.
+
+The lead explicitly answered “Authorize bounded stale-response retry amendment”.
+All marker presence/format checks remain mandatory. Explicit stale/lagging views
+now reject/retry **before** comparing the pin, within the same four-attempt and
+180-second page limits. A fresh mismatching generation still fails immediately.
+Rejected bodies/cursors cannot reach Bronze. This changes failure classification,
+not accepted-page criteria, identity, frozen bounds or atomic publication. See
+ADR-001's dated amendment; its overall status remains **PROPOSED**.
+
+The exact previously failing one-hour window completed in a new audited run after
+the amendment: 568 valid published requests, zero extra raw inserts from replay.
+The first daily run published 14,085 valid candidates and quarantined one. The next
+run exhausted four stale attempts after 17,686 durable received rows; one explicit
+resume accepted only the empty completion page and published 14,907 candidates
+without increasing received/raw counters. Existing terminal failed runs were not
+rewritten. Subsequent coverage proceeds in independently committed daily windows,
+with at most one separate audited resume per retryable window; a further failure
+stops the operator batch. Every client invocation retains its original retry budget.
+
+A deterministic sample of 20 previously published IDs (non-closed first, then
+lexical source ID) was re-observed. After a timeout and inconsistent fresh/stale
+repeat, a bounded fresh follow-up retained all 20 actual normalized tracked tuples
+and nonregressing update timestamps. **Zero status/agency/complaint changes** were
+observed in those 20; no real SCD2 version was fabricated or published. Both old
+and new accepted observations share the same publisher generation, so this is not
+an across-refresh historical-change demonstration. Re-observe the retained IDs
+after a genuinely later publisher generation rather than repeatedly polling now.
+
+Bulk fallback: metadata GET timed out; an export HEAD returned 503. No versioned
+archive URL/checksum was verified and no CSV adapter was implemented. Publisher
+[archiving documentation](https://support.socrata.com/hc/en-us/articles/9486838238743-Introducing-Dataset-Archiving)
+explains how enrolled datasets can expose exportable archived versions; it does
+not establish enrollment or a downloadable version for `erm2-nwe9`. General
+[export documentation](https://support.socrata.com/hc/en-us/articles/202949658-Export-Formats-for-Downloading-Data)
+does not by itself supply a versioned consistency contract. A stale CSV or an
+ETag on a failed/unversioned response is insufficient. No unsupported API routes
+or newly generated export jobs were substituted for evidence.
+
+Exact requests, responses, before/after tuples, run invocations and final counts:
+[scale audit](evidence/final/scale-source-audit.json). Current outcome and remaining
+assignment gaps are recorded in the existing [final report](final-verification.md).

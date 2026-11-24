@@ -82,3 +82,28 @@ See [final verification](final-verification.md) for real windows and counts,
 [release gates](submission-checklist.md). Source generation changes terminate a
 run without publication; start a new audited bounded window only after reviewing
 source freshness. Never remove the generation check merely to reach the volume target.
+
+## Lead-approved stale retry and scale operations
+
+Explicitly stale/lagging responses are now rejected within the existing four-attempt
+page budget before generation comparison. A **fresh** mismatching generation still
+terminates extraction. Do not change the pin, accept old pages, increase the page
+limit beyond 5,000 or rewrite a terminal failure to make a load complete.
+
+Use bounded independently completed UTC creation windows, e.g. one day at a time:
+
+```sh
+python -m nyc311_pipeline run --mode backfill --start 2025-01-08 \
+  --end 2025-01-09 --page-size 5000
+python -m nyc311_pipeline report --run-id UUID
+# Only when that canonical run is retryable and source freshness permits:
+python -m nyc311_pipeline run --resume-run-id UUID
+```
+
+The measured operator batch allows at most one separate explicit resume per
+retryable window, then stops on another failure; it does not introduce a new
+production runner/retry framework. Resuming retains the original cursor/settings/
+pin and may receive only the empty completion page. Do not count HTTP retries,
+page receipts, failed-run Bronze or replayed IDs as extra published facts. Inspect
+`count(DISTINCT unique_key)` and Gold/Silver counts, plus quarantine. Keep the
+source-only database/volume separate from all synthetic Docker demonstrations.

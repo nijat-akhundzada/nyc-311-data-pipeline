@@ -10,5 +10,18 @@
   "ci_status": "NOT VERIFIED; feature push alone does not trigger existing CI",
   "branch_protection_inspection": "HTTP 403 Resource not accessible by integration",
   "pr_created": false,
-  "merge_performed": false
+  "merge_performed": false,
+  "real_source_followup": {
+    "base_pr": 10,
+    "base_merged": true,
+    "base_main": "16a8a1a4f67270153c00ce6e69130063c8368cc8",
+    "base_ci_url": "https://github.com/nijat-akhundzada/nyc-311-data-pipeline/actions/runs/45349465274",
+    "base_ci_conclusion": "success",
+    "branch": "feat/final-real-source-scale",
+    "code_head": "4736222",
+    "feature_push": "succeeded",
+    "draft_pr_creation": "HTTP 403 Resource not accessible by integration",
+    "gh_auth": "not logged into any GitHub hosts",
+    "feature_ci_status": "NOT VERIFIED; zero runs at code head inspection"
+  }
 }

@@ -2,22 +2,22 @@
   "dataset": "erm2-nwe9",
   "synthetic_rows_in_this_database": 0,
   "counts": {
-    "bronze.raw_service_requests": 27392,
-    "silver.service_requests": 13126,
-    "gold.fact_service_requests": 13126,
-    "gold.dim_service_request_state": 13126,
-    "ops.quarantine": 2
+    "bronze.raw_service_requests": 71492,
+    "silver.service_requests": 42738,
+    "gold.fact_service_requests": 42738,
+    "gold.dim_service_request_state": 42738,
+    "ops.quarantine": 3
   },
-  "distinct_source_ids": 27392,
-  "published_distinct_ids": 13126,
+  "distinct_source_ids": 71492,
+  "published_distinct_ids": 42738,
   "real_scd2_closed_versions": 0,
-  "metric_eligible": 13003,
+  "metric_eligible": 42347,
   "quarantine_reasons": [
     [
       [
         "closed_before_created"
       ],
-      2
+      3
     ]
   ],
   "runs": [
@@ -34,7 +34,8 @@
       "started_at": "2026-11-24 04:23:48.739714+00:00",
       "finished_at": "2026-11-24 04:23:58.094112+00:00",
       "published_at": "2026-11-24 04:23:58.094112+00:00",
-      "error_category": null
+      "error_category": null,
+      "retryable": false
     },
     {
       "run_id": "9d7e3f44-a216-48ef-98fd-b67bb48ad3eb",
@@ -49,7 +50,8 @@
       "started_at": "2026-11-24 04:26:41.377857+00:00",
       "finished_at": "2026-11-24 04:27:12.640345+00:00",
       "published_at": null,
-      "error_category": "source_generation_changed"
+      "error_category": "source_generation_changed",
+      "retryable": false
     },
     {
       "run_id": "d49e9309-6c97-4347-ad49-6c2e8cb08951",
@@ -64,7 +66,8 @@
       "started_at": "2026-11-24 04:28:17.866761+00:00",
       "finished_at": "2026-11-24 04:28:35.163088+00:00",
       "published_at": "2026-11-24 04:28:35.163088+00:00",
-      "error_category": null
+      "error_category": null,
+      "retryable": false
     },
     {
       "run_id": "2710fd95-db45-47ae-9bf4-f95a1524145b",
@@ -79,7 +82,8 @@
       "started_at": "2026-11-24 04:29:16.763773+00:00",
       "finished_at": "2026-11-24 04:29:31.844638+00:00",
       "published_at": "2026-11-24 04:29:31.844638+00:00",
-      "error_category": null
+      "error_category": null,
+      "retryable": false
     },
     {
       "run_id": "a890d7cf-f0ac-4770-b968-3da7958e1004",
@@ -94,8 +98,121 @@
       "started_at": "2026-11-24 04:29:55.461107+00:00",
       "finished_at": "2026-11-24 04:30:12.382687+00:00",
       "published_at": null,
-      "error_category": "source_generation_changed"
+      "error_category": "source_generation_changed",
+      "retryable": false
+    },
+    {
+      "run_id": "2bb5813a-17ab-40d8-b834-7a7f40808b05",
+      "status": "failed",
+      "phase": "ingest",
+      "received_count": 2831,
+      "raw_inserted_count": 2831,
+      "evaluated_count": 0,
+      "valid_count": 0,
+      "invalid_count": 0,
+      "outside_scope_count": 0,
+      "started_at": "2026-11-24 06:22:46.591119+00:00",
+      "finished_at": "2026-11-24 06:23:07.694047+00:00",
+      "published_at": null,
+      "error_category": "source_generation_changed",
+      "retryable": false
+    },
+    {
+      "run_id": "9c08bde8-b5b0-4d98-b67d-c2032374dba5",
+      "status": "succeeded",
+      "phase": "finished",
+      "received_count": 2579,
+      "raw_inserted_count": 2579,
+      "evaluated_count": 52,
+      "valid_count": 52,
+      "invalid_count": 0,
+      "outside_scope_count": 2527,
+      "started_at": "2026-11-24 06:25:19.255998+00:00",
+      "finished_at": "2026-11-24 06:25:24.984722+00:00",
+      "published_at": "2026-11-24 06:25:24.984722+00:00",
+      "error_category": null,
+      "retryable": false
+    },
+    {
+      "run_id": "b8882a72-354d-4f17-8aee-4b785e562638",
+      "status": "failed",
+      "phase": "ingest",
+      "received_count": 10000,
+      "raw_inserted_count": 10000,
+      "evaluated_count": 0,
+      "valid_count": 0,
+      "invalid_count": 0,
+      "outside_scope_count": 0,
+      "started_at": "2026-11-24 06:26:00.101652+00:00",
+      "finished_at": "2026-11-24 06:26:27.412321+00:00",
+      "published_at": null,
+      "error_category": "source_generation_changed",
+      "retryable": false
+    },
+    {
+      "run_id": "456e73d3-71bb-4d0d-aa7e-2c210a8f63c1",
+      "status": "succeeded",
+      "phase": "finished",
+      "received_count": 2831,
+      "raw_inserted_count": 0,
+      "evaluated_count": 568,
+      "valid_count": 568,
+      "invalid_count": 0,
+      "outside_scope_count": 2263,
+      "started_at": "2026-11-24 06:30:47.991693+00:00",
+      "finished_at": "2026-11-24 06:30:56.690750+00:00",
+      "published_at": "2026-11-24 06:30:56.690750+00:00",
+      "error_category": null,
+      "retryable": false
+    },
+    {
+      "run_id": "1ffa23cd-5be9-4c2c-9bcc-75976b83d4ce",
+      "status": "succeeded",
+      "phase": "finished",
+      "received_count": 16583,
+      "raw_inserted_count": 6583,
+      "evaluated_count": 14086,
+      "valid_count": 14085,
+      "invalid_count": 1,
+      "outside_scope_count": 2497,
+      "started_at": "2026-11-24 06:31:27.303012+00:00",
+      "finished_at": "2026-11-24 06:32:22.426982+00:00",
+      "published_at": "2026-11-24 06:32:22.426982+00:00",
+      "error_category": null,
+      "retryable": false
+    },
+    {
+      "run_id": "f8d52c59-ea48-4aa9-b5a2-19b2bb1ffdb6",
+      "status": "succeeded",
+      "phase": "finished",
+      "received_count": 17686,
+      "raw_inserted_count": 15122,
+      "evaluated_count": 14907,
+      "valid_count": 14907,
+      "invalid_count": 0,
+      "outside_scope_count": 2779,
+      "started_at": "2026-11-24 06:32:22.589903+00:00",
+      "finished_at": "2026-11-24 06:34:17.456932+00:00",
+      "published_at": "2026-11-24 06:34:17.456932+00:00",
+      "error_category": null,
+      "retryable": false
+    },
+    {
+      "run_id": "88f90c05-4851-44b6-8853-3a588118e198",
+      "status": "failed",
+      "phase": "ingest",
+      "received_count": 10000,
+      "raw_inserted_count": 6985,
+      "evaluated_count": 0,
+      "valid_count": 0,
+      "invalid_count": 0,
+      "outside_scope_count": 0,
+      "started_at": "2026-11-24 06:35:05.692068+00:00",
+      "finished_at": "2026-11-24 06:37:01.657086+00:00",
+      "published_at": null,
+      "error_category": "api_http",
+      "retryable": true
     }
   ],
-  "captured_at_utc": "2026-11-24 04:33:01.747017+00:00"
+  "captured_at_utc": "2026-11-24 06:38:20.758971+00:00"
 }

@@ -6,7 +6,7 @@ not a claim that each person authored all code in that scope.
 
 | Member | Responsibility | Observed GitHub contribution |
 |---|---|---|
-| Nijat Akhundzadeh (`nijat-akhundzada`) | Lead; API, cursor/recovery, validation, quality, Silver, integration | PRs #1/#3 contracts, #4 client, #7 Bronze integration, #8 durable extraction, #9 functional pipeline; this final branch |
+| Nijat Akhundzadeh (`nijat-akhundzada`) | Lead; API, cursor/recovery, validation, quality, Silver, integration | PRs #1/#3 contracts, #4 client, #7 Bronze integration, #8 durable extraction, #9 functional pipeline; PR #10 final analytics/recovery/submission; source-scale follow-up branch |
 | Nizami (`NizoDotNet`) | Database/migrations, Bronze storage, Gold/SCD2, bulk/performance, analytics | PR #5 database migration foundation |
 | Firuz (`FiruzHedarov`) | Docker/CI, scheduling/run history, recovery demonstrations | PR #6 tooling/Docker/CI foundation |
 
@@ -19,6 +19,10 @@ Verified merged PRs:
 [#7](https://github.com/nijat-akhundzada/nyc-311-data-pipeline/pull/7),
 [#8](https://github.com/nijat-akhundzada/nyc-311-data-pipeline/pull/8),
 [#9](https://github.com/nijat-akhundzada/nyc-311-data-pipeline/pull/9).
+PR #10 is also [merged](https://github.com/nijat-akhundzada/nyc-311-data-pipeline/pull/10);
+its [CI run](https://github.com/nijat-akhundzada/nyc-311-data-pipeline/actions/runs/45349465274)
+completed successfully. This does not substitute for the source-scale branch CI.
+
 PR #2 was closed without merging per the lead; it is not delivery evidence.
 PR authors/merge SHAs and formal review queries:
 [github-history.json](evidence/final/github-history.json).

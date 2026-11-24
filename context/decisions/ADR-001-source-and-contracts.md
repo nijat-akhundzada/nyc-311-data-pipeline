@@ -81,7 +81,7 @@ Provisional: stable/repeatable fresh views, provider text collation across varia
 
 ### Exact engineering policy to review
 
-- **Retry:** one in-flight request; at most four attempts including the first; 5s connect and 30s total per-attempt timeout, with all attempts/waits inside a 180s monotonic per-page deadline. Retry DNS/transport timeout/reset, HTTP 202/408/429/500/502/503/504 and explicit stale/lagging-secondary responses. Other HTTP errors, TLS verification failure, malformed JSON/envelope, breaking type/order errors and missing/invalid mandatory freshness metadata fail without retry. A changed pinned generation fails immediately rather than retrying until a convenient view appears.
+- **Retry:** one in-flight request; at most four attempts including the first; 5s connect and 30s total per-attempt timeout, with all attempts/waits inside a 180s monotonic per-page deadline. Retry DNS/transport timeout/reset, HTTP 202/408/429/500/502/503/504 and explicit stale/lagging-secondary responses. Other HTTP errors, TLS verification failure, malformed JSON/envelope, breaking type/order errors and missing/invalid mandatory freshness metadata fail without retry. An otherwise fresh response with a changed pinned generation fails immediately; explicitly stale/lagging responses are rejected and retried before the pin comparison under the lead-approved amendment below.
 - **Backoff:** after failed attempt n, full jitter `[0,min(30,2**(n-1))]` seconds. Valid Retry-After delta-seconds/HTTP-date is a minimum wait, plus nonnegative jitter; never shorten it. If the wait plus an attempt cannot fit the remaining deadline, return a retryable exhaustion error without an early request. Invalid/negative header falls back to backoff with a sanitized metadata warning. Wall clock parses HTTP-date; monotonic clock governs deadlines. Inject clocks/jitter/sleeper in fixtures; no real waits/network in unit tests.
 - **Freshness:** accept a page only with explicit false out-of-date flag, valid truth/secondary modification times, secondary not older than truth and a truth generation matching the caller's pinned generation (if supplied). First accepted page proposes the generation. Missing/invalid markers give source_freshness_unknown; true/lagging views retry within the same budget. No accepted Page or candidate next cursor is returned on failure. Header/request ID diagnostics exclude tokens/bodies. These markers are conservative proxies, not a documented snapshot token; no permissive fallback silently disables them.
 - **Bounds/reconciliation (future integration, not this exception):** freeze creation `[start,end)` and update `[lower,upper)` before extraction. Proposed update upper is run start minus 5min; lower is last successfully published upper minus 48h, with explicit initial lower/cohort. Daily update extraction plus weekly full bounded-cohort creation scans use separate checkpoint segments. Count equality alone is insufficient; reconciliation compares identities/content. A generation change invalidates the run; later integration must re-extract the same frozen scope as a new audited run without advancing successful watermarks.
@@ -116,3 +116,25 @@ This does not accept this ADR's source-evidence track, establish publisher seman
 or claim genuine source SCD2 changes. **Status remains PROPOSED.** Exact 5%/zero-input
 gates, UTC eligibility, observed-time history and atomic publication are now testable
 implementation policies; their synthetic evidence is not provider verification.
+
+
+## Lead-approved bounded stale retry amendment — 2026-11-24
+
+Nijat explicitly approved: “Authorize bounded stale-response retry amendment”.
+Actual HTTP traces showed accepted 24 November pages followed by stale 23 November
+views, including an empty completion page. The previous generation-first rule
+turned that known stale view into a terminal generation change before the existing
+stale retry could execute. This was deliberate prior policy, not a pagination defect.
+
+Parse/require all freshness markers first. Reject explicit stale or lagging
+secondary responses as retryable `source_stale` within the existing **four total
+attempts / 180-second page deadline**. Only then compare the pin on an otherwise
+fresh view. Fresh mismatches remain terminal `source_generation_changed`; unknown
+markers remain terminal. A rejected stale body/cursor never reaches Bronze or a
+checkpoint. Same request/bounds/cursor are retried; no pin change, new snapshot
+claim, unbounded retries or failed-run publication is permitted.
+
+This narrowly supersedes earlier generation-first wording/tests. Accepted-page
+conditions are unchanged. Existing nonretryable failed runs stay terminal; start a
+new audited run rather than rewrite their outcomes. ADR-001 stays **PROPOSED**:
+this human-approved retry ordering is not full source-contract acceptance.

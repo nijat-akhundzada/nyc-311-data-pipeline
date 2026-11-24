@@ -1,5 +1,14 @@
 # Build plan — ordered delivery units
 
+## Real-source scale follow-up authorization — 2026-11-24
+
+After PR #10 merged, the lead authorizes bounded real loading and genuine SCD2
+observation on `feat/final-real-source-scale`, using existing pipeline components.
+The lead separately approved bounded stale/lagging rejection before generation
+comparison; ADR-001 records the exact unchanged acceptance/retry limits. No applied
+migration, publication gate, identity, frozen run scope or teammate tooling changes.
+Source evidence and genuine changes must be measured; ADR-001 remains PROPOSED.
+
 ## Final integrated iteration authorization — 2026-11-24
 
 The lead explicitly authorizes Specs 08/09/11 and remaining 07/10 verification on

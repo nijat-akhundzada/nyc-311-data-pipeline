@@ -1,13 +1,14 @@
 # feat(ingestion): resume bounded extraction from durable Bronze checkpoints (Spec 03)
 
-Initially base `feat/05-bronze-domain-foundation-nijat`;
-head `feat/03-durable-bronze-ingestion-nijat`. Review only the service delta.
-After the Spec 05 PR is human-approved/merged, merge main normally into this branch
-and retarget this PR to main; require actual CI before merge. No published-history rewrite.
+Requested base: `main`; head: `feat/03-durable-bronze-ingestion-nijat`.
+PR #7 is merged as `78de720`. A normal main merge (`62f3b63`) preserves both
+histories without conflicts. PR #8 initially still targeted the old parent branch;
+the connector's retarget request returned 403. Change the base to main in GitHub
+and require green CI on the final pushed head. No published-history rewrite.
 
 ## Spec / ownership
 
-Nijat, lead-authorized bounded Spec 03 slice. Depends on the Spec 05 domain PR,
+Nijat, lead-authorized bounded Spec 03 slice. Builds on the merged Spec 05 domain PR #7,
 not merely the older namespace foundation. Nizami/Firuz review interfaces; their
 approval is not assumed. ADR-001 remains PROPOSED; full Spec 03 is incomplete.
 
@@ -32,8 +33,10 @@ recreation on the same named volume. Negative DB readiness exits 2. One live acc
 page persisted 1 raw/association/receipt, paused/unpublished; ephemeral DB removed.
 
 Full commands/counts/run IDs/image ID/caveats: `docs/spec03-bronze-ingestion-verification.md`.
-Remote CI is **not verified**. Existing workflow targets PRs to main; stacked-base
-checks start only after retargeting to main. Require real human review and green CI.
+Post-merge re-verification: **184 unit + 43 PostgreSQL integration passed**, zero
+failed/skipped; Ruff/format, seven hooks, context and whitespace passed.
+Remote CI is **not yet verified**: the existing workflow targets PRs to main.
+Retarget PR #8 before expecting checks. Require real human review and green CI.
 
 ## Remaining scope
 

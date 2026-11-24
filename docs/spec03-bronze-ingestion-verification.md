@@ -1,7 +1,7 @@
 # Spec 03 durable Bronze ingestion — review evidence
 
-Implemented bounded slice, **not merged/peer-approved/full Spec 03**. Depends on
-`feat/05-bronze-domain-foundation-nijat` (`f8a48ef`). Authorization and exact contract:
+Implemented bounded slice, **not merged/peer-approved/full Spec 03**. PR #7 is merged into main
+at `78de720ae8f5edea82592dc5e90444da1a1cd647`. Authorization and exact contract:
 `context/contracts/bronze-v1.md`. Original transport client/retry/query modules,
 Nizami's migration runner/0001, Firuz's locks/tooling/Docker/CI remain unchanged.
 No peer decisions or source guarantees are assumed. ADR-001 remains PROPOSED.
@@ -113,7 +113,7 @@ no token/body logging and no large download. Actual result: one HTTP attempt, HT
 No source row was committed to Git. This establishes one accepted durable page only;
 repeatable fresh snapshots, complete updates and genuine SCD2 changes remain open.
 
-## Git/CI and review gates
+## Initial handoff Git/CI evidence (historical)
 
 Two implementation branches preserve separate Spec 05/03 reviews. Review/merge the
 Spec 05 parent first, then normally merge updated main into Spec 03 and retarget its
@@ -134,3 +134,42 @@ Still outstanding: source/schema/missing-key preflight, UTC/DST eligibility and
 quarantine, complete incremental/reconciliation behavior, validation/quality,
 atomic Silver/Gold publication, scheduler/full lifecycle, source SCD2 evidence,
 million-row throughput and real kill/startup failure drills. These are not waived.
+
+## PR #8 final integration verification — 2026-11-24
+
+Fetched origin and normally merged `origin/main` at
+`78de720ae8f5edea82592dc5e90444da1a1cd647` into the existing Spec 03 branch.
+Merge commit `62f3b63675e2372d66f9f6052a429396c2af780c` retains the old Spec 03
+head `7f028f3` and merged main as parents. No conflict, rebase, force push or
+migration rewrite occurred. The merge required no application-code change.
+
+The diff against main is limited to the intended Spec 03 service/public protocol,
+its tests and relevant contracts/spec/evidence/runbook documents. `db/migrations`,
+`storage/`, dependency locks, pyproject, Docker, Compose and CI match main exactly.
+ADR-001 remains PROPOSED. Completed extraction still means `published=false`, not
+successful downstream publication or successful-publication watermark advancement.
+
+Actual re-verification on the merged branch:
+
+| Command/check | Result |
+| --- | --- |
+| `pytest tests/unit -q` | **184 passed** |
+| `TEST_DATABASE_URL=<isolated-PG16-DSN> pytest tests/integration -q -ra` | **43 passed** |
+| Total | **227 passed, zero failed/skipped** |
+| `ruff check .` | Passed |
+| `ruff format --check .` | Passed; 92 files formatted |
+| `PRE_COMMIT_HOME=<temporary-cache> pre-commit run --all-files` | All seven hooks passed |
+| `bash scripts/validate-context.sh` | Passed |
+| `git diff --check origin/main...HEAD` | Passed |
+
+PostgreSQL `SHOW server_version` returned **16.14**. Tests used the isolated
+Compose database/temporary per-test DBs and synthetic HTTP fixtures; no live
+source experiments were repeated. No skips are presented as passes.
+
+At initial inspection PR #8 still targeted `feat/05-bronze-domain-foundation-nijat`.
+A connector request to change its base to `main` returned HTTP **403**, resource
+not accessible by integration. `gh auth status` confirms no authenticated host.
+That base must be corrected in GitHub: this repository's existing workflow only
+triggers for PRs targeting main. Remote CI must be observed on the final pushed
+head; local passes do not substitute for GitHub Actions evidence. No PR approval
+or merge is performed by the agent.

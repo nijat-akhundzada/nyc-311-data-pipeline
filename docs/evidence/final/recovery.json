@@ -1,0 +1,163 @@
+{
+  "kill_resume": {
+    "run_id": "bcf3d3f0-72f2-478f-bf02-a630f41fc5d2",
+    "killed_exit": 137,
+    "resume_exit": 0,
+    "checkpoint_before_kill": [
+      1,
+      false
+    ],
+    "before": {
+      "status": "running",
+      "phase": "ingest",
+      "received": 2,
+      "inserted": 2,
+      "published_at": null
+    },
+    "after": {
+      "status": "succeeded",
+      "phase": "finished",
+      "received": 20,
+      "inserted": 20,
+      "published_at": "2026-11-24 04:29:12.377760+00:00"
+    },
+    "bronze_silver_gold_distinct_gold": [
+      20,
+      20,
+      20,
+      20
+    ]
+  },
+  "quality_gate": {
+    "exit": 4,
+    "report": {
+      "category": "quality_threshold_exceeded",
+      "published": false,
+      "retryable": false,
+      "run_id": "f0ccaf0d-a201-4d57-a6fc-b53c57c43a8a",
+      "status": "failed"
+    },
+    "quarantine": [
+      2,
+      [
+        [
+          "closed_before_created"
+        ]
+      ]
+    ],
+    "before": {
+      "silver.service_requests": [
+        20,
+        "1d90518d4f0dc97ebc0161862542b027"
+      ],
+      "gold.fact_service_requests": [
+        20,
+        "657d31978d18aaf2defd191828f7b926"
+      ],
+      "gold.dim_date": [
+        1,
+        "ba9e2ee0cf447535686697d887422ad6"
+      ],
+      "gold.dim_agency": [
+        2,
+        "80d8e2bc2d832e9d77ef56cc409cecc0"
+      ],
+      "gold.dim_complaint_type": [
+        2,
+        "40aa8e650d919027f1bddadad505e445"
+      ],
+      "gold.dim_borough": [
+        2,
+        "a9bfbf83cfaa8bf02449e07c70d4eca6"
+      ],
+      "gold.dim_service_request_state": [
+        20,
+        "80004eeb883531dda14c32de81f44111"
+      ],
+      "ops.publication_watermarks": [
+        0,
+        "d41d8cd98f00b204e9800998ecf8427e"
+      ]
+    },
+    "after": {
+      "silver.service_requests": [
+        20,
+        "1d90518d4f0dc97ebc0161862542b027"
+      ],
+      "gold.fact_service_requests": [
+        20,
+        "657d31978d18aaf2defd191828f7b926"
+      ],
+      "gold.dim_date": [
+        1,
+        "ba9e2ee0cf447535686697d887422ad6"
+      ],
+      "gold.dim_agency": [
+        2,
+        "80d8e2bc2d832e9d77ef56cc409cecc0"
+      ],
+      "gold.dim_complaint_type": [
+        2,
+        "40aa8e650d919027f1bddadad505e445"
+      ],
+      "gold.dim_borough": [
+        2,
+        "a9bfbf83cfaa8bf02449e07c70d4eca6"
+      ],
+      "gold.dim_service_request_state": [
+        20,
+        "80004eeb883531dda14c32de81f44111"
+      ],
+      "ops.publication_watermarks": [
+        0,
+        "d41d8cd98f00b204e9800998ecf8427e"
+      ]
+    },
+    "published_rows_identical": true
+  },
+  "database_unavailable": {
+    "command": "docker compose --profile pipeline run --rm --no-deps pipeline run --mode incremental --start 2025-01-01 --end 2026-01-01 --fixture /fixtures/valid.json",
+    "exit": 5,
+    "elapsed_seconds": 5.979,
+    "report": {
+      "category": "storage",
+      "published": null,
+      "retryable": true,
+      "run_id": "c91c3b89-8658-4de0-b0d4-508d3a871fc4",
+      "status": "unknown"
+    },
+    "attempts_contract": 3,
+    "subsequent_success": {
+      "checkpoints": [
+        {
+          "exhausted": true,
+          "page_no": 2,
+          "segment_id": "0"
+        }
+      ],
+      "error_category": null,
+      "evaluated_count": 20,
+      "finished_at": "2026-11-24 04:32:42.328616+00:00",
+      "heartbeat_at": "2026-11-24 04:32:42.328616+00:00",
+      "ingest_complete": true,
+      "invalid_count": 0,
+      "outside_scope_count": 0,
+      "phase": "finished",
+      "published": true,
+      "published_at": "2026-11-24 04:32:42.328616+00:00",
+      "raw_inserted_count": 0,
+      "received_count": 20,
+      "retryable": false,
+      "run_id": "39075f85-d618-45f1-8f61-a6beac49eeec",
+      "started_at": "2026-11-24 04:32:42.267384+00:00",
+      "status": "succeeded",
+      "successful_update_upper_utc": "2026-11-24 04:27:42.265410+00:00",
+      "valid_count": 20
+    },
+    "after_restart_counts": [
+      22,
+      20,
+      20
+    ]
+  }
+}

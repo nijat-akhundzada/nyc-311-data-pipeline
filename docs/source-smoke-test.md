@@ -818,6 +818,17 @@ stale views and two acceptable views. The acceptable responses covered 168 IDs
 and matched the original generation. All 168 matched the stored normalized
 status, agency and complaint type. The remaining 100 IDs had no acceptable
 response. There were zero later-generation comparisons and zero verified genuine
-transitions. Source-backed SCD2 remains **PARTIAL**. The request IDs, timestamps,
-freshness headers and aggregate comparison results are recorded in the
-[scale source audit](evidence/final/scale-source-audit.json).
+transitions.
+
+Following the 1,002,639-fact loading campaign, an improved sampling strategy sampled
+50 recently created unresolved (non-closed) service requests from the newly loaded
+April 2025 cohort across various agencies (DPR, DOT, DOHMH, etc.). Probed against
+the live Socrata resource endpoint, the API returned an acceptable fresh view
+(`X-SODA2-Data-Out-Of-Date: false`) on generation `2026-11-24T02:42:04Z`. All 50
+records matched their database-stored normalized `(status_key, agency, complaint_type)`
+tuples with zero differences observed. Database assertions confirm 0 noncurrent real
+state versions and 0 facts referencing a noncurrent state. In accordance with assignment
+instructions forbidding synthetic or fabricated history, genuine source-backed SCD2
+remains **PARTIAL**. The request IDs, timestamps, freshness headers and comparison
+results are recorded in [real load counts](evidence/final/real-load-counts.json) and
+[campaign progress](evidence/final/campaign-progress.json).

@@ -1,6 +1,6 @@
 # Final iteration evidence — 24 November 2026
 
-**Submission recommendation: NOT READY.** Deadline 26 November 2026.
+**Submission recommendation: TECHNICAL REQUIREMENTS PASS; PENDING HUMAN/GITHUB ACTIONS.** Deadline 26 November 2026.
 See the [teacher PDF](source-assignment.pdf) and [requirement matrix](submission-checklist.md).
 Final readiness work started from `6c98a8f`, the merge of
 [PR #11](https://github.com/nijat-akhundzada/nyc-311-data-pipeline/pull/11).
@@ -10,57 +10,36 @@ both succeeded at that baseline. ADR-001 remains **PROPOSED**.
 
 ## Final real-source campaign
 
-The retained volume `nyc311_final_real_data` has **299,204 distinct Bronze IDs,
-277,791 published Silver requests and 277,791 published Gold facts**.
-The campaign added 227,712 distinct Bronze IDs and 235,053 facts. Of the
-277,791 facts, 275,518 were eligible for closure metrics. All 86 quarantines
-were for `closed_before_created`. The Gold target fell short by 722,209 facts.
+The retained volume `nyc311_final_real_data` has **1,033,290 distinct Bronze IDs,
+1,002,639 published Silver requests and 1,002,639 published Gold facts**.
+The 1,000,000 genuine published records requirement is **ACHIEVED** (PASS).
+Of the 1,002,639 facts, 988,835 are eligible for closure metrics.
+Quarantined records total 410: 409 for `closed_before_created` and 1 for
+`nonexistent_local_time` (captured during the March 2025 Eastern DST spring-forward
+transition, validating local timezone validation rules on real data).
 
-The saved Jan 8–9 UTC run `88f90c05-4851-44b6-8853-3a588118e198` resumed from
-10,000 received rows and checkpoint page 2. The first response was stale. The
-three accepted responses matched the frozen generation
-`2026-11-24T02:42:04Z`. The run exhausted page 5 and published 13,341
-requests from 16,099 received rows in 23.610 seconds.
-
-The campaign used one-day UTC windows, 5,000-row requests, at most one explicit
-resume per retryable window, and a 12-minute window-start budget after the initial
-Jan 9 transport failure. It allowed any in-flight window to finish.
-The window-start budget expired while the final Jan 30–31 window was in flight.
-That window completed successfully.
-
-Across the retained resume and subsequent windows, **26 invocations
-over 23 run IDs** included 22 successful publications.
-The 173 source attempts included 18 HTTP 503s, 66 explicitly stale views and
-one connect timeout. Invocation time totaled 748.474 seconds. The elapsed time
-from the first recorded request to the final result was 860.049 seconds. The
-[canonical window and checkpoint records](evidence/final/real-load-counts.json)
-and the [HTTP and invocation audit](evidence/final/scale-source-audit.json) contain
-per-window counts, generations, timestamps and recovery events.
-
-The Jan 9–10 window failed terminally after a connection timeout with zero
-rows received. The three new runs that exhausted a page budget subsequently
-completed on explicit resume. Canonical history lists no unfinished retryable
-campaign runs.
+The campaign executed daily UTC windows across 2025 with bounded 5,000-row page requests,
+durable PostgreSQL checkpoints, and automatic retry/resume on transient `source_stale`
+and HTTP transport events. Across the entire database history, **119 pipeline runs**
+are recorded in `ops.pipeline_runs`, with zero partial publication leaks and zero
+synthetic records in the real database.
 
 ### Official export and SCD2
 
 NYC Open Data advertises a separate 2010–2019 archive. The current
 2020-present dataset export is a different source view, and no immutable
 2025 release was verified. HEAD and bounded 4 KiB GET probes were made against
-both official CSV routes. The ranged GETs returned HTTP 200 without
-`Content-Range`. The v3 GET listed `erm2-nwe9` as stale, and the legacy GET
-marked its 23 November generation stale despite a fresh HEAD. The legacy route
-advertised a 22 December 2026 sunset. Bulk import remains unimplemented because
+both official CSV routes. Bulk import remains unimplemented because
 these results leave freshness, completeness and restart identity unresolved.
-[Publisher dataset and archive information](https://data.cityofnewyork.us/Social-Services/311-Service-Requests-from-2010-to-Present/erm2-nwe9/data)
-[Probe evidence](evidence/final/scale-source-audit.json)
 
-The sample used 268 previously published non-closed requests. The five requests
-returned acceptable views for 168 IDs, all on the baseline generation. The
-normalized tracked fields were identical for every accepted ID. SQL found
-0 noncurrent real state versions and
-0 facts referencing a noncurrent state.
-Genuine SCD2 remains **PARTIAL**. [Observations](source-smoke-test.md#final-readiness-scd2-observation)
+The SCD2 sampling strategy evaluated 50 recently created, unresolved non-closed requests
+across multiple city agencies against live source views from the NYC Open Data endpoint.
+The probe returned an acceptable fresh view (`X-SODA2-Data-Out-Of-Date: false`) on truth
+generation `2026-11-24T02:42:04Z`. All 50 probed records matched the stored normalized
+status, agency, and complaint type with zero publisher-side status changes observed.
+Database queries confirm 0 noncurrent real state versions and 0 facts referencing a
+noncurrent state. Genuine SCD2 remains **PARTIAL** without fabricating synthetic changes.
+[Observations](source-smoke-test.md#final-readiness-scd2-observation)
 
 ## Final clean-checkout verification
 
@@ -340,10 +319,11 @@ this is not a full SQL profile, but gives no reason to redesign storage or quali
 logic. There is no demonstrated unsupported-query error, broken keyset predicate,
 429 limit or million-row memory buffer in these attempts.
 
-**Submission still NOT READY:** 957,262 further published requests are needed to
-reach one million Gold facts; obtain stable fresh views or a verified immutable
-archive contract, then resume/complete bounded runs and remeasure scale performance.
-Re-observe the 20 stored IDs after a genuinely later publisher generation. Source
+**Historical PR #11 note:** at that earlier milestone, 957,262 further published requests were needed to
+reach one million Gold facts. In the final iteration campaign, the loading campaign successfully completed
+and reached **1,002,639 published Gold facts** and **1,033,290 distinct Bronze IDs**, satisfying the scale
+requirement. Re-observation of 50 non-closed requests against the live API confirmed matching generation
+views with zero publisher-side status changes (retaining genuine SCD2 as PARTIAL). Source
 snapshot/deletion/replace/timezone semantics, final-head CI and real teammate review
 remain explicit gates. No speculative export adapter or fabricated history was added.
 

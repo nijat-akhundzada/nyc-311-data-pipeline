@@ -1,0 +1,19 @@
+{
+  "timestamp": "2026-11-24T09:03:38.260238+00:00",
+  "status": "target_reached",
+  "last_completed_window": "2025-04-25 to 2025-04-26",
+  "unfinished_run_id": null,
+  "counts": {
+    "bronze_total": 1033290,
+    "bronze_distinct_ids": 1033290,
+    "silver_count": 1002639,
+    "gold_count": 1002639,
+    "quarantine_count": 410,
+    "state_historical_count": 0
+  },
+  "target_facts": 1000000,
+  "remaining_facts": 0,
+  "elapsed_seconds": 3312.6896970272064,
+  "budget_seconds": 5400,
+  "resume_command": "python scripts/run-campaign.py"
+}

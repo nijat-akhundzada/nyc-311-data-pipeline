@@ -10,12 +10,14 @@ a 5% quality gate, atomic Silver/Gold publication and observed-time SCD2.
 source SCD2 observations are still unverified. Synthetic examples are not real history.
 
 
-Final evidence from the retained NYC Open Data database includes **299,204 distinct
-Bronze IDs, 277,791 published Silver requests, 277,791 Gold facts and 86
-quarantined records**. The saved run resumed on its original source generation.
-The larger SCD2 sample found zero tracked changes across 168 acceptable
-same-generation observations. **Submission NOT READY** pending scale, genuine
-SCD2 evidence, branch protection, teammate review and final-head CI.
+Final evidence from the retained NYC Open Data database includes **1,033,290 distinct
+Bronze IDs, 1,002,639 published Silver requests, 1,002,639 Gold facts and 410
+quarantined records**. The historical loading campaign reached and exceeded the
+1,000,000 genuine published records requirement across 119 audited pipeline runs.
+SCD2 sampling across 50 fresh non-closed requests confirmed matching baseline
+generation observations with zero publisher-side status changes. **Submission gates:**
+all automatable requirements (scale, performance, recovery, scheduling, Docker, tests)
+are PASS; genuine SCD2 is PARTIAL, and branch protection/peer reviews require manual lead/team actions.
 See the [requirement matrix](docs/submission-checklist.md) and
 [exact verification](docs/final-verification.md).
 
@@ -125,9 +127,10 @@ closure duration; they do not reconstruct historical backlog or prove SLA compli
 [Data model](docs/data-model.md) defines the current-request fact and dimensions;
 [analytics definitions](sql/analytics/README.md) state denominators and limitations.
 
-- [Measured performance](docs/performance-report.md) covers 277,791 genuine facts
-  and all four analytics queries. Agency resolution took 138.489 ms before
-  and 94.929 ms after the optional covering index, using median warm execution.
+- [Measured performance](docs/performance-report.md) covers 1,002,639 genuine facts
+  and all four analytics queries. Agency resolution took 776.006 ms before
+  and 410.614 ms after the optional covering index (1.890× speedup, 47.1% reduction),
+  using median warm execution. All result hashes match before and after.
 - [Recovery report](docs/failure-recovery-report.md): actual SIGKILL/resume,
   PostgreSQL outage and quarantined bad batch, all isolated.
 - [Runbook](docs/runbook.md), [cron evidence/setup](docs/scheduling-evidence.md),

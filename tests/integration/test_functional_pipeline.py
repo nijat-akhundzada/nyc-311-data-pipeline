@@ -496,3 +496,19 @@ async def test_interrupted_validation_resumes_durable_batches_without_refetch(
         assert result["published"] and result["received_count"] == 1001
         assert domain_snapshot(conn)[:3] == (1001, 1001, 1001)
         assert conn.execute("SELECT count(*) FROM ops.ingest_page_receipts").fetchone()[0] == 3
+
+
+@pytest.mark.asyncio
+async def test_missing_update_version_is_not_silently_hidden_by_a_dated_sibling(pipeline_db):
+    value = document()
+    unknown = value["records"][0] | {
+        "created_date": "2025-01-16T12:00:00",
+        "closed_date": None,
+        ":updated_at": None,
+    }
+    value["records"].append(unknown)
+    with psycopg.connect(pipeline_db, autocommit=True) as conn:
+        with pytest.raises(QualityError, match="conflicting_source_versions"):
+            await run(conn, value)
+        assert conn.execute("SELECT count(*) FROM ops.quarantine").fetchone()[0] == 2
+        assert domain_snapshot(conn)[:3] == (0, 0, 0)

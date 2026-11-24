@@ -26,7 +26,7 @@ small modular monolith; no replacement ingestion/storage framework.
 
 ## Verification / evidence
 
-Full suite: **266 passed, 0 failed, 0 skipped** (202 unit + 64 PostgreSQL integration).
+Full suite: **267 passed, 0 failed, 0 skipped** (202 unit + 65 PostgreSQL integration).
 Ruff lint/format, seven pre-commit hooks, context/whitespace and shell syntax checks.
 Docker fresh-DB end-to-end: 20 published requests, identical replay, 10%-invalid
 quality failure (exit 4, two quarantines, unchanged published-row hashes), capped

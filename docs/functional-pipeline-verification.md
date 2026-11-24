@@ -35,7 +35,7 @@ Docker 28.5.1/Compose 2.40.3-desktop.1. Disposable DBs in isolated project
 
 ```sh
 TEST_DATABASE_URL=<disposable-PG16-maintenance-DSN> pytest tests -q -ra
-# 266 passed, 0 failed, 0 skipped: 202 unit + 64 PostgreSQL integration
+# 267 passed, 0 failed, 0 skipped: 202 unit + 65 PostgreSQL integration
 ruff check .
 ruff format --check .
 PRE_COMMIT_HOME=<temporary-cache> pre-commit run --all-files
@@ -122,3 +122,20 @@ all expected exit codes and unchanged published-row hashes were verified again,
 including resume of an already-published run. Image config ID:
 `sha256:794bce3b2789f90177605924d7ad2eb61696b02c7d4f817a0a99423ac0227cc5`.
 Final proof log: `/tmp/nyc311-functional-docker-proof-final.log`.
+
+Final review added a missing-update sibling safeguard: an unorderable version is
+retained for validation/quarantine rather than silently hidden by another dated
+version of the same request. The PostgreSQL regression rejects the conflict,
+retains both rejected payloads and publishes nothing. This is an additional
+conventional correctness-fix commit after the five requested phase commits.
+
+GitHub draft PR creation was attempted and returned HTTP 403 (resource not accessible
+by integration). The GitHub CLI has no authenticated host. No Actions run was recorded
+for the pushed implementation head; remote CI is unverified and human review remains
+required. The prepared PR body is `docs/review/functional-pipeline-pr.md`.
+
+The guarded final image also re-passed the complete fresh-DB Docker proof against
+`nyc311_functional_demo_guarded`. `docker image inspect` returned image ID
+`sha256:f74cc32c511b7d7a721d90e008ec85206adb1168d9efa976bb7baf5c32a19fd5`;
+log `/tmp/nyc311-functional-docker-proof-guarded.log` ended with
+`DOCKER_FRESH_DB_END_TO_END_AND_QUALITY_FAILURE_VERIFIED` (exit 0).

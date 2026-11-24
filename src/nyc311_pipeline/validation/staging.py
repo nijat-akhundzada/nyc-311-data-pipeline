@@ -20,7 +20,7 @@ WITH observations AS (
  SELECT *,max(source_updated_at) OVER (PARTITION BY unique_key) AS latest FROM observations
 )
 SELECT unique_key,raw_id,raw_hash,payload,source_updated_at,observed_at FROM ranked
-WHERE source_updated_at IS NOT DISTINCT FROM latest
+WHERE source_updated_at IS NOT DISTINCT FROM latest OR source_updated_at IS NULL
 ORDER BY unique_key COLLATE "C",raw_id
 """
 

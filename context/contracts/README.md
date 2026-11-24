@@ -2,6 +2,12 @@
 
 **Not frozen or approved.** Supersedes version 0 as the review proposal only. ADR-001 engineering acceptance and source-evidence completion are separate; both remain open. NYC 311 selection is lead-approved. The limited Spec 03 client-only exception activates only after review/approval/merge of its documentation amendment; this file alone grants no implementation permission. Nijat approves the source/client policy; Nizami reviews persistence/publish/SCD2; Firuz reviews lifecycle/locking/errors. Existing approved foundation scopes are unchanged. Physical DDL and implementation remain with their owners.
 
+## Functional integration exception
+
+The lead authorizes [functional v1](functional-v1.md) for the current single-branch
+implementation. It supersedes conflicting proposed downstream details for this slice,
+not missing source evidence or human review. ADR-001 remains PROPOSED.
+
 ## Bounded Bronze engineering authorization — 2026-11-24
 
 The lead now authorizes the narrow engineering interface in [Bronze v1](bronze-v1.md)

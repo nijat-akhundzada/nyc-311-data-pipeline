@@ -1,9 +1,16 @@
 # Spec 04 — Validation Silver Quality
 
 **Owner:** Nijat  
-**Status:** PLANNED / NOT IMPLEMENTED  
+**Status:** CURRENT SLICE LEAD-AUTHORIZED; implementation subject to human review  
 **Type:** Implementation  
 **Dependencies:** 03, 05  
+
+## Current integration authorization
+
+The lead's 2026-11-24 task authorizes the functional pipeline slice on one integration
+branch; `context/contracts/functional-v1.md` records exact policy and retained risks.
+Older dependency/one-spec branch gates are superseded for this task only. No source
+evidence, peer approval or full assignment completion is inferred.
 
 ## Objective
 Validation, quarantine, quality gate and transactional silver publication.

@@ -1,5 +1,13 @@
 # Build plan — ordered delivery units
 
+## Functional integration authorization — 2026-11-24
+
+The lead now authorizes one `feat/functional-bronze-silver-gold-pipeline` integration
+branch for Specs 04/06 and minimum 07/10, with separate conventional phase commits.
+This supersedes older gates only for the current task; see
+`context/contracts/functional-v1.md`. ADR-001 remains PROPOSED and no peer approval
+or source-evidence completion is inferred.
+
 ## Lead-authorized durable Bronze slice — 2026-11-24
 
 The project lead explicitly authorizes the minimum durable Bronze implementation

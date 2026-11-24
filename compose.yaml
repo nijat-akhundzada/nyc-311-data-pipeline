@@ -44,6 +44,23 @@ services:
         assert os.getuid() == 10001
         print(f"nyc311_pipeline v{nyc311_pipeline.__version__} database_ready=true uid={os.getuid()}")
 
+  pipeline:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    profiles: [pipeline]
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-nyc311}:${POSTGRES_PASSWORD:-CHANGE_ME_LOCALLY}@db:5432/${POSTGRES_DB:-nyc311}
+      SOCRATA_APP_TOKEN: ${SOCRATA_APP_TOKEN:-}
+      QUALITY_MAX_INVALID_RATE: ${QUALITY_MAX_INVALID_RATE:-0.05}
+    volumes:
+      - ./fixtures:/fixtures:ro
+    entrypoint: [python, -m, nyc311_pipeline]
+    command: [health]
+
 volumes:
   postgres_data:
     name: nyc311_postgres_data

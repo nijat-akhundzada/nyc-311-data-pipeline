@@ -107,3 +107,12 @@ strict retry/freshness policy is reused without relaxation. Publisher timezone/D
 stable fresh views/collation, update completeness/replacements/deletions, missing-key
 preflight and genuine SCD2 observations remain open. Deterministic recovery tests
 prove our storage behavior only. Live/API evidence is recorded separately.
+
+## Functional integration risk acceptance — 2026-11-24
+
+The lead explicitly authorizes implementation of the engineering policies in
+`context/contracts/functional-v1.md`, using direct SQL and the merged Bronze APIs.
+This does not accept this ADR's source-evidence track, establish publisher semantics
+or claim genuine source SCD2 changes. **Status remains PROPOSED.** Exact 5%/zero-input
+gates, UTC eligibility, observed-time history and atomic publication are now testable
+implementation policies; their synthetic evidence is not provider verification.

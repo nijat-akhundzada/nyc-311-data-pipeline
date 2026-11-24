@@ -1,0 +1,226 @@
+{
+  "generation": "2026-11-24T00:00:00Z",
+  "observed_at": "2026-11-24T12:00:00Z",
+  "records": [
+    {
+      "unique_key": "SYN-000",
+      "created_date": "2025-01-15T12:00:00",
+      "closed_date": "2025-01-15T14:00:00",
+      "agency": "SYN",
+      "agency_name": "Synthetic Agency",
+      "complaint_type": "Synthetic complaint",
+      "status": "Closed",
+      "borough": "Synthetic Borough",
+      ":updated_at": "2026-11-23T00:00:00Z"
+    },
+    {
+      "unique_key": "SYN-001",
+      "created_date": "2025-01-15T12:00:00",
+      "closed_date": "2025-01-15T14:00:00",
+      "agency": "SYN",
+      "agency_name": "Synthetic Agency",
+      "complaint_type": "Synthetic complaint",
+      "status": "Closed",
+      "borough": "Synthetic Borough",
+      ":updated_at": "2026-11-23T00:00:00Z"
+    },
+    {
+      "unique_key": "SYN-002",
+      "created_date": "2025-01-15T12:00:00",
+      "closed_date": "2025-01-15T14:00:00",
+      "agency": "SYN",
+      "agency_name": "Synthetic Agency",
+      "complaint_type": "Synthetic complaint",
+      "status": "Closed",
+      "borough": "Synthetic Borough",
+      ":updated_at": "2026-11-23T00:00:00Z"
+    },
+    {
+      "unique_key": "SYN-003",
+      "created_date": "2025-01-15T12:00:00",
+      "closed_date": "2025-01-15T14:00:00",
+      "agency": "SYN",
+      "agency_name": "Synthetic Agency",
+      "complaint_type": "Synthetic complaint",
+      "status": "Closed",
+      "borough": "Synthetic Borough",
+      ":updated_at": "2026-11-23T00:00:00Z"
+    },
+    {
+      "unique_key": "SYN-004",
+      "created_date": "2025-01-15T12:00:00",
+      "closed_date": "2025-01-15T14:00:00",
+      "agency": "SYN",
+      "agency_name": "Synthetic Agency",
+      "complaint_type": "Synthetic complaint",
+      "status": "Closed",
+      "borough": "Synthetic Borough",
+      ":updated_at": "2026-11-23T00:00:00Z"
+    },
+    {
+      "unique_key": "SYN-005",
+      "created_date": "2025-01-15T12:00:00",
+      "closed_date": "2025-01-15T14:00:00",
+      "agency": "SYN",
+      "agency_name": "Synthetic Agency",
+      "complaint_type": "Synthetic complaint",
+      "status": "Closed",
+      "borough": "Synthetic Borough",
+      ":updated_at": "2026-11-23T00:00:00Z"
+    },
+    {
+      "unique_key": "SYN-006",
+      "created_date": "2025-01-15T12:00:00",
+      "closed_date": "2025-01-15T14:00:00",
+      "agency": "SYN",
+      "agency_name": "Synthetic Agency",
+      "complaint_type": "Synthetic complaint",
+      "status": "Closed",
+      "borough": "Synthetic Borough",
+      ":updated_at": "2026-11-23T00:00:00Z"
+    },
+    {
+      "unique_key": "SYN-007",
+      "created_date": "2025-01-15T12:00:00",
+      "closed_date": "2025-01-15T14:00:00",
+      "agency": "SYN",
+      "agency_name": "Synthetic Agency",
+      "complaint_type": "Synthetic complaint",
+      "status": "Closed",
+      "borough": "Synthetic Borough",
+      ":updated_at": "2026-11-23T00:00:00Z"
+    },
+    {
+      "unique_key": "SYN-008",
+      "created_date": "2025-01-15T12:00:00",
+      "closed_date": "2025-01-15T14:00:00",
+      "agency": "SYN",
+      "agency_name": "Synthetic Agency",
+      "complaint_type": "Synthetic complaint",
+      "status": "Closed",
+      "borough": "Synthetic Borough",
+      ":updated_at": "2026-11-23T00:00:00Z"
+    },
+    {
+      "unique_key": "SYN-009",
+      "created_date": "2025-01-15T12:00:00",
+      "closed_date": "2025-01-15T14:00:00",
+      "agency": "SYN",
+      "agency_name": "Synthetic Agency",
+      "complaint_type": "Synthetic complaint",
+      "status": "Closed",
+      "borough": "Synthetic Borough",
+      ":updated_at": "2026-11-23T00:00:00Z"
+    },
+    {
+      "unique_key": "SYN-010",
+      "created_date": "2025-01-15T12:00:00",
+      "closed_date": "2025-01-15T14:00:00",
+      "agency": "SYN",
+      "agency_name": "Synthetic Agency",
+      "complaint_type": "Synthetic complaint",
+      "status": "Closed",
+      "borough": "Synthetic Borough",
+      ":updated_at": "2026-11-23T00:00:00Z"
+    },
+    {
+      "unique_key": "SYN-011",
+      "created_date": "2025-01-15T12:00:00",
+      "closed_date": "2025-01-15T14:00:00",
+      "agency": "SYN",
+      "agency_name": "Synthetic Agency",
+      "complaint_type": "Synthetic complaint",
+      "status": "Closed",
+      "borough": "Synthetic Borough",
+      ":updated_at": "2026-11-23T00:00:00Z"
+    },
+    {
+      "unique_key": "SYN-012",
+      "created_date": "2025-01-15T12:00:00",
+      "closed_date": "2025-01-15T14:00:00",
+      "agency": "SYN",
+      "agency_name": "Synthetic Agency",
+      "complaint_type": "Synthetic complaint",
+      "status": "Closed",
+      "borough": "Synthetic Borough",
+      ":updated_at": "2026-11-23T00:00:00Z"
+    },
+    {
+      "unique_key": "SYN-013",
+      "created_date": "2025-01-15T12:00:00",
+      "closed_date": "2025-01-15T14:00:00",
+      "agency": "SYN",
+      "agency_name": "Synthetic Agency",
+      "complaint_type": "Synthetic complaint",
+      "status": "Closed",
+      "borough": "Synthetic Borough",
+      ":updated_at": "2026-11-23T00:00:00Z"
+    },
+    {
+      "unique_key": "SYN-014",
+      "created_date": "2025-01-15T12:00:00",
+      "closed_date": "2025-01-15T14:00:00",
+      "agency": "SYN",
+      "agency_name": "Synthetic Agency",
+      "complaint_type": "Synthetic complaint",
+      "status": "Closed",
+      "borough": "Synthetic Borough",
+      ":updated_at": "2026-11-23T00:00:00Z"
+    },
+    {
+      "unique_key": "SYN-015",
+      "created_date": "2025-01-15T12:00:00",
+      "closed_date": "2025-01-15T14:00:00",
+      "agency": "SYN",
+      "agency_name": "Synthetic Agency",
+      "complaint_type": "Synthetic complaint",
+      "status": "Closed",
+      "borough": "Synthetic Borough",
+      ":updated_at": "2026-11-23T00:00:00Z"
+    },
+    {
+      "unique_key": "SYN-016",
+      "created_date": "2025-01-15T12:00:00",
+      "closed_date": "2025-01-15T14:00:00",
+      "agency": "SYN",
+      "agency_name": "Synthetic Agency",
+      "complaint_type": "Synthetic complaint",
+      "status": "Closed",
+      "borough": "Synthetic Borough",
+      ":updated_at": "2026-11-23T00:00:00Z"
+    },
+    {
+      "unique_key": "SYN-017",
+      "created_date": "2025-01-15T12:00:00",
+      "closed_date": "2025-01-15T14:00:00",
+      "agency": "SYN",
+      "agency_name": "Synthetic Agency",
+      "complaint_type": "Synthetic complaint",
+      "status": "Closed",
+      "borough": "Synthetic Borough",
+      ":updated_at": "2026-11-23T00:00:00Z"
+    },
+    {
+      "unique_key": "SYN-018",
+      "created_date": "2025-01-15T12:00:00",
+      "closed_date": "2025-01-15T14:00:00",
+      "agency": "SYN",
+      "agency_name": "Synthetic Agency",
+      "complaint_type": "Synthetic complaint",
+      "status": "Closed",
+      "borough": "Synthetic Borough",
+      ":updated_at": "2026-11-23T00:00:00Z"
+    },
+    {
+      "unique_key": "SYN-019",
+      "created_date": "2025-01-15T12:00:00",
+      "closed_date": "2025-01-15T14:00:00",
+      "agency": "SYN",
+      "agency_name": "Synthetic Agency",
+      "complaint_type": "Synthetic complaint",
+      "status": "Closed",
+      "borough": "Synthetic Borough",
+      ":updated_at": "2026-11-23T00:00:00Z"
+    }
+  ]
+}

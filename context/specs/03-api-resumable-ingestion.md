@@ -1,7 +1,7 @@
 # Spec 03 — Api Resumable Ingestion
 
 **Owner:** Nijat  
-**Status:** CLIENT-ONLY EXCEPTION PROPOSED / NOT IMPLEMENTED; full scope gated  
+**Status:** BOUNDED BRONZE SLICE LEAD-AUTHORIZED / IMPLEMENTED ON REVIEW BRANCH; full scope gated  
 **Type:** Implementation  
 **Dependencies:** limited scope: this amendment reviewed/approved/merged and coordinated tooling; full scope: 01 accepted, reviewed DB contract with 05 and 05 merged for full integration  
 

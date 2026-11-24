@@ -2,9 +2,10 @@
 
 import hashlib
 import json
+from contextlib import AbstractContextManager
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Any, Literal
+from typing import Any, Literal, Protocol
 from uuid import UUID
 
 from .ingestion.models import (
@@ -12,6 +13,7 @@ from .ingestion.models import (
     CreationCursor,
     Cursor,
     IngestionError,
+    Page,
     UpdateCursor,
     source_time,
     utc_text,
@@ -210,3 +212,18 @@ class StorageError(RuntimeError):
 
 class RunConflict(StorageError):
     category = "run_conflict"
+
+
+class BronzeStore(Protocol):
+    """Public dependency boundary for ingestion; no DB import in transport/service."""
+
+    def dataset_lock(self, dataset_id: str) -> AbstractContextManager[None]: ...
+    def begin_run(self, run_id: UUID, scope: IngestScope, *, resume: bool = False) -> IngestRun: ...
+    def load_run(self, run_id: UUID) -> IngestRun: ...
+    def load_checkpoint(self, run_id: UUID, segment_id: str) -> Checkpoint: ...
+    def commit_page(
+        self, run_id: UUID, expected_checkpoint: Checkpoint, page: "Page"
+    ) -> CommitResult: ...
+    def finish_ingestion(
+        self, run_id: UUID, *, outcome: str, category: str | None = None, retryable: bool = False
+    ) -> IngestRun: ...

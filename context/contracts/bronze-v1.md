@@ -22,6 +22,12 @@ remain opaque text (C-collated DB identity). Complete provider collation/CDC is 
 
 ## Public boundaries and ownership review
 
+`bronze_contracts.BronzeStore` is the public protocol implemented by the concrete
+repository. Ingestion depends on this protocol; the transport client remains
+independent of storage/DB imports. A failed invocation raises its typed boundary
+error; callers load the canonical run by their retained UUID for durable status.
+
+
 - `BronzeRepository(connection)`: caller supplies a dedicated idle, autocommit
   psycopg 3 connection. Repository owns short transactions, never commits a
   caller transaction, never reconnects. Migration framework/ledger stays unchanged.

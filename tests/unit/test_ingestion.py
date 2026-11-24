@@ -733,7 +733,14 @@ def test_ingestion_import_boundary_has_no_persistence_or_cli_modules():
             else:
                 continue
             assert not any(set(name.split(".")) & forbidden for name in names)
-    assert not (root / "service.py").exists()
+    # Durable Bronze orchestration is now lead-authorized. The transport client
+    # must still remain independent of service/shared persistence contracts.
+    client_tree = ast.parse((root / "client.py").read_text())
+    assert not any(
+        isinstance(node, ast.ImportFrom)
+        and (node.module or "").split(".")[-1] in {"service", "bronze_contracts"}
+        for node in ast.walk(client_tree)
+    )
 
 
 @pytest.mark.parametrize("token", ["bad\r\nheader", "\u00e9-secret", 42])

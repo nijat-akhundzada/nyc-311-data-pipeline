@@ -1,5 +1,16 @@
 # Build plan — ordered delivery units
 
+## Final integrated iteration authorization — 2026-11-24
+
+The lead explicitly authorizes Specs 08/09/11 and remaining 07/10 verification on
+one `feat/final-analytics-recovery-submission` branch after PR #9 merged. This
+task supersedes older per-spec branch and pre-implementation dependency gates
+for this iteration only. Preserve team ownership, applied migrations and human
+review; no new architecture or inferred peer approval. Analytics and recovery
+may proceed on measured smaller data if source consistency blocks one million;
+the scale requirement remains unmet until actually counted. ADR-001 stays
+PROPOSED. Final-branch evidence is provisional until human review and merge.
+
 ## Functional integration authorization — 2026-11-24
 
 The lead now authorizes one `feat/functional-bronze-silver-gold-pipeline` integration

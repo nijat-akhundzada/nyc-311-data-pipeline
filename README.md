@@ -2,12 +2,29 @@
 
 **Team:** Nijat Akhundzadeh (lead), Nizami, Firuz. **Deadline:** 26 November 2026.
 
-Functional review branch: Python 3.12, direct psycopg 3 SQL and PostgreSQL 16.
+Merged functional pipeline plus final review iteration: Python 3.12, direct psycopg 3 SQL and PostgreSQL 16.
 Purpose: analyze NYC 311 request volumes, agency performance and recorded
 resolution times. It has resumable Bronze ingestion, staged validation/quarantine,
 a 5% quality gate, atomic Silver/Gold publication and observed-time SCD2.
 **ADR-001 remains PROPOSED:** publisher timezone, complete change capture and genuine
 source SCD2 observations are still unverified. Synthetic examples are not real history.
+
+
+Final evidence: **27,392 genuine Bronze rows, 13,126 Silver and 13,126 Gold facts**.
+Four analytics queries, actual recovery/cron demonstrations and measured plans are
+available. **Submission NOT READY:** one million real rows, genuine source SCD2
+changes and final human/CI gates remain open. See the
+[requirement matrix](docs/submission-checklist.md) and
+[exact verification](docs/final-verification.md).
+
+| Contributor | Responsibility |
+|---|---|
+| Nijat Akhundzadeh | Lead; source/API, resumable ingestion, validation, quality, Silver and integration |
+| Nizami | Database/migrations, Bronze, Gold/SCD2, bulk loading, performance and analytics |
+| Firuz | Docker/CI, orchestration/run history, scheduling and recovery |
+
+[Actual PR authorship and Git exercises](docs/contributions.md) distinguish original
+contributions, lead-authorized integration and missing peer review evidence.
 
 ## Run a deterministic demonstration
 
@@ -61,8 +78,9 @@ Run settings/quality policy are frozen; only the invocation cap may change on re
 - Gold has one fact per request, date/agency/complaint/borough dimensions and request
   state SCD2. Only changed status/agency/complaint produces a new observed version.
   Unknown categories have dimension members; unsupported historical states are never invented.
-- A host-cron wrapper is provided in `scripts/scheduled-run.sh` and
-  `docker/scheduler.crontab.example`. It is not installed automatically.
+- The host-cron wrapper in `scripts/scheduled-run.sh` was actually exercised with
+  synthetic fixtures. The temporary entry was removed; install your production
+  entry deliberately. See [scheduler evidence](docs/scheduling-evidence.md).
 
 See [runbook](docs/runbook.md), [data model](docs/data-model.md),
 [engineering contract](context/contracts/functional-v1.md) and
@@ -81,9 +99,34 @@ python3.12 -m venv .venv
 .venv/bin/pytest tests/integration -q
 ```
 
-Migration 0001/0002 and original team commits are preserved; changes are delivered by
-conventional commits and a human-reviewed feature PR. CI success is required before
-merge and is never inferred from local tests. Students must understand every line.
-Remaining major work: roughly one million real validated facts, analytical SQL and
-EXPLAIN measurements, real kill/startup/schedule evidence, source/SCD2 observations
-and submission preparation. No scale/performance or assignment completion is claimed.
+Migrations 0001–0004 and original team commits are preserved. All delivery uses
+feature branches, conventional commits and human review. Local tests do not prove
+remote CI; no source-backed history or scale completion is inferred from fixtures.
+Students must explain every committed line.
+
+## Analytics, performance and submission
+
+```sh
+# DATABASE_URL points to the database whose Gold facts you want to analyze.
+psql "$DATABASE_URL" -f sql/analytics/01_agency_volume.sql
+psql "$DATABASE_URL" -f sql/analytics/02_complaint_monthly_trends.sql
+psql "$DATABASE_URL" -f sql/analytics/03_borough_distribution.sql
+psql "$DATABASE_URL" -f sql/analytics/04_resolution_by_agency.sql
+```
+
+Queries cover loaded request volume, complaint trends, borough shares and recorded
+closure duration; they do not reconstruct historical backlog or prove SLA compliance.
+[Data model](docs/data-model.md) defines the current-request fact and dimensions;
+[analytics definitions](sql/analytics/README.md) state denominators and limitations.
+
+- [Measured performance](docs/performance-report.md): 2.747ms → 2.368ms median
+  for the full-day workload; small-data result, with a slower experiment retained.
+- [Recovery report](docs/failure-recovery-report.md): actual SIGKILL/resume,
+  PostgreSQL outage and quarantined bad batch, all isolated.
+- [Runbook](docs/runbook.md), [cron evidence/setup](docs/scheduling-evidence.md),
+  [source evidence](docs/source-smoke-test.md) and
+  [submission checklist](docs/submission-checklist.md).
+
+Assignment: [university PDF](docs/source-assignment.pdf). Deadline **26 November 2026**.
+ADR-001 remains PROPOSED. Complete the outstanding scale/source/history/review gates
+before declaring the project submission-ready; only the human lead approves release.

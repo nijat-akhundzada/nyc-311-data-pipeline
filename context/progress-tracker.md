@@ -1,6 +1,19 @@
-# Progress tracker — snapshot 2026-11-23
+# Progress tracker — snapshot 2026-11-24
 
-**Status:** SPECIFICATION ONLY. All implementation units unstarted. Lead must approve ADR-001/source/contract after smoke test. No tests, migrations, GitHub settings, runs or PRs created by this scaffold.
+Merged baseline: main `71e76a2` / PR #9. PRs #4–#8 contain API, migration,
+Docker/CI and durable Bronze foundations; #9 adds functional validation/Silver/Gold,
+quality gate, CLI and observed-time SCD2. ADR-001 remains PROPOSED. The original
+spec-only snapshot below is historical, not the current implementation state.
+
+Final branch `feat/final-analytics-recovery-submission` has **review-pending**
+analytics/performance/recovery/scheduling evidence; do not mark it merged or specs
+complete before human review. Evidence and missing requirements:
+`docs/final-verification.md`, `docs/submission-checklist.md`. Real source scale and
+genuine observed changes remain unmet. No teammate approvals are assumed.
+
+## Historical scaffold snapshot (2026-11-23)
+
+**Historical status:** SPECIFICATION ONLY. All implementation units unstarted. Lead must approve ADR-001/source/contract after smoke test. No tests, migrations, GitHub settings, runs or PRs created by this scaffold.
 
 | Spec | Owner | State | Blocking dependencies |
 |---|---|---|---|

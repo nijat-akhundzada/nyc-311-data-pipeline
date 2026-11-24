@@ -733,3 +733,16 @@ Generation: `2026-11-23T02:37:55+00:00`. Run:
 no raw body/record is logged here or committed. Total live requests this phase: **two**.
 No resumability across fresh provider generations, update completeness, source-time
 semantics or SCD2 transition is demonstrated by this single accepted page.
+
+## Final iteration follow-up — 24 November 2026
+
+Actual real full publication now demonstrated, unlike the earlier capped checks:
+small 43-candidate run, shorter 526-candidate run and daily 12,557-candidate run.
+Source-only totals: 27,392 distinct Bronze IDs, 13,126 Silver/Gold, two quarantines;
+zero observed genuine tracked SCD2 changes. Weekly and subsequent daily extraction
+terminated on generation mismatch without publication. Exact requests, stale HTTP
+200 headers, bounded official-export probe and canonical run counts are linked in
+[final verification](final-verification.md). Million-row extraction remains unmet.
+The official CSV response was also stale; no unreviewed bulk adapter or relaxed
+freshness policy was used. ADR-001 remains PROPOSED; these observations do not
+establish complete incremental capture or publisher timezone semantics.

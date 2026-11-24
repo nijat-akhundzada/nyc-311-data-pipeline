@@ -1,0 +1,14 @@
+{
+  "checked_on": "2026-11-24",
+  "branch": "feat/final-analytics-recovery-submission",
+  "first_pushed_head": "5a81439",
+  "push": "succeeded; upstream tracking configured",
+  "draft_pr_creation": "HTTP 403 Resource not accessible by integration",
+  "gh_auth": "not logged into any GitHub hosts",
+  "branch_workflow_runs": 0,
+  "head_workflow_runs": 0,
+  "ci_status": "NOT VERIFIED; feature push alone does not trigger existing CI",
+  "branch_protection_inspection": "HTTP 403 Resource not accessible by integration",
+  "pr_created": false,
+  "merge_performed": false
+}

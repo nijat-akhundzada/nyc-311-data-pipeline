@@ -1,9 +1,13 @@
 # Spec 09 — Failure Recovery
 
 **Owner:** Firuz  
-**Status:** PLANNED / NOT IMPLEMENTED  
+**Status:** FINAL ITERATION LEAD-AUTHORIZED; branch evidence pending human review  
 **Type:** Implementation  
 **Dependencies:** 04, 06, 07  
+
+See the final integrated authorization in `00-build-plan.md`. Earlier separate
+branch gates do not block this explicitly assigned final iteration. Acceptance
+requires actual evidence; no full completion or peer approval is inferred.
 
 ## Objective
 Reproducible failure drills meeting assignment.

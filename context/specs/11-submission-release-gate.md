@@ -1,9 +1,13 @@
 # Spec 11 — Submission Release Gate
 
 **Owner:** Nijat + Nizami + Firuz  
-**Status:** PLANNED / NOT IMPLEMENTED  
+**Status:** FINAL ITERATION LEAD-AUTHORIZED; branch evidence pending human review  
 **Type:** Release gate  
 **Dependencies:** 10  
+
+See the final integrated authorization in `00-build-plan.md`. Earlier separate
+branch gates do not block this explicitly assigned final iteration. Acceptance
+requires actual evidence; no full completion or peer approval is inferred.
 
 ## Objective
 Check rubric and completeness before handing in.

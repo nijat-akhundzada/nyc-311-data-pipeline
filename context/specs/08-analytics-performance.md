@@ -1,9 +1,13 @@
 # Spec 08 — Analytics Performance
 
 **Owner:** Nizami  
-**Status:** PLANNED / NOT IMPLEMENTED  
+**Status:** FINAL ITERATION LEAD-AUTHORIZED; branch evidence pending human review  
 **Type:** Implementation  
 **Dependencies:** 06 + million-row real source load  
+
+See the final integrated authorization in `00-build-plan.md`. Earlier separate
+branch gates do not block this explicitly assigned final iteration. Acceptance
+requires actual evidence; no full completion or peer approval is inferred.
 
 ## Objective
 Analytical SQL plus defensible before/after performance measurements.

@@ -47,3 +47,7 @@ transition, full publisher/timezone/update guarantees, final-head green CI and
 human review/protection evidence. Branch protection inspection returned 403.
 No scheduler framework, application redesign or relaxed source checks introduced.
 See `docs/final-verification.md` and `docs/submission-checklist.md`.
+
+Remote handoff: branch pushed; automatic draft creation denied (GitHub connector
+403) and gh unauthenticated. No branch Actions runs recorded at inspection. Open
+this draft PR manually; final-head CI must run and pass after PR creation.

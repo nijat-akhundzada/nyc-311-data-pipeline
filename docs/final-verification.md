@@ -133,3 +133,26 @@ transition, full publisher/timezone/update semantics, substantive cross-owner pe
 reviews, verified main protection and final-head green GitHub Actions remain
 separate gates. Only the human lead declares submission ready. See
 [submission matrix](submission-checklist.md) and [contribution evidence](contributions.md).
+
+## Remote delivery result
+
+Feature branch pushed successfully with upstream tracking. Draft PR creation via
+the GitHub connector returned **403 Resource not accessible by integration**;
+`gh auth status` confirmed no authenticated GitHub CLI. No PR URL or review is
+invented. GitHub Actions queries for code/documentation head `5a81439` and the
+branch returned **zero runs**. The workflow triggers PRs to main and pushes to
+main; a feature push alone does not trigger it. Final-head CI is **NOT VERIFIED**.
+
+Open the [prepared comparison](https://github.com/nijat-akhundzada/nyc-311-data-pipeline/compare/main...feat/final-analytics-recovery-submission?expand=1)
+and create a **draft** PR targeting main using
+[the prepared title/body](review/final-submission-pr.md), or after authenticating:
+
+```sh
+gh pr create --draft --base main --head feat/final-analytics-recovery-submission \
+  --title 'feat(submission): add measured analytics and verified recovery evidence' \
+  --body-file docs/review/final-submission-pr.md
+```
+
+Then inspect all lint/unit/integration Actions jobs on the latest head, fix actual
+failures through normal feature commits, and obtain Nizami/Firuz review. Do not
+merge automatically or interpret local results as remote CI success.

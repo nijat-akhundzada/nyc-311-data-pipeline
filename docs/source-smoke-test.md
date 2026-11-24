@@ -804,3 +804,20 @@ or newly generated export jobs were substituted for evidence.
 Exact requests, responses, before/after tuples, run invocations and final counts:
 [scale audit](evidence/final/scale-source-audit.json). Current outcome and remaining
 assignment gaps are recorded in the existing [final report](final-verification.md).
+
+## Final readiness SCD2 observation
+
+The retained Silver database supplied 268 previously published requests with a
+normalized status other than `closed`. The sample was capped at 400 and ordered
+by most recent source update, then source ID. The original observations span
+04:28:33–06:32:43 UTC on 24 November 2026. They share generation
+`2026-11-24T02:42:04Z`.
+
+Five bounded lookup attempts at 07:18:01–07:18:20 UTC returned three explicitly
+stale views and two acceptable views. The acceptable responses covered 168 IDs
+and matched the original generation. All 168 matched the stored normalized
+status, agency and complaint type. The remaining 100 IDs had no acceptable
+response. There were zero later-generation comparisons and zero verified genuine
+transitions. Source-backed SCD2 remains **PARTIAL**. The request IDs, timestamps,
+freshness headers and aggregate comparison results are recorded in the
+[scale source audit](evidence/final/scale-source-audit.json).

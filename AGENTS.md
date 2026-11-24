@@ -3,7 +3,7 @@
 **First read in order:** `context/project-overview.md`, `context/architecture.md`, `context/code-standards.md`, `context/ai-workflow-rules.md`, `context/contracts/README.md`, `context/team-workflow.md`, `context/specs/00-build-plan.md`, the **assigned approved spec**, applicable ADRs, then current code/tests.
 
 ## Hard gates
-- This is currently a **spec-only** repo. Do not present descriptions as implemented behavior.
+- Merged implementation exists. Distinguish verified behavior, proposed contracts and branch-only evidence; descriptions alone are not proof.
 - Only work on the one spec assigned by the human. A spec marked `BLOCKED` or pending approval is **not** permission to code.
 - **Ownership:** Nijat: API/recovery cursor/schema drift/validation/quality/silver and integration; Nizami: migrations/bronze storage/gold SCD2/bulk/performance/analytics; Firuz: Docker/CI/scheduling/run history/recovery demonstrations. Shared contracts are lead-controlled.
 - On contract conflicts, stop and open a question in the PR; do not silently invent integration APIs.

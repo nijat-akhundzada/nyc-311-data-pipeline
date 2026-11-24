@@ -1,0 +1,1 @@
+"""Atomic Silver/Gold publication."""

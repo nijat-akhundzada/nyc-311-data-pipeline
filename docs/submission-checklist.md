@@ -1,6 +1,6 @@
 # Submission requirement matrix — deadline 26 November 2026
 
-**Recommendation: TECHNICAL REQUIREMENTS PASS; PENDING HUMAN/GITHUB ACTIONS.** Reviewed against
+**Release gate: NOT READY. Evidence gaps and final-head CI remain open.** Reviewed against
 the [assignment PDF](source-assignment.pdf). See the [final verification](final-verification.md)
 for commands, measured results and canonical run IDs.
 
@@ -19,12 +19,12 @@ for commands, measured results and canonical run IDs.
 | Gold analytics, CTEs and window functions | PASS | Four queries executed on 1,002,639 genuine facts. Before/after result hashes match for all four. [SQL](../sql/analytics/README.md), [plans](performance-report.md) |
 | Multi-stage non-root Docker, health checks and named volumes | PASS | Clean image build, UID 10001, PostgreSQL 16.14, migration/health checks and persisted rows after restart. [Verification](final-verification.md) |
 | Ruff, pre-commit, and unit/integration tests | PASS | 273 tests passed, seven hooks, lint, format, context and whitespace passed. [Verification](final-verification.md) |
-| GitHub Actions before merge | PARTIAL | [PR #11 CI](https://github.com/nijat-akhundzada/nyc-311-data-pipeline/actions/runs/45355202036) and [merged main CI](https://github.com/nijat-akhundzada/nyc-311-data-pipeline/actions/runs/45355638854) passed. Final feature-head CI requires push of final branch. |
-| Protected main and required checks | FAIL | GitHub returned `protected: false` and no active branch rules. Requires repository owner action on GitHub settings. [Branch status](https://api.github.com/repos/nijat-akhundzada/nyc-311-data-pipeline/branches/main) |
+| GitHub Actions before merge | PASS | [PR #11 CI](https://github.com/nijat-akhundzada/nyc-311-data-pipeline/actions/runs/45355202036) and [merged main CI](https://github.com/nijat-akhundzada/nyc-311-data-pipeline/actions/runs/45355638854) passed. On 25 November 2026, lint, unit and integration passed for [PR #12](https://github.com/nijat-akhundzada/nyc-311-data-pipeline/pull/12) head `7d7872bf2a51268a6d51959c5bde4d70155df185`. All three checks must pass again on the documentation commit. [PR #12 CI](https://github.com/nijat-akhundzada/nyc-311-data-pipeline/actions/runs/45379091296) |
+| Protected main and required checks | PASS | Verified on 25 November 2026. The active ruleset requires pull requests, resolved conversations, up-to-date branches and passing lint, unit and integration checks. It blocks force pushes and branch deletion and has no bypass actors. The project lead intentionally set required human approvals to 0. [Ruleset 28075415](https://github.com/nijat-akhundzada/nyc-311-data-pipeline/rules/28075415) |
 | Feature branches, atomic conventional commits and preserved history | PASS | Merged feature PRs from all three contributors and conventional commits. [Contributions](contributions.md) |
 | Real teammate code reviews | NOT VERIFIED | Requires human teammate review comments on the open PR. [Contributions](contributions.md) |
 | Repository and README deliverables | PASS | Repository includes code, tests, migrations, Gold SQL, Docker and CI. README names all three members and describes setup, quality, model, replay and Git evidence. [README](../README.md), [runbook](runbook.md) |
 | Credentials and private datasets excluded | PARTIAL | No source payloads or credentials added by the final branch. Tracked-file history and credential-pattern checks passed within their inspected scope. [Verification](final-verification.md) |
 | Individual ownership, Q&A and peer feedback | NOT VERIFIED | Each student's role and actual PR authorship are recorded. Student explanations and peer feedback require human assessment. [Contributions](contributions.md) |
 
-ADR-001 remains **PROPOSED**. The remaining open items are genuine publisher-side SCD2 transitions (retained as PARTIAL), repository branch protection, teammate peer review, and final-head CI.
+ADR-001 remains **PROPOSED**. Genuine SCD2 transitions remain **PARTIAL** and teammate reviews remain **NOT VERIFIED**. The source, credential inspection and individual assessment gaps listed above remain open. CI must pass again on the new PR head.

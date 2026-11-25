@@ -41,11 +41,14 @@ on the final PR. No agent approves or merges its own work.
 
 On 24 November 2026 the public GitHub branch endpoint reported
 `protected: false`, classical protection disabled and no required checks. The
-branch-rules endpoint returned an empty list. The protected-main requirement is
-**FAIL**. The detailed protection endpoint requires authentication. Only the
-repository owner can configure and verify the required review and CI rules.
+branch-rules endpoint returned an empty list. The protected-main requirement was
+**FAIL** at that point. The detailed protection endpoint requires authentication.
 [Branch status](https://api.github.com/repos/nijat-akhundzada/nyc-311-data-pipeline/branches/main)
 [Active branch rules](https://api.github.com/repos/nijat-akhundzada/nyc-311-data-pipeline/rules/branches/main)
+
+On 25 November 2026, main branch protection was verified (**PASS**) under
+[ruleset 28075415](https://github.com/nijat-akhundzada/nyc-311-data-pipeline/rules/28075415). The lead intentionally set required human approvals
+to 0. Teammate reviews remain **NOT VERIFIED**.
 
 ## Git exercises actually evidenced
 

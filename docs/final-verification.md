@@ -202,7 +202,7 @@ Local success must never be represented as GitHub Actions success. Existing CI s
 `tests/integration`, including the new analytics test. Destructive manual drills
 are intentionally outside CI.
 
-## Remaining release gates
+## Release gates at the earlier integrated milestone
 
 One-million genuine records and scale benchmark, genuine observed source SCD2
 transition, full publisher/timezone/update semantics, substantive cross-owner peer
@@ -324,12 +324,22 @@ reach one million Gold facts. In the final iteration campaign, the loading campa
 and reached **1,002,639 published Gold facts** and **1,033,290 distinct Bronze IDs**, satisfying the scale
 requirement. Re-observation of 50 non-closed requests against the live API confirmed matching generation
 views with zero publisher-side status changes (retaining genuine SCD2 as PARTIAL). Source
-snapshot/deletion/replace/timezone semantics, final-head CI and real teammate review
-remain explicit gates. No speculative export adapter or fabricated history was added.
+snapshot/deletion/replace/timezone semantics and real teammate review remain
+explicit gates. See the GitHub evidence update below for the verified CI head. No speculative export adapter or fabricated history was added.
 
 
 ### Merged source-scale delivery
 
 The source-scale branch merged in [PR #11](https://github.com/nijat-akhundzada/nyc-311-data-pipeline/pull/11).
 Its [CI](https://github.com/nijat-akhundzada/nyc-311-data-pipeline/actions/runs/45355202036)
-passed. The final readiness handoff is in the [draft PR description](review/final-submission-pr.md).
+passed. The final readiness handoff is in the [PR description](review/final-submission-pr.md).
+
+### GitHub evidence on 25 November 2026
+
+Main branch protection is **PASS** under [ruleset 28075415](https://github.com/nijat-akhundzada/nyc-311-data-pipeline/rules/28075415).
+Lint, unit and integration are **PASS** for [PR #12](https://github.com/nijat-akhundzada/nyc-311-data-pipeline/pull/12) head
+`7d7872bf2a51268a6d51959c5bde4d70155df185`. All three checks must pass
+again on the documentation commit. [PR #12 CI](https://github.com/nijat-akhundzada/nyc-311-data-pipeline/actions/runs/45379091296)
+
+Teammate reviews remain **NOT VERIFIED**, genuine SCD2 transitions remain
+**PARTIAL**, and ADR-001 remains **PROPOSED**.

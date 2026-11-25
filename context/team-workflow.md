@@ -7,7 +7,11 @@
 | **Firuz (#3)** | Docker/CI, schedule/run tracking, recovery tests | 02, 07, 09; `docker/`, `.github/`, `orchestration/`, `ops/`, recovery scripts | Review Nizami/Nijat PRs and deployment behavior |
 
 ## Branching
-`main` is protected. GitHub Settings → Branch protection/ruleset: require PR, 1 approval (not author), passing `lint`, `unit`, `integration`, prohibit force pushes/deletions, resolve conversations, optionally prevent direct pushes. As admin, Nijat should respect required checks/review.
+As verified on 25 November 2026, `main` requires pull requests, conversation
+resolution, up-to-date branches and passing `lint`, `unit` and `integration`
+checks. Force pushes and branch deletion are blocked, and there are no bypass
+actors. The project lead intentionally set required human approvals to 0 in GitHub.
+The team's review protocol below still applies. [Ruleset 28075415](https://github.com/nijat-akhundzada/nyc-311-data-pipeline/rules/28075415)
 
 Each contributor: `git switch main && git pull --ff-only && git switch -c feat/05-db-foundation-nizami`; implement ONE spec; `git add <explicit paths>`; `git commit -m 'feat(db): ...'`; `git push -u origin <branch>`; `gh pr create --draft --base main --head <branch> --title 'feat(db): ...' --body-file ...`. Never add all files without checking `git status` and `git diff --cached`.
 

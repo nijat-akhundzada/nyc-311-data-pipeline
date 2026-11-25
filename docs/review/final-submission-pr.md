@@ -55,15 +55,17 @@ Docker, scheduling and run-history evidence.
 
 ## Release assessment
 
-**TECHNICAL REQUIREMENTS PASS; PENDING HUMAN/GITHUB ACTIONS.**
-All automatable assignment requirements are satisfied:
+**Release gate: NOT READY.** The following checks passed:
 - ≥1,000,000 genuine published records (1,002,639 Gold facts, 1,033,290 Bronze IDs): PASS
 - Measured optimization at 1M scale (1.890× speedup, 47.1% runtime reduction): PASS
 - 3 failure recovery demonstrations, cron scheduling, star schema, migrations, idempotency: PASS
 - Full unit & integration test suite, Ruff lint/formatting, pre-commit hooks: PASS
 
-Genuine SCD2 transitions remain PARTIAL due to publisher-side generation stability (honest empirical result).
-Main branch protection and peer review require human action on GitHub:
-GitHub reported main unprotected and listed no active branch rules. The lead must configure
-branch protection on GitHub repository settings, and teammates Nizami and Firuz must submit
-formal PR reviews before merge.
+On 25 November 2026, main branch protection was verified (**PASS**) under
+[ruleset 28075415](https://github.com/nijat-akhundzada/nyc-311-data-pipeline/rules/28075415). CI was **PASS** for PR #12 head
+`7d7872bf2a51268a6d51959c5bde4d70155df185` (lint, unit and integration). All three checks
+must pass again on the documentation commit. [PR #12 CI](https://github.com/nijat-akhundzada/nyc-311-data-pipeline/actions/runs/45379091296)
+
+Genuine SCD2 transitions remain **PARTIAL**, teammate reviews remain **NOT VERIFIED**,
+and ADR-001 remains **PROPOSED**. See the [submission checklist](../submission-checklist.md)
+for the remaining evidence gaps.

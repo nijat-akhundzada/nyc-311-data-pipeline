@@ -16,8 +16,9 @@ quarantined records**. The historical loading campaign reached and exceeded the
 1,000,000 genuine published records requirement across 119 audited pipeline runs.
 SCD2 sampling across 50 fresh non-closed requests confirmed matching baseline
 generation observations with zero publisher-side status changes. **Submission gates:**
-all automatable requirements (scale, performance, recovery, scheduling, Docker, tests)
-are PASS; genuine SCD2 is PARTIAL, and branch protection/peer reviews require manual lead/team actions.
+main branch protection is **PASS** and CI is **PASS** for the verified 25 November
+2026 head of PR #12. CI must pass again on this documentation commit. Genuine
+SCD2 transitions remain **PARTIAL** and teammate reviews remain **NOT VERIFIED**.
 See the [requirement matrix](docs/submission-checklist.md) and
 [exact verification](docs/final-verification.md).
 

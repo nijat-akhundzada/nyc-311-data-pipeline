@@ -1,0 +1,10 @@
+NYC 311 Loading Campaign Progress
+Updated At: 2026-11-24T09:03:38.260238+00:00
+Gold Facts: 1,002,639 / 1,000,000 (0 remaining)
+Bronze Distinct IDs: 1,033,290
+Quarantine Count: 410
+Last Completed Window: 2025-04-25 to 2025-04-26
+Unfinished Run ID: None
+Elapsed Time: 3312.7s / 5400s budget
+Campaign Status: target_reached
+Exact Resume Command: python scripts/run-campaign.py

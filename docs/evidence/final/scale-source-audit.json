@@ -2253,5 +2253,3094 @@
       "2026-11-24T02:42:04Z",
       29
     ]
-  ]
+  ],
+  "final_submission_scd2": {
+    "sample_size": 268,
+    "baseline_generations": {
+      "2026-11-24 02:42:04+00:00": 268
+    },
+    "baseline_observed_at_min": "2026-11-24 04:28:33.937980+00:00",
+    "baseline_observed_at_max": "2026-11-24 06:32:43.410832+00:00",
+    "counts": {
+      "accepted_ids": 168,
+      "same_generation_ids": 168
+    },
+    "attempts": [
+      {
+        "start": 0,
+        "observed_at_utc": "2026-11-24T07:18:01.523750+00:00",
+        "headers": {
+          "x-soda2-data-out-of-date": "true",
+          "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+          "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+          "x-socrata-requestid": "34df9624c2a61bb0201e57d6cfc6dc83"
+        },
+        "status": 200,
+        "error": "source_stale"
+      },
+      {
+        "start": 0,
+        "observed_at_utc": "2026-11-24T07:18:11.386594+00:00",
+        "headers": {
+          "x-soda2-data-out-of-date": "true",
+          "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+          "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+          "x-socrata-requestid": "755ac6db6f481ddc515326b010c3566b"
+        },
+        "status": 200,
+        "error": "source_stale"
+      },
+      {
+        "start": 100,
+        "observed_at_utc": "2026-11-24T07:18:14.444979+00:00",
+        "headers": {
+          "x-soda2-data-out-of-date": "false",
+          "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+          "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+          "x-socrata-requestid": "1886e1ec599f1984af429c447ef9dcb2"
+        },
+        "status": 200,
+        "generation": "2026-11-24 02:42:04+00:00",
+        "returned": 100
+      },
+      {
+        "start": 200,
+        "observed_at_utc": "2026-11-24T07:18:14.730405+00:00",
+        "headers": {
+          "x-soda2-data-out-of-date": "true",
+          "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+          "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+          "x-socrata-requestid": "1b9be1e72406191c6f67de0091c6a3c4"
+        },
+        "status": 200,
+        "error": "source_stale"
+      },
+      {
+        "start": 200,
+        "observed_at_utc": "2026-11-24T07:18:19.976304+00:00",
+        "headers": {
+          "x-soda2-data-out-of-date": "false",
+          "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+          "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+          "x-socrata-requestid": "7b3688958325cc975936648ffa07e0fe"
+        },
+        "status": 200,
+        "generation": "2026-11-24 02:42:04+00:00",
+        "returned": 68
+      }
+    ],
+    "differences": []
+  },
+  "final_submission_loading": {
+    "budget": {
+      "window_start_budget_seconds": 720,
+      "historical_windows_max": 75,
+      "daily_utc_page_size": 5000,
+      "explicit_resumes_per_retryable_window": 1
+    },
+    "saved_checkpoint_before": {
+      "run_id": "88f90c05-4851-44b6-8853-3a588118e198",
+      "received": 10000,
+      "page_no": 2,
+      "exhausted": false,
+      "generation": "2026-11-24T02:42:04Z"
+    },
+    "aggregate": {
+      "invocations": 26,
+      "distinct_run_ids": 23,
+      "successful_invocations": 22,
+      "http_attempts": 173,
+      "http_status_counts": {
+        "200": 154,
+        "503": 18
+      },
+      "transport_errors": {
+        "ConnectTimeout": 1
+      },
+      "explicitly_stale_responses": 66,
+      "cumulative_invocation_seconds": 748.474,
+      "first_attempt_utc": "2026-11-24T07:16:17.944444+00:00",
+      "last_invocation_end_utc": "2026-11-24T07:30:37.993256+00:00"
+    },
+    "invocations": [
+      {
+        "args": [
+          "--resume-run-id",
+          "88f90c05-4851-44b6-8853-3a588118e198"
+        ],
+        "http_attempts": [
+          {
+            "observed_at_utc": "2026-11-24T07:16:17.944444+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "c3d428473a284333b46e45fe2fe55ad2"
+            },
+            "elapsed_s": 7.771
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:16:25.760521+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "11999645031001b74664122da86d3127"
+            },
+            "elapsed_s": 5.41
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:16:31.752388+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "e780fcef566ae188ee5d930b1a9ee503"
+            },
+            "elapsed_s": 1.949
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:16:33.844725+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "bd6beb5e3e3b08253702eeb56d8c9848"
+            },
+            "elapsed_s": 0.301
+          }
+        ],
+        "run_id": "88f90c05-4851-44b6-8853-3a588118e198",
+        "http_end_utc": "2026-11-24T07:16:41.412471+00:00",
+        "exit": 0,
+        "elapsed_s": 23.61,
+        "result": {
+          "checkpoints": [
+            {
+              "exhausted": true,
+              "page_no": 5,
+              "segment_id": "0"
+            }
+          ],
+          "error_category": null,
+          "evaluated_count": 13341,
+          "finished_at": "2026-11-24 07:16:41.395141+00:00",
+          "heartbeat_at": "2026-11-24 07:16:41.395141+00:00",
+          "ingest_complete": true,
+          "invalid_count": 0,
+          "outside_scope_count": 2758,
+          "phase": "finished",
+          "published": true,
+          "published_at": "2026-11-24 07:16:41.395141+00:00",
+          "raw_inserted_count": 13084,
+          "received_count": 16099,
+          "retryable": false,
+          "run_id": "88f90c05-4851-44b6-8853-3a588118e198",
+          "started_at": "2026-11-24 06:35:05.692068+00:00",
+          "status": "succeeded",
+          "successful_update_upper_utc": null,
+          "valid_count": 13341
+        }
+      },
+      {
+        "args": [
+          "--mode",
+          "backfill",
+          "--start",
+          "2025-01-09",
+          "--end",
+          "2025-01-10",
+          "--page-size",
+          "5000"
+        ],
+        "http_attempts": [
+          {
+            "observed_at_utc": "2026-11-24T07:17:17.789385+00:00",
+            "transport": "ConnectTimeout",
+            "elapsed_s": 5.206
+          }
+        ],
+        "run_id": "cf7ea504-2734-41f7-819a-20020e896bd6",
+        "http_end_utc": "2026-11-24T07:17:23.027662+00:00",
+        "exit": 3,
+        "elapsed_s": 5.371,
+        "result": {
+          "category": "api_transport",
+          "published": false,
+          "retryable": false,
+          "run_id": "cf7ea504-2734-41f7-819a-20020e896bd6",
+          "status": "failed"
+        }
+      },
+      {
+        "args": [
+          "--mode",
+          "backfill",
+          "--start",
+          "2025-01-10",
+          "--end",
+          "2025-01-11",
+          "--page-size",
+          "5000"
+        ],
+        "http_attempts": [
+          {
+            "observed_at_utc": "2026-11-24T07:18:32.056295+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "e66086f135d8ea58d0ae493d7900fc10"
+            },
+            "elapsed_s": 3.778
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:18:36.414030+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "671a5a3bb5441dd9778552d30c61d758"
+            },
+            "elapsed_s": 17.064
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:18:54.033735+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "e7c92c0936c289402bae02c4b633a09c"
+            },
+            "elapsed_s": 1.42
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:18:56.051812+00:00",
+            "status": 503,
+            "headers": {
+              "x-socrata-requestid": "6f1ebffb396603eef817afee4f7ff2c4"
+            },
+            "elapsed_s": 0.24
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:18:57.179309+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "c10bd4a873fc98738caf8b6fa72ff564"
+            },
+            "elapsed_s": 8.264
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:19:06.311421+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "a40742df00e7c648589dfff5fbfb943d"
+            },
+            "elapsed_s": 2.352
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:19:09.232537+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "919003704072d46e0e437569a3c3fe94"
+            },
+            "elapsed_s": 1.811
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:19:11.275653+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "eb3f39b687e58b33db88da9a3f4d63b0"
+            },
+            "elapsed_s": 6.804
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:19:18.574185+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "cf261d49425796fd14155d693a18c0f7"
+            },
+            "elapsed_s": 0.324
+          }
+        ],
+        "run_id": "f2d4497c-958e-4693-acb0-aad6d070218d",
+        "http_end_utc": "2026-11-24T07:19:26.134292+00:00",
+        "exit": 0,
+        "elapsed_s": 54.153,
+        "result": {
+          "checkpoints": [
+            {
+              "exhausted": true,
+              "page_no": 5,
+              "segment_id": "0"
+            }
+          ],
+          "error_category": null,
+          "evaluated_count": 14526,
+          "finished_at": "2026-11-24 07:19:26.119844+00:00",
+          "heartbeat_at": "2026-11-24 07:19:26.119844+00:00",
+          "ingest_complete": true,
+          "invalid_count": 1,
+          "outside_scope_count": 2616,
+          "phase": "finished",
+          "published": true,
+          "published_at": "2026-11-24 07:19:26.119844+00:00",
+          "raw_inserted_count": 17142,
+          "received_count": 17142,
+          "retryable": false,
+          "run_id": "f2d4497c-958e-4693-acb0-aad6d070218d",
+          "started_at": "2026-11-24 07:18:32.042660+00:00",
+          "status": "succeeded",
+          "successful_update_upper_utc": null,
+          "valid_count": 14525
+        }
+      },
+      {
+        "args": [
+          "--mode",
+          "backfill",
+          "--start",
+          "2025-01-11",
+          "--end",
+          "2025-01-12",
+          "--page-size",
+          "5000"
+        ],
+        "http_attempts": [
+          {
+            "observed_at_utc": "2026-11-24T07:19:26.496186+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "1d687d54950e48af2b8c5060902b6f45"
+            },
+            "elapsed_s": 9.777
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:19:36.891875+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "1640dd5a5ebda12bd42a54d9c46d4780"
+            },
+            "elapsed_s": 4.758
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:19:43.021596+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "56eeffc5894af52ef9be80572701cc30"
+            },
+            "elapsed_s": 0.873
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:19:44.559243+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "8ffae7e041683b8edb23e58b7b8b49a9"
+            },
+            "elapsed_s": 1.97
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:19:47.141268+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "6e34785285266408c0ded1b91fe8285b"
+            },
+            "elapsed_s": 0.516
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:19:48.012646+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "a747d2bfe91ed20e965b46b86af27c98"
+            },
+            "elapsed_s": 2.835
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:19:51.621829+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "304e693029588d7352b023079c8a4960"
+            },
+            "elapsed_s": 0.331
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:19:53.137120+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "38a8e2655159ac9e6d882c33f83bdcd1"
+            },
+            "elapsed_s": 0.318
+          }
+        ],
+        "run_id": "1341ca3a-c48a-424f-88de-3ae2ca9ff2fc",
+        "http_end_utc": "2026-11-24T07:19:59.529393+00:00",
+        "exit": 0,
+        "elapsed_s": 33.107,
+        "result": {
+          "checkpoints": [
+            {
+              "exhausted": true,
+              "page_no": 4,
+              "segment_id": "0"
+            }
+          ],
+          "error_category": null,
+          "evaluated_count": 11610,
+          "finished_at": "2026-11-24 07:19:59.512677+00:00",
+          "heartbeat_at": "2026-11-24 07:19:59.512677+00:00",
+          "ingest_complete": true,
+          "invalid_count": 0,
+          "outside_scope_count": 2247,
+          "phase": "finished",
+          "published": true,
+          "published_at": "2026-11-24 07:19:59.512677+00:00",
+          "raw_inserted_count": 11455,
+          "received_count": 13857,
+          "retryable": false,
+          "run_id": "1341ca3a-c48a-424f-88de-3ae2ca9ff2fc",
+          "started_at": "2026-11-24 07:19:26.484827+00:00",
+          "status": "succeeded",
+          "successful_update_upper_utc": null,
+          "valid_count": 11610
+        }
+      },
+      {
+        "args": [
+          "--mode",
+          "backfill",
+          "--start",
+          "2025-01-12",
+          "--end",
+          "2025-01-13",
+          "--page-size",
+          "5000"
+        ],
+        "http_attempts": [
+          {
+            "observed_at_utc": "2026-11-24T07:19:59.861002+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "7281f90b9eac8f580a5770189c6c0336"
+            },
+            "elapsed_s": 1.749
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:20:02.291191+00:00",
+            "status": 503,
+            "headers": {
+              "x-socrata-requestid": "88a7da5b69a78bba945cfe40700c3d68"
+            },
+            "elapsed_s": 0.252
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:20:03.100371+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "1f07cae3f31e10f0e6a2110055727ad8"
+            },
+            "elapsed_s": 3.149
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:20:06.875356+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "1db0764e056c09b6dd46277364dbb3c1"
+            },
+            "elapsed_s": 1.577
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:20:08.928847+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "466dad7c493b711e647097b9fe6c9f3d"
+            },
+            "elapsed_s": 7.996
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:20:17.755586+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "26c822d7f0bce4d2d1f6657b53ecf1db"
+            },
+            "elapsed_s": 2.56
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:20:22.174242+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "6360caddf74b82bd9f4a719dbe9e84bd"
+            },
+            "elapsed_s": 0.253
+          }
+        ],
+        "run_id": "652d4649-7ac6-4458-a7f6-966da77f727d",
+        "http_end_utc": "2026-11-24T07:20:29.056331+00:00",
+        "exit": 0,
+        "elapsed_s": 29.265,
+        "result": {
+          "checkpoints": [
+            {
+              "exhausted": true,
+              "page_no": 4,
+              "segment_id": "0"
+            }
+          ],
+          "error_category": null,
+          "evaluated_count": 12042,
+          "finished_at": "2026-11-24 07:20:29.042257+00:00",
+          "heartbeat_at": "2026-11-24 07:20:29.042256+00:00",
+          "ingest_complete": true,
+          "invalid_count": 0,
+          "outside_scope_count": 2085,
+          "phase": "finished",
+          "published": true,
+          "published_at": "2026-11-24 07:20:29.042257+00:00",
+          "raw_inserted_count": 12047,
+          "received_count": 14127,
+          "retryable": false,
+          "run_id": "652d4649-7ac6-4458-a7f6-966da77f727d",
+          "started_at": "2026-11-24 07:19:59.848801+00:00",
+          "status": "succeeded",
+          "successful_update_upper_utc": null,
+          "valid_count": 12042
+        }
+      },
+      {
+        "args": [
+          "--mode",
+          "backfill",
+          "--start",
+          "2025-01-13",
+          "--end",
+          "2025-01-14",
+          "--page-size",
+          "5000"
+        ],
+        "http_attempts": [
+          {
+            "observed_at_utc": "2026-11-24T07:20:29.450589+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "a36c5b731f2ef8c66886ad893fa1b569"
+            },
+            "elapsed_s": 6.101
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:20:36.168082+00:00",
+            "status": 503,
+            "headers": {
+              "x-socrata-requestid": "cba7e9cc874d20ecea718e2a6d3a9e64"
+            },
+            "elapsed_s": 0.286
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:20:36.726657+00:00",
+            "status": 503,
+            "headers": {
+              "x-socrata-requestid": "fe78f09e2f152b1cef13bb1dfb05e039"
+            },
+            "elapsed_s": 0.248
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:20:36.981889+00:00",
+            "status": 503,
+            "headers": {
+              "x-socrata-requestid": "f773f5e8f4f0d8f619ed0a400e9fb914"
+            },
+            "elapsed_s": 0.259
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:20:39.253181+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "6cb0fa865aa14428308256b120c4f7aa"
+            },
+            "elapsed_s": 8.626
+          }
+        ],
+        "run_id": "141eb406-9e26-4051-98bf-8b27a8c620eb",
+        "http_end_utc": "2026-11-24T07:20:47.904416+00:00",
+        "exit": 3,
+        "elapsed_s": 18.525,
+        "result": {
+          "category": "source_stale",
+          "published": false,
+          "retryable": true,
+          "run_id": "141eb406-9e26-4051-98bf-8b27a8c620eb",
+          "status": "failed"
+        }
+      },
+      {
+        "args": [
+          "--resume-run-id",
+          "141eb406-9e26-4051-98bf-8b27a8c620eb"
+        ],
+        "http_attempts": [
+          {
+            "observed_at_utc": "2026-11-24T07:20:48.238685+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "5cf56a431e222529822261de177461d6"
+            },
+            "elapsed_s": 3.588
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:20:52.489902+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "c943a379267cf4b233925692f6b003ab"
+            },
+            "elapsed_s": 0.707
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:20:53.759610+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "15995fd9f00bdd7382a060569df0beaf"
+            },
+            "elapsed_s": 0.298
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:20:54.112836+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "34fb40bc4d7584f33b3f1b9309847444"
+            },
+            "elapsed_s": 0.261
+          }
+        ],
+        "run_id": "141eb406-9e26-4051-98bf-8b27a8c620eb",
+        "http_end_utc": "2026-11-24T07:21:01.654794+00:00",
+        "exit": 0,
+        "elapsed_s": 13.482,
+        "result": {
+          "checkpoints": [
+            {
+              "exhausted": true,
+              "page_no": 5,
+              "segment_id": "0"
+            }
+          ],
+          "error_category": null,
+          "evaluated_count": 13219,
+          "finished_at": "2026-11-24 07:21:01.640549+00:00",
+          "heartbeat_at": "2026-11-24 07:21:01.640549+00:00",
+          "ingest_complete": true,
+          "invalid_count": 1,
+          "outside_scope_count": 2204,
+          "phase": "finished",
+          "published": true,
+          "published_at": "2026-11-24 07:21:01.640549+00:00",
+          "raw_inserted_count": 13249,
+          "received_count": 15423,
+          "retryable": false,
+          "run_id": "141eb406-9e26-4051-98bf-8b27a8c620eb",
+          "started_at": "2026-11-24 07:20:29.437378+00:00",
+          "status": "succeeded",
+          "successful_update_upper_utc": null,
+          "valid_count": 13218
+        }
+      },
+      {
+        "args": [
+          "--mode",
+          "backfill",
+          "--start",
+          "2025-01-14",
+          "--end",
+          "2025-01-15",
+          "--page-size",
+          "5000"
+        ],
+        "http_attempts": [
+          {
+            "observed_at_utc": "2026-11-24T07:21:02.024809+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "8f2f0fe5a82931ff06d97a5dd8c1a19c"
+            },
+            "elapsed_s": 15.934
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:21:18.538739+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "369f5c55dab2249bce7e5d81157e1dc3"
+            },
+            "elapsed_s": 10.518
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:21:29.757994+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "da99a24cf6b9d261ed7210d568aa1288"
+            },
+            "elapsed_s": 3.529
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:21:33.967944+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "e52358f1afaa064280abc89ec3acf15c"
+            },
+            "elapsed_s": 1.558
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:21:36.047656+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "0fa3548f458022757b40c33b658b39f7"
+            },
+            "elapsed_s": 10.376
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:21:46.597559+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "d9d132a489cba8dcdde0b4faf6bbdcb1"
+            },
+            "elapsed_s": 0.927
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:21:47.840060+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "7ca628430188cee89f1951f74f764d45"
+            },
+            "elapsed_s": 1.748
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:21:50.442510+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "b9c554879157a963b0d839a868f76d53"
+            },
+            "elapsed_s": 0.246
+          }
+        ],
+        "run_id": "a64119d0-e800-4e2f-924a-780e9fa23c4f",
+        "http_end_utc": "2026-11-24T07:21:55.828875+00:00",
+        "exit": 0,
+        "elapsed_s": 53.879,
+        "result": {
+          "checkpoints": [
+            {
+              "exhausted": true,
+              "page_no": 4,
+              "segment_id": "0"
+            }
+          ],
+          "error_category": null,
+          "evaluated_count": 10169,
+          "finished_at": "2026-11-24 07:21:55.814899+00:00",
+          "heartbeat_at": "2026-11-24 07:21:55.814899+00:00",
+          "ingest_complete": true,
+          "invalid_count": 0,
+          "outside_scope_count": 2204,
+          "phase": "finished",
+          "published": true,
+          "published_at": "2026-11-24 07:21:55.814899+00:00",
+          "raw_inserted_count": 10064,
+          "received_count": 12373,
+          "retryable": false,
+          "run_id": "a64119d0-e800-4e2f-924a-780e9fa23c4f",
+          "started_at": "2026-11-24 07:21:02.006555+00:00",
+          "status": "succeeded",
+          "successful_update_upper_utc": null,
+          "valid_count": 10169
+        }
+      },
+      {
+        "args": [
+          "--mode",
+          "backfill",
+          "--start",
+          "2025-01-15",
+          "--end",
+          "2025-01-16",
+          "--page-size",
+          "5000"
+        ],
+        "http_attempts": [
+          {
+            "observed_at_utc": "2026-11-24T07:21:56.141945+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "83ac5a82767b442cb22dda32bc8af982"
+            },
+            "elapsed_s": 9.39
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:22:05.637161+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "bcfbf1332ac8bd270f06fc6de9fdafe5"
+            },
+            "elapsed_s": 4.989
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:22:11.371447+00:00",
+            "status": 503,
+            "headers": {
+              "x-socrata-requestid": "1a2ef75511e63e3af23510a43c5a7ca8"
+            },
+            "elapsed_s": 0.284
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:22:12.472035+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "2237343703d8b50db28eb6994e987c5d"
+            },
+            "elapsed_s": 12.814
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:22:27.028709+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "bbb41f5243fc941d2f13a843d33cb3ce"
+            },
+            "elapsed_s": 3.633
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:22:31.247671+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "1f18290b35ffa02010260319c00b13aa"
+            },
+            "elapsed_s": 7.513
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:22:39.029836+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "d335bb91a923e8049c0deb75c75c8f87"
+            },
+            "elapsed_s": 0.527
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:22:39.847519+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "aa58ef901659e3b6645d38ea716db584"
+            },
+            "elapsed_s": 4.604
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:22:45.205947+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "3bf654305334649b9f001bdce8bcd4bf"
+            },
+            "elapsed_s": 0.378
+          }
+        ],
+        "run_id": "872f0904-4479-4dd5-8863-b6f8c3343ac9",
+        "http_end_utc": "2026-11-24T07:22:50.254986+00:00",
+        "exit": 0,
+        "elapsed_s": 54.181,
+        "result": {
+          "checkpoints": [
+            {
+              "exhausted": true,
+              "page_no": 4,
+              "segment_id": "0"
+            }
+          ],
+          "error_category": null,
+          "evaluated_count": 10043,
+          "finished_at": "2026-11-24 07:22:50.238032+00:00",
+          "heartbeat_at": "2026-11-24 07:22:50.238032+00:00",
+          "ingest_complete": true,
+          "invalid_count": 0,
+          "outside_scope_count": 1867,
+          "phase": "finished",
+          "published": true,
+          "published_at": "2026-11-24 07:22:50.238032+00:00",
+          "raw_inserted_count": 7538,
+          "received_count": 11910,
+          "retryable": false,
+          "run_id": "872f0904-4479-4dd5-8863-b6f8c3343ac9",
+          "started_at": "2026-11-24 07:21:56.129917+00:00",
+          "status": "succeeded",
+          "successful_update_upper_utc": null,
+          "valid_count": 10043
+        }
+      },
+      {
+        "args": [
+          "--mode",
+          "backfill",
+          "--start",
+          "2025-01-16",
+          "--end",
+          "2025-01-17",
+          "--page-size",
+          "5000"
+        ],
+        "http_attempts": [
+          {
+            "observed_at_utc": "2026-11-24T07:22:50.628614+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "1468b8274ab92b2bb854741626a28132"
+            },
+            "elapsed_s": 1.891
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:22:53.164924+00:00",
+            "status": 503,
+            "headers": {
+              "x-socrata-requestid": "87cdf87476768d1547823a9dc2935edf"
+            },
+            "elapsed_s": 0.239
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:22:53.453150+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "81e216ecad70970ecac90fd76318ccbe"
+            },
+            "elapsed_s": 2.625
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:22:56.672027+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "a7bfc641118e52a00c21423210090246"
+            },
+            "elapsed_s": 9.009
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:23:05.777723+00:00",
+            "status": 503,
+            "headers": {
+              "x-socrata-requestid": "3d5cc5d9e70382f815fe0c3ac423ab4f"
+            },
+            "elapsed_s": 0.237
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:23:06.455270+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "23e7289968021f5c93a0cdb513e09aed"
+            },
+            "elapsed_s": 1.742
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:23:08.563706+00:00",
+            "status": 503,
+            "headers": {
+              "x-socrata-requestid": "94f87dea5831cb1a15f45354f8b04cdb"
+            },
+            "elapsed_s": 0.235
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:23:08.993268+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "e02691bd21f3afffe4f5f8bff4485f7c"
+            },
+            "elapsed_s": 0.289
+          }
+        ],
+        "run_id": "b1735dc6-3242-4004-bbb5-43f086f6d156",
+        "http_end_utc": "2026-11-24T07:23:15.291869+00:00",
+        "exit": 0,
+        "elapsed_s": 24.737,
+        "result": {
+          "checkpoints": [
+            {
+              "exhausted": true,
+              "page_no": 4,
+              "segment_id": "0"
+            }
+          ],
+          "error_category": null,
+          "evaluated_count": 10468,
+          "finished_at": "2026-11-24 07:23:15.278107+00:00",
+          "heartbeat_at": "2026-11-24 07:23:15.278107+00:00",
+          "ingest_complete": true,
+          "invalid_count": 0,
+          "outside_scope_count": 1822,
+          "phase": "finished",
+          "published": true,
+          "published_at": "2026-11-24 07:23:15.278107+00:00",
+          "raw_inserted_count": 10419,
+          "received_count": 12290,
+          "retryable": false,
+          "run_id": "b1735dc6-3242-4004-bbb5-43f086f6d156",
+          "started_at": "2026-11-24 07:22:50.617450+00:00",
+          "status": "succeeded",
+          "successful_update_upper_utc": null,
+          "valid_count": 10468
+        }
+      },
+      {
+        "args": [
+          "--mode",
+          "backfill",
+          "--start",
+          "2025-01-17",
+          "--end",
+          "2025-01-18",
+          "--page-size",
+          "5000"
+        ],
+        "http_attempts": [
+          {
+            "observed_at_utc": "2026-11-24T07:23:15.649300+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "07e4258e1d209b4814272c8e110f58e3"
+            },
+            "elapsed_s": 3.538
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:23:19.758084+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "150285d273b3ec20f8455e5c72a7616b"
+            },
+            "elapsed_s": 6.901
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:23:27.463543+00:00",
+            "status": 503,
+            "headers": {
+              "x-socrata-requestid": "6418551cf56015699f79623f800874c3"
+            },
+            "elapsed_s": 0.222
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:23:29.168262+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "80b3049ee4ef27c22c333afe039d116e"
+            },
+            "elapsed_s": 2.702
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:23:32.480716+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "babb33e78d863622d00d480130292870"
+            },
+            "elapsed_s": 1.048
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:23:33.726495+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "3520a6b809a9f25ce4473ab2f560a061"
+            },
+            "elapsed_s": 2.239
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:23:36.788626+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "f99e01fcf73e29da99b422cb29b61812"
+            },
+            "elapsed_s": 0.274
+          }
+        ],
+        "run_id": "5051cc0d-f790-4767-8534-2eccdf2551e8",
+        "http_end_utc": "2026-11-24T07:23:41.585295+00:00",
+        "exit": 0,
+        "elapsed_s": 26.009,
+        "result": {
+          "checkpoints": [
+            {
+              "exhausted": true,
+              "page_no": 4,
+              "segment_id": "0"
+            }
+          ],
+          "error_category": null,
+          "evaluated_count": 9483,
+          "finished_at": "2026-11-24 07:23:41.570562+00:00",
+          "heartbeat_at": "2026-11-24 07:23:41.570562+00:00",
+          "ingest_complete": true,
+          "invalid_count": 2,
+          "outside_scope_count": 1842,
+          "phase": "finished",
+          "published": true,
+          "published_at": "2026-11-24 07:23:41.570562+00:00",
+          "raw_inserted_count": 9413,
+          "received_count": 11325,
+          "retryable": false,
+          "run_id": "5051cc0d-f790-4767-8534-2eccdf2551e8",
+          "started_at": "2026-11-24 07:23:15.632518+00:00",
+          "status": "succeeded",
+          "successful_update_upper_utc": null,
+          "valid_count": 9481
+        }
+      },
+      {
+        "args": [
+          "--mode",
+          "backfill",
+          "--start",
+          "2025-01-18",
+          "--end",
+          "2025-01-19",
+          "--page-size",
+          "5000"
+        ],
+        "http_attempts": [
+          {
+            "observed_at_utc": "2026-11-24T07:23:41.886786+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "c1b687d22bd95ad55ef0a0000381a17e"
+            },
+            "elapsed_s": 1.79
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:23:44.284670+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "d84063bb68ac11a3f2306dfeffda64bd"
+            },
+            "elapsed_s": 7.539
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:23:51.908413+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "041a0b8920a30a349b3cdd36618f1171"
+            },
+            "elapsed_s": 1.226
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:23:53.696967+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "49ff885ed591a2d41222626fae2a9e0f"
+            },
+            "elapsed_s": 0.413
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:23:54.656412+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "4e67fed239a7208a693979d14307a081"
+            },
+            "elapsed_s": 1.881
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:23:58.206176+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "6758ff96e6d2f58e83a0c89dbba300b1"
+            },
+            "elapsed_s": 4.208
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:24:05.423799+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "4bbac665ae9fdfc2795295e05880e82d"
+            },
+            "elapsed_s": 0.25
+          }
+        ],
+        "run_id": "ce2cab1d-0662-4b39-8f85-2282d5eaf1ac",
+        "http_end_utc": "2026-11-24T07:24:09.917151+00:00",
+        "exit": 0,
+        "elapsed_s": 28.093,
+        "result": {
+          "checkpoints": [
+            {
+              "exhausted": true,
+              "page_no": 3,
+              "segment_id": "0"
+            }
+          ],
+          "error_category": null,
+          "evaluated_count": 8019,
+          "finished_at": "2026-11-24 07:24:09.892755+00:00",
+          "heartbeat_at": "2026-11-24 07:24:09.892755+00:00",
+          "ingest_complete": true,
+          "invalid_count": 0,
+          "outside_scope_count": 1484,
+          "phase": "finished",
+          "published": true,
+          "published_at": "2026-11-24 07:24:09.892755+00:00",
+          "raw_inserted_count": 7879,
+          "received_count": 9503,
+          "retryable": false,
+          "run_id": "ce2cab1d-0662-4b39-8f85-2282d5eaf1ac",
+          "started_at": "2026-11-24 07:23:41.870631+00:00",
+          "status": "succeeded",
+          "successful_update_upper_utc": null,
+          "valid_count": 8019
+        }
+      },
+      {
+        "args": [
+          "--mode",
+          "backfill",
+          "--start",
+          "2025-01-19",
+          "--end",
+          "2025-01-20",
+          "--page-size",
+          "5000"
+        ],
+        "http_attempts": [
+          {
+            "observed_at_utc": "2026-11-24T07:24:10.223759+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "ca488d2c9135e9e533872a9b060568cd"
+            },
+            "elapsed_s": 6.513
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:24:17.539671+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "10977396019cc1235fd643799d8bd679"
+            },
+            "elapsed_s": 1.098
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:24:19.413613+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "c9f1a06e5841f54ea4d1ab8ed0b3000c"
+            },
+            "elapsed_s": 0.719
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:24:20.673033+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "5f26edd6e0851964e6271a5e4e8f3434"
+            },
+            "elapsed_s": 0.401
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:24:22.056708+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "27392c70cca106f12cc3dd6f769eaae7"
+            },
+            "elapsed_s": 0.697
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:24:25.410516+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "ec5fae4a85ce6118fe4445445963eabe"
+            },
+            "elapsed_s": 0.362
+          }
+        ],
+        "run_id": "f26bdfeb-e277-477f-9345-57126c5d2e50",
+        "http_end_utc": "2026-11-24T07:24:30.374264+00:00",
+        "exit": 0,
+        "elapsed_s": 20.217,
+        "result": {
+          "checkpoints": [
+            {
+              "exhausted": true,
+              "page_no": 3,
+              "segment_id": "0"
+            }
+          ],
+          "error_category": null,
+          "evaluated_count": 8020,
+          "finished_at": "2026-11-24 07:24:30.347864+00:00",
+          "heartbeat_at": "2026-11-24 07:24:30.347864+00:00",
+          "ingest_complete": true,
+          "invalid_count": 0,
+          "outside_scope_count": 1330,
+          "phase": "finished",
+          "published": true,
+          "published_at": "2026-11-24 07:24:30.347864+00:00",
+          "raw_inserted_count": 8003,
+          "received_count": 9350,
+          "retryable": false,
+          "run_id": "f26bdfeb-e277-477f-9345-57126c5d2e50",
+          "started_at": "2026-11-24 07:24:10.207612+00:00",
+          "status": "succeeded",
+          "successful_update_upper_utc": null,
+          "valid_count": 8020
+        }
+      },
+      {
+        "args": [
+          "--mode",
+          "backfill",
+          "--start",
+          "2025-01-20",
+          "--end",
+          "2025-01-21",
+          "--page-size",
+          "5000"
+        ],
+        "http_attempts": [
+          {
+            "observed_at_utc": "2026-11-24T07:24:30.734049+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "177c53c94698a96f8d6b0f094ae5f49f"
+            },
+            "elapsed_s": 6.284
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:24:37.503751+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "ce1518857d96f370fbda81ab240836f1"
+            },
+            "elapsed_s": 1.759
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:24:39.831179+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "7b5fb81c5d79c9595263621ec8f53aab"
+            },
+            "elapsed_s": 6.259
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:24:46.615598+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "35aa58861b07a4bf9aa4bdd9fb38d052"
+            },
+            "elapsed_s": 2.132
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:24:49.662614+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "f2d6b7055b4c9a6bbd2d52c5fdf22bb1"
+            },
+            "elapsed_s": 0.293
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:24:50.035024+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "372e99190a68d1766abf81cd0632eb98"
+            },
+            "elapsed_s": 3.836
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:24:54.395236+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "352b3c3e416d7201f81e7d436bd1b973"
+            },
+            "elapsed_s": 4.301
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:24:59.279591+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "442dae087dfa98309e855c618193a059"
+            },
+            "elapsed_s": 1.384
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:25:03.189424+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "b8dd2e88ac956aafe32778a257bd7031"
+            },
+            "elapsed_s": 0.376
+          }
+        ],
+        "run_id": "cd8bf69b-8c5c-437a-9b63-7d355876038e",
+        "http_end_utc": "2026-11-24T07:25:03.598556+00:00",
+        "exit": 3,
+        "elapsed_s": 32.952,
+        "result": {
+          "category": "source_stale",
+          "published": false,
+          "retryable": true,
+          "run_id": "cd8bf69b-8c5c-437a-9b63-7d355876038e",
+          "status": "failed"
+        }
+      },
+      {
+        "args": [
+          "--resume-run-id",
+          "cd8bf69b-8c5c-437a-9b63-7d355876038e"
+        ],
+        "http_attempts": [
+          {
+            "observed_at_utc": "2026-11-24T07:25:03.950849+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "b325453f2c73f48d822a1a30e3390548"
+            },
+            "elapsed_s": 0.924
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:25:05.416823+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "eb3a83e479be395e4d3708b840d12f7e"
+            },
+            "elapsed_s": 2.891
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:25:08.379889+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "a988e4477ff49860faa94ba2bbfcd1c0"
+            },
+            "elapsed_s": 5.077
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:25:15.109205+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "619ed12d90255dfc78da9725e2e6a610"
+            },
+            "elapsed_s": 0.266
+          }
+        ],
+        "run_id": "cd8bf69b-8c5c-437a-9b63-7d355876038e",
+        "http_end_utc": "2026-11-24T07:25:20.347560+00:00",
+        "exit": 0,
+        "elapsed_s": 16.469,
+        "result": {
+          "checkpoints": [
+            {
+              "exhausted": true,
+              "page_no": 4,
+              "segment_id": "0"
+            }
+          ],
+          "error_category": null,
+          "evaluated_count": 8729,
+          "finished_at": "2026-11-24 07:25:20.332594+00:00",
+          "heartbeat_at": "2026-11-24 07:25:20.332594+00:00",
+          "ingest_complete": true,
+          "invalid_count": 0,
+          "outside_scope_count": 1637,
+          "phase": "finished",
+          "published": true,
+          "published_at": "2026-11-24 07:25:20.332594+00:00",
+          "raw_inserted_count": 9043,
+          "received_count": 10366,
+          "retryable": false,
+          "run_id": "cd8bf69b-8c5c-437a-9b63-7d355876038e",
+          "started_at": "2026-11-24 07:24:30.717939+00:00",
+          "status": "succeeded",
+          "successful_update_upper_utc": null,
+          "valid_count": 8729
+        }
+      },
+      {
+        "args": [
+          "--mode",
+          "backfill",
+          "--start",
+          "2025-01-21",
+          "--end",
+          "2025-01-22",
+          "--page-size",
+          "5000"
+        ],
+        "http_attempts": [
+          {
+            "observed_at_utc": "2026-11-24T07:25:20.687476+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "770ea2543269990bba8c489dcd82baed"
+            },
+            "elapsed_s": 1.761
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:25:23.235692+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "7a5ce45edac719462345aa80cf9ec8da"
+            },
+            "elapsed_s": 2.768
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:25:26.312745+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "4673e1c85bfe2502d72474dab3f2d8d1"
+            },
+            "elapsed_s": 1.622
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:25:28.689686+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "6776962a60714f0cdd1a518f0db87530"
+            },
+            "elapsed_s": 6.7
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:25:35.986942+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "0c7e76efa1b4e193b82a81ae1e1b6892"
+            },
+            "elapsed_s": 5.446
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:25:43.321402+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "5fecac1b7654bb2ee0abf44411164c83"
+            },
+            "elapsed_s": 2.511
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:25:46.742784+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "03ca9a5a5755966eb4507458e22260f9"
+            },
+            "elapsed_s": 0.299
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:25:47.088194+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "27fd3cf248c59223a58fb4ca3fbbb138"
+            },
+            "elapsed_s": 3.097
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:25:50.426316+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "f13ea5dd15023a27d95db8851fab2cec"
+            },
+            "elapsed_s": 0.256
+          }
+        ],
+        "run_id": "860a9959-ce54-456d-9773-e95b469e1434",
+        "http_end_utc": "2026-11-24T07:25:57.448260+00:00",
+        "exit": 0,
+        "elapsed_s": 36.832,
+        "result": {
+          "checkpoints": [
+            {
+              "exhausted": true,
+              "page_no": 5,
+              "segment_id": "0"
+            }
+          ],
+          "error_category": null,
+          "evaluated_count": 12854,
+          "finished_at": "2026-11-24 07:25:57.431322+00:00",
+          "heartbeat_at": "2026-11-24 07:25:57.431321+00:00",
+          "ingest_complete": true,
+          "invalid_count": 4,
+          "outside_scope_count": 2295,
+          "phase": "finished",
+          "published": true,
+          "published_at": "2026-11-24 07:25:57.431322+00:00",
+          "raw_inserted_count": 13217,
+          "received_count": 15149,
+          "retryable": false,
+          "run_id": "860a9959-ce54-456d-9773-e95b469e1434",
+          "started_at": "2026-11-24 07:25:20.671395+00:00",
+          "status": "succeeded",
+          "successful_update_upper_utc": null,
+          "valid_count": 12850
+        }
+      },
+      {
+        "args": [
+          "--mode",
+          "backfill",
+          "--start",
+          "2025-01-22",
+          "--end",
+          "2025-01-23",
+          "--page-size",
+          "5000"
+        ],
+        "http_attempts": [
+          {
+            "observed_at_utc": "2026-11-24T07:25:57.799570+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "f2df9e38a53f56d4bdca7fe3ffe5b7fa"
+            },
+            "elapsed_s": 3.702
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:26:02.131813+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "f63d6af31ac0d9274e2120abe02590f8"
+            },
+            "elapsed_s": 4.249
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:26:06.991367+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "0cccc1661ff1da0c56de3a0a299ec5b9"
+            },
+            "elapsed_s": 1.097
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:26:08.625723+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "41d9cb454f36dcbcabdecd7e0650dc78"
+            },
+            "elapsed_s": 6.626
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:26:15.675300+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "25e6c85ab17dde773fab545e92a4d3df"
+            },
+            "elapsed_s": 0.958
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:26:16.892230+00:00",
+            "status": 503,
+            "headers": {
+              "x-socrata-requestid": "bf4a3d0fbf608a063e5bf2d0496c6809"
+            },
+            "elapsed_s": 0.251
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:26:17.214243+00:00",
+            "status": 503,
+            "headers": {
+              "x-socrata-requestid": "a9439133b80cdc4d9f8ba0da200baa92"
+            },
+            "elapsed_s": 0.233
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:26:17.656861+00:00",
+            "status": 503,
+            "headers": {
+              "x-socrata-requestid": "cd5aec345f98c2edff2ac6c2480b891c"
+            },
+            "elapsed_s": 0.22
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:26:21.701377+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "5a7d5bf179bff8576d845cd893a46457"
+            },
+            "elapsed_s": 0.359
+          }
+        ],
+        "run_id": "2e8de5fb-99d2-4191-bb5a-07bfb5f39806",
+        "http_end_utc": "2026-11-24T07:26:28.915962+00:00",
+        "exit": 0,
+        "elapsed_s": 31.196,
+        "result": {
+          "checkpoints": [
+            {
+              "exhausted": true,
+              "page_no": 5,
+              "segment_id": "0"
+            }
+          ],
+          "error_category": null,
+          "evaluated_count": 13851,
+          "finished_at": "2026-11-24 07:26:28.893182+00:00",
+          "heartbeat_at": "2026-11-24 07:26:28.893182+00:00",
+          "ingest_complete": true,
+          "invalid_count": 1,
+          "outside_scope_count": 2531,
+          "phase": "finished",
+          "published": true,
+          "published_at": "2026-11-24 07:26:28.893182+00:00",
+          "raw_inserted_count": 13757,
+          "received_count": 16382,
+          "retryable": false,
+          "run_id": "2e8de5fb-99d2-4191-bb5a-07bfb5f39806",
+          "started_at": "2026-11-24 07:25:57.782230+00:00",
+          "status": "succeeded",
+          "successful_update_upper_utc": null,
+          "valid_count": 13850
+        }
+      },
+      {
+        "args": [
+          "--mode",
+          "backfill",
+          "--start",
+          "2025-01-23",
+          "--end",
+          "2025-01-24",
+          "--page-size",
+          "5000"
+        ],
+        "http_attempts": [
+          {
+            "observed_at_utc": "2026-11-24T07:26:29.273563+00:00",
+            "status": 503,
+            "headers": {
+              "x-socrata-requestid": "f7b1bb911a72f8407ab80bdb842a9741"
+            },
+            "elapsed_s": 0.832
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:26:30.228953+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "54cc9482a9b2a09a6b40dd0c01f41671"
+            },
+            "elapsed_s": 1.99
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:26:32.820827+00:00",
+            "status": 503,
+            "headers": {
+              "x-socrata-requestid": "3a1b619d60eb85f3a49c8a71e96b7dc5"
+            },
+            "elapsed_s": 0.256
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:26:33.612610+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "fcc93db3fd6760a558e2a34d31abb274"
+            },
+            "elapsed_s": 0.896
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:26:35.117435+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "f6144cbd633fce477564aebfb6b07664"
+            },
+            "elapsed_s": 3.055
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:26:38.693587+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "5d5a202b9583255a28d5c74feef8d685"
+            },
+            "elapsed_s": 4.551
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:26:43.290955+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "2c04585f4fcb74b61477359a9fb5b531"
+            },
+            "elapsed_s": 8.289
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:26:53.453343+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "8cb45a2da05df521287a939a75eef0ab"
+            },
+            "elapsed_s": 5.191
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:27:01.037574+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "94e14a86a4c01b3ceba4258e58a60503"
+            },
+            "elapsed_s": 0.25
+          }
+        ],
+        "run_id": "1acb5014-5e86-45ff-8e0e-9538591a0dc1",
+        "http_end_utc": "2026-11-24T07:27:08.083805+00:00",
+        "exit": 0,
+        "elapsed_s": 38.888,
+        "result": {
+          "checkpoints": [
+            {
+              "exhausted": true,
+              "page_no": 4,
+              "segment_id": "0"
+            }
+          ],
+          "error_category": null,
+          "evaluated_count": 11971,
+          "finished_at": "2026-11-24 07:27:08.070524+00:00",
+          "heartbeat_at": "2026-11-24 07:27:08.070524+00:00",
+          "ingest_complete": true,
+          "invalid_count": 2,
+          "outside_scope_count": 2324,
+          "phase": "finished",
+          "published": true,
+          "published_at": "2026-11-24 07:27:08.070524+00:00",
+          "raw_inserted_count": 11758,
+          "received_count": 14295,
+          "retryable": false,
+          "run_id": "1acb5014-5e86-45ff-8e0e-9538591a0dc1",
+          "started_at": "2026-11-24 07:26:29.260059+00:00",
+          "status": "succeeded",
+          "successful_update_upper_utc": null,
+          "valid_count": 11969
+        }
+      },
+      {
+        "args": [
+          "--mode",
+          "backfill",
+          "--start",
+          "2025-01-24",
+          "--end",
+          "2025-01-25",
+          "--page-size",
+          "5000"
+        ],
+        "http_attempts": [
+          {
+            "observed_at_utc": "2026-11-24T07:27:08.419128+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "d615af66923c62a142ff376ddb5ac24d"
+            },
+            "elapsed_s": 5.461
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:27:14.649414+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "f91b80fa76266e05333b3dbd29174045"
+            },
+            "elapsed_s": 3.163
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:27:18.511314+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "b52e4c2d2d8701eaf1cac3219984811b"
+            },
+            "elapsed_s": 3.26
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:27:22.542450+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "264fa60ebe7527c1739ffc623c97ca42"
+            },
+            "elapsed_s": 1.748
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:27:24.772823+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "5800bb43995512cc06e71611b13b8beb"
+            },
+            "elapsed_s": 1.852
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:27:26.915162+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "2d83d3279d0729c9ad49fa26cf717b43"
+            },
+            "elapsed_s": 2.555
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:27:31.272394+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "111c77963ca87b8be675b43442eee9d9"
+            },
+            "elapsed_s": 0.899
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:27:32.429124+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "45cf15cc593b5decf44bbce5f70ba27b"
+            },
+            "elapsed_s": 0.296
+          }
+        ],
+        "run_id": "5ad3fc1f-d39d-4109-8251-419dcdde5fa0",
+        "http_end_utc": "2026-11-24T07:27:38.855325+00:00",
+        "exit": 0,
+        "elapsed_s": 30.516,
+        "result": {
+          "checkpoints": [
+            {
+              "exhausted": true,
+              "page_no": 4,
+              "segment_id": "0"
+            }
+          ],
+          "error_category": null,
+          "evaluated_count": 11688,
+          "finished_at": "2026-11-24 07:27:38.838800+00:00",
+          "heartbeat_at": "2026-11-24 07:27:38.838800+00:00",
+          "ingest_complete": true,
+          "invalid_count": 12,
+          "outside_scope_count": 2204,
+          "phase": "finished",
+          "published": true,
+          "published_at": "2026-11-24 07:27:38.838800+00:00",
+          "raw_inserted_count": 11770,
+          "received_count": 13892,
+          "retryable": false,
+          "run_id": "5ad3fc1f-d39d-4109-8251-419dcdde5fa0",
+          "started_at": "2026-11-24 07:27:08.407086+00:00",
+          "status": "succeeded",
+          "successful_update_upper_utc": null,
+          "valid_count": 11676
+        }
+      },
+      {
+        "args": [
+          "--mode",
+          "backfill",
+          "--start",
+          "2025-01-25",
+          "--end",
+          "2025-01-26",
+          "--page-size",
+          "5000"
+        ],
+        "http_attempts": [
+          {
+            "observed_at_utc": "2026-11-24T07:27:39.201812+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "0683e2758db65c2af1b1c15394398720"
+            },
+            "elapsed_s": 3.674
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:27:43.038162+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "b1dea2d1167def5c878b1bddd285a569"
+            },
+            "elapsed_s": 7.28
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:27:51.464775+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "fe531d5b2f584ba3eb9952a08105a3bf"
+            },
+            "elapsed_s": 4.376
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:27:56.078109+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "920c2e03df5295fbb1d55b5a51d7c28f"
+            },
+            "elapsed_s": 0.599
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:27:57.285642+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "34afca8f6d158f72d465a367a49a5755"
+            },
+            "elapsed_s": 5.162
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:28:03.007490+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "b060bc3ada7f51e1c4903380108dddaf"
+            },
+            "elapsed_s": 5.79
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:28:09.643474+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "1cc72d16dc4b092b5857b2d4fa1428a4"
+            },
+            "elapsed_s": 1.309
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:28:11.138404+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "2848089124dac50f05a4944fe3b287bd"
+            },
+            "elapsed_s": 2.19
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:28:13.596441+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "fa41a8d6d8f220a696b6f95e71e56843"
+            },
+            "elapsed_s": 2.205
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:28:16.915878+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "8384e17b339e3f9e8f7f12150c97d60a"
+            },
+            "elapsed_s": 3.219
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:28:22.056602+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "504a91cf3b44f8f85433ed00781bd8a1"
+            },
+            "elapsed_s": 5.503
+          }
+        ],
+        "run_id": "8557480e-9c92-4da2-820b-70c0be342e70",
+        "http_end_utc": "2026-11-24T07:28:27.586849+00:00",
+        "exit": 3,
+        "elapsed_s": 48.462,
+        "result": {
+          "category": "source_stale",
+          "published": false,
+          "retryable": true,
+          "run_id": "8557480e-9c92-4da2-820b-70c0be342e70",
+          "status": "failed"
+        }
+      },
+      {
+        "args": [
+          "--resume-run-id",
+          "8557480e-9c92-4da2-820b-70c0be342e70"
+        ],
+        "http_attempts": [
+          {
+            "observed_at_utc": "2026-11-24T07:28:27.967394+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "621caa36ee1cefd3c27327d369e4283b"
+            },
+            "elapsed_s": 0.789
+          }
+        ],
+        "run_id": "8557480e-9c92-4da2-820b-70c0be342e70",
+        "http_end_utc": "2026-11-24T07:28:33.683303+00:00",
+        "exit": 0,
+        "elapsed_s": 5.793,
+        "result": {
+          "checkpoints": [
+            {
+              "exhausted": true,
+              "page_no": 4,
+              "segment_id": "0"
+            }
+          ],
+          "error_category": null,
+          "evaluated_count": 9304,
+          "finished_at": "2026-11-24 07:28:33.661510+00:00",
+          "heartbeat_at": "2026-11-24 07:28:33.661510+00:00",
+          "ingest_complete": true,
+          "invalid_count": 0,
+          "outside_scope_count": 1933,
+          "phase": "finished",
+          "published": true,
+          "published_at": "2026-11-24 07:28:33.661510+00:00",
+          "raw_inserted_count": 8944,
+          "received_count": 11237,
+          "retryable": false,
+          "run_id": "8557480e-9c92-4da2-820b-70c0be342e70",
+          "started_at": "2026-11-24 07:27:39.185665+00:00",
+          "status": "succeeded",
+          "successful_update_upper_utc": null,
+          "valid_count": 9304
+        }
+      },
+      {
+        "args": [
+          "--mode",
+          "backfill",
+          "--start",
+          "2025-01-26",
+          "--end",
+          "2025-01-27",
+          "--page-size",
+          "5000"
+        ],
+        "http_attempts": [
+          {
+            "observed_at_utc": "2026-11-24T07:28:33.996251+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "01fec822cc17b466f82e88e614b5f447"
+            },
+            "elapsed_s": 2.612
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:28:37.184877+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "8ecf10079d6e7a6dedd61fa64e4acf22"
+            },
+            "elapsed_s": 7.389
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:28:44.923051+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "95e94cda72dbfe9769b93cfee9e8f13f"
+            },
+            "elapsed_s": 1.46
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:28:46.943019+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "1d91c0c23ca4a1b03819a323a3695bb0"
+            },
+            "elapsed_s": 0.323
+          }
+        ],
+        "run_id": "9ca50e37-c54b-4205-8216-6e1f8f95e04f",
+        "http_end_utc": "2026-11-24T07:28:51.360898+00:00",
+        "exit": 0,
+        "elapsed_s": 17.429,
+        "result": {
+          "checkpoints": [
+            {
+              "exhausted": true,
+              "page_no": 3,
+              "segment_id": "0"
+            }
+          ],
+          "error_category": null,
+          "evaluated_count": 8127,
+          "finished_at": "2026-11-24 07:28:51.342748+00:00",
+          "heartbeat_at": "2026-11-24 07:28:51.342748+00:00",
+          "ingest_complete": true,
+          "invalid_count": 0,
+          "outside_scope_count": 1521,
+          "phase": "finished",
+          "published": true,
+          "published_at": "2026-11-24 07:28:51.342748+00:00",
+          "raw_inserted_count": 8127,
+          "received_count": 9648,
+          "retryable": false,
+          "run_id": "9ca50e37-c54b-4205-8216-6e1f8f95e04f",
+          "started_at": "2026-11-24 07:28:33.980677+00:00",
+          "status": "succeeded",
+          "successful_update_upper_utc": null,
+          "valid_count": 8127
+        }
+      },
+      {
+        "args": [
+          "--mode",
+          "backfill",
+          "--start",
+          "2025-01-27",
+          "--end",
+          "2025-01-28",
+          "--page-size",
+          "5000"
+        ],
+        "http_attempts": [
+          {
+            "observed_at_utc": "2026-11-24T07:28:52.000791+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "b0110de0989cc97527116034430eac43"
+            },
+            "elapsed_s": 2.37
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:28:55.457757+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "0ba9b45454a6eeb7cc173a19d463ca92"
+            },
+            "elapsed_s": 1.355
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:28:57.448564+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "de0ade58fd695ffad08dc0d5826430ef"
+            },
+            "elapsed_s": 12.148
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:29:10.456714+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "148b7e8b7c88445e44bd4d3c7d73b723"
+            },
+            "elapsed_s": 1.281
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:29:11.990495+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "181de361490ccefeb77b7a5cc90712a3"
+            },
+            "elapsed_s": 4.947
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:29:16.990633+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "ded585a71798337ab054bf440cfbbd78"
+            },
+            "elapsed_s": 2.398
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:29:20.947620+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "399573afc5f896995fe3b082a57e4326"
+            },
+            "elapsed_s": 0.232
+          }
+        ],
+        "run_id": "d1c2ca49-d9c9-4f2f-b05b-4412148a94d9",
+        "http_end_utc": "2026-11-24T07:29:26.465760+00:00",
+        "exit": 0,
+        "elapsed_s": 34.568,
+        "result": {
+          "checkpoints": [
+            {
+              "exhausted": true,
+              "page_no": 4,
+              "segment_id": "0"
+            }
+          ],
+          "error_category": null,
+          "evaluated_count": 9688,
+          "finished_at": "2026-11-24 07:29:26.442173+00:00",
+          "heartbeat_at": "2026-11-24 07:29:26.442173+00:00",
+          "ingest_complete": true,
+          "invalid_count": 38,
+          "outside_scope_count": 1740,
+          "phase": "finished",
+          "published": true,
+          "published_at": "2026-11-24 07:29:26.442173+00:00",
+          "raw_inserted_count": 9742,
+          "received_count": 11428,
+          "retryable": false,
+          "run_id": "d1c2ca49-d9c9-4f2f-b05b-4412148a94d9",
+          "started_at": "2026-11-24 07:28:51.970931+00:00",
+          "status": "succeeded",
+          "successful_update_upper_utc": null,
+          "valid_count": 9650
+        }
+      },
+      {
+        "args": [
+          "--mode",
+          "backfill",
+          "--start",
+          "2025-01-28",
+          "--end",
+          "2025-01-29",
+          "--page-size",
+          "5000"
+        ],
+        "http_attempts": [
+          {
+            "observed_at_utc": "2026-11-24T07:29:26.851459+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "102552ad997a9d8d1f9b7c874f007647"
+            },
+            "elapsed_s": 2.653
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:29:30.108328+00:00",
+            "status": 503,
+            "headers": {
+              "x-socrata-requestid": "d77839986696e5f4ef78a9c51b9bf7a7"
+            },
+            "elapsed_s": 0.225
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:29:31.154784+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "4e9a55b140b07e9c2332c5db9c9466d3"
+            },
+            "elapsed_s": 1.639
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:29:33.614738+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "9ed820c5ac1d4c6951a129b576029b36"
+            },
+            "elapsed_s": 0.676
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:29:34.504567+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "b315b7fdc66f712985c12dac955d7b4f"
+            },
+            "elapsed_s": 0.286
+          }
+        ],
+        "run_id": "bbaf6d8c-72e0-4133-942f-c4ed772ae088",
+        "http_end_utc": "2026-11-24T07:29:39.662770+00:00",
+        "exit": 0,
+        "elapsed_s": 12.894,
+        "result": {
+          "checkpoints": [
+            {
+              "exhausted": true,
+              "page_no": 4,
+              "segment_id": "0"
+            }
+          ],
+          "error_category": null,
+          "evaluated_count": 9496,
+          "finished_at": "2026-11-24 07:29:39.644253+00:00",
+          "heartbeat_at": "2026-11-24 07:29:39.644253+00:00",
+          "ingest_complete": true,
+          "invalid_count": 8,
+          "outside_scope_count": 1735,
+          "phase": "finished",
+          "published": true,
+          "published_at": "2026-11-24 07:29:39.644253+00:00",
+          "raw_inserted_count": 9512,
+          "received_count": 11231,
+          "retryable": false,
+          "run_id": "bbaf6d8c-72e0-4133-942f-c4ed772ae088",
+          "started_at": "2026-11-24 07:29:26.832718+00:00",
+          "status": "succeeded",
+          "successful_update_upper_utc": null,
+          "valid_count": 9488
+        }
+      },
+      {
+        "args": [
+          "--mode",
+          "backfill",
+          "--start",
+          "2025-01-29",
+          "--end",
+          "2025-01-30",
+          "--page-size",
+          "5000"
+        ],
+        "http_attempts": [
+          {
+            "observed_at_utc": "2026-11-24T07:29:39.974416+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "9b8b5f7822f637c30169dc934197b504"
+            },
+            "elapsed_s": 1.96
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:29:42.517707+00:00",
+            "status": 503,
+            "headers": {
+              "x-socrata-requestid": "83f91923001c60931adb7ebb477c092d"
+            },
+            "elapsed_s": 0.309
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:29:42.852179+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "c100361cdaecc76de2c35f636bfeaa3f"
+            },
+            "elapsed_s": 4.799
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:29:49.615179+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "e75098db921daa18a18e4ab0b47bf3d8"
+            },
+            "elapsed_s": 1.331
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:29:51.567152+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "9ec582f286d0d2a92fc0dc5e8177c8d0"
+            },
+            "elapsed_s": 0.586
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:29:52.358809+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "c4fe40ce5fa157b5d1673d0c2051b7a9"
+            },
+            "elapsed_s": 7.284
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:30:00.455447+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "b77d79e610200a520135f419f6e56edd"
+            },
+            "elapsed_s": 0.249
+          }
+        ],
+        "run_id": "2f5cb676-c8e8-43f1-b747-4730d0de4e86",
+        "http_end_utc": "2026-11-24T07:30:05.545669+00:00",
+        "exit": 0,
+        "elapsed_s": 25.635,
+        "result": {
+          "checkpoints": [
+            {
+              "exhausted": true,
+              "page_no": 4,
+              "segment_id": "0"
+            }
+          ],
+          "error_category": null,
+          "evaluated_count": 9072,
+          "finished_at": "2026-11-24 07:30:05.519933+00:00",
+          "heartbeat_at": "2026-11-24 07:30:05.519933+00:00",
+          "ingest_complete": true,
+          "invalid_count": 4,
+          "outside_scope_count": 1626,
+          "phase": "finished",
+          "published": true,
+          "published_at": "2026-11-24 07:30:05.519933+00:00",
+          "raw_inserted_count": 9025,
+          "received_count": 10698,
+          "retryable": false,
+          "run_id": "2f5cb676-c8e8-43f1-b747-4730d0de4e86",
+          "started_at": "2026-11-24 07:29:39.959677+00:00",
+          "status": "succeeded",
+          "successful_update_upper_utc": null,
+          "valid_count": 9068
+        }
+      },
+      {
+        "args": [
+          "--mode",
+          "backfill",
+          "--start",
+          "2025-01-30",
+          "--end",
+          "2025-01-31",
+          "--page-size",
+          "5000"
+        ],
+        "http_attempts": [
+          {
+            "observed_at_utc": "2026-11-24T07:30:05.844803+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "0f23885baa9a533a5756a5f4b1887ab1"
+            },
+            "elapsed_s": 8.661
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:30:14.832954+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "0b9a752ce327f46da0b6270d2696020a"
+            },
+            "elapsed_s": 4.265
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:30:19.985688+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "true",
+              "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+              "x-socrata-requestid": "f8eb16862fd492a2c621e7ab203c7495"
+            },
+            "elapsed_s": 4.966
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:30:25.722020+00:00",
+            "status": 503,
+            "headers": {
+              "x-socrata-requestid": "5098a4291e1a723829c31900d30a9f5f"
+            },
+            "elapsed_s": 0.262
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:30:27.683953+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "4f0fef40870d8f9ee95e725aff42415c"
+            },
+            "elapsed_s": 1.449
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:30:29.840979+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "04c358d084a286fd9a00f2000362efa2"
+            },
+            "elapsed_s": 3.345
+          },
+          {
+            "observed_at_utc": "2026-11-24T07:30:33.373719+00:00",
+            "status": 200,
+            "headers": {
+              "x-soda2-data-out-of-date": "false",
+              "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+              "x-socrata-requestid": "7ccb61bff193c878d18a7dc1ca72e7a9"
+            },
+            "elapsed_s": 0.305
+          }
+        ],
+        "run_id": "67710083-0811-46cb-bc3c-5f458218ddad",
+        "http_end_utc": "2026-11-24T07:30:37.993256+00:00",
+        "exit": 0,
+        "elapsed_s": 32.211,
+        "result": {
+          "checkpoints": [
+            {
+              "exhausted": true,
+              "page_no": 4,
+              "segment_id": "0"
+            }
+          ],
+          "error_category": null,
+          "evaluated_count": 9459,
+          "finished_at": "2026-11-24 07:30:37.978173+00:00",
+          "heartbeat_at": "2026-11-24 07:30:37.978173+00:00",
+          "ingest_complete": true,
+          "invalid_count": 10,
+          "outside_scope_count": 1714,
+          "phase": "finished",
+          "published": true,
+          "published_at": "2026-11-24 07:30:37.978173+00:00",
+          "raw_inserted_count": 9509,
+          "received_count": 11173,
+          "retryable": false,
+          "run_id": "67710083-0811-46cb-bc3c-5f458218ddad",
+          "started_at": "2026-11-24 07:30:05.830903+00:00",
+          "status": "succeeded",
+          "successful_update_upper_utc": null,
+          "valid_count": 9449
+        }
+      }
+    ],
+    "official_export_probes": [
+      {
+        "url": "https://data.cityofnewyork.us/api/v3/views/erm2-nwe9/export.csv?accessType=DOWNLOAD",
+        "method": "HEAD",
+        "observed_utc": "2026-11-24T07:19:45.187363+00:00",
+        "status": 200,
+        "headers": {
+          "date": "Tue, 24 Nov 2026 08:49:18 GMT",
+          "content-type": "text/csv; charset=utf-8",
+          "content-length": "0",
+          "last-modified": "Tue, 24 Nov 2026 08:49:18 GMT",
+          "etag": "W/\"TUIQHiV9a3Ifffaxiv2zDeqG1NP2A4qidOM5M0gIlAw\"",
+          "x-soda2-data-out-of-date": "[]",
+          "x-socrata-requestid": "fbe3b471349d840214ea7e194007b2a1"
+        }
+      },
+      {
+        "url": "https://data.cityofnewyork.us/api/v3/views/erm2-nwe9/export.csv?accessType=DOWNLOAD",
+        "method": "GET",
+        "observed_utc": "2026-11-24T07:19:46.330120+00:00",
+        "status": 200,
+        "headers": {
+          "date": "Tue, 24 Nov 2026 08:49:20 GMT",
+          "content-type": "text/csv; charset=utf-8",
+          "last-modified": "Tue, 24 Nov 2026 08:49:19 GMT",
+          "etag": "W/\"8eoSnDWvaRRu9cCwp904mGGlttDtsoBAqGO7rm4gQW4--gzip\"",
+          "x-soda2-data-out-of-date": "[\"erm2-nwe9\"]",
+          "x-socrata-requestid": "872fc87ddc51e72cb9016b4155565573"
+        },
+        "sampled_bytes": 4096
+      },
+      {
+        "url": "https://data.cityofnewyork.us/api/views/erm2-nwe9/rows.csv?accessType=DOWNLOAD",
+        "method": "HEAD",
+        "observed_utc": "2026-11-24T07:19:47.922397+00:00",
+        "status": 200,
+        "headers": {
+          "date": "Tue, 24 Nov 2026 08:49:25 GMT",
+          "content-type": "text/csv; charset=utf-8",
+          "content-length": "0",
+          "sunset": "Tue, 22 Dec 2026 00:00:00 GMT",
+          "etag": "\"Zm94dHJvdC4xNTY1NV8xODNfMTk0NzQzOXZFNElNVGlORmdKUnprbTFLdk0tWEFqOUEw---gzipwybGPH6U_taZFuqee4UVX9hg7iI--gzip\"",
+          "x-soda2-data-out-of-date": "false",
+          "x-soda2-truth-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+          "x-soda2-secondary-last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+          "last-modified": "Tue, 24 Nov 2026 02:42:04 GMT",
+          "x-socrata-requestid": "97aefa75de39059d4afe3a1891d74a9e"
+        }
+      },
+      {
+        "url": "https://data.cityofnewyork.us/api/views/erm2-nwe9/rows.csv?accessType=DOWNLOAD",
+        "method": "GET",
+        "observed_utc": "2026-11-24T07:19:53.580351+00:00",
+        "status": 200,
+        "headers": {
+          "date": "Tue, 24 Nov 2026 08:49:33 GMT",
+          "content-type": "text/csv; charset=utf-8",
+          "sunset": "Tue, 22 Dec 2026 00:00:00 GMT",
+          "etag": "\"Zm94dHJvdC4xNTY1NV8xODNfMTk0NzM2OXZFNElNVGlORmdKUnprbTFLdk0tWEFqOUEw---gzipwybGPH6U_taZFuqee4UVX9hg7iI--gzip--gzip\"",
+          "x-soda2-data-out-of-date": "true",
+          "x-soda2-truth-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+          "x-soda2-secondary-last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+          "last-modified": "Mon, 23 Nov 2026 02:37:55 GMT",
+          "x-socrata-requestid": "49fa44af44010ee4ab6b1b59b2d51b1a"
+        },
+        "sampled_bytes": 4096
+      }
+    ],
+    "stop": "The window-start budget expired. The final Jan 30–31 window completed successfully, so the campaign stopped without opening the next window."
+  }
 }

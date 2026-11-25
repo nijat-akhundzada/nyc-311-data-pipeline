@@ -1,11 +1,86 @@
 # Final iteration evidence — 24 November 2026
 
-**PR #10 is merged; real-source follow-up evidence is on a new review branch.
-Submission recommendation: NOT READY.**
-Deadline 26 November 2026. Assignment source: [teacher PDF](source-assignment.pdf).
-PR #9 is merged; this iteration uses the existing modular Python/psycopg system,
-not a new ingestion framework. ADR-001 remains **PROPOSED**. No applied SQL migration,
-shared dependency tooling, API freshness policy or publication contract was changed.
+**Submission recommendation: TECHNICAL REQUIREMENTS PASS; PENDING HUMAN/GITHUB ACTIONS.** Deadline 26 November 2026.
+See the [teacher PDF](source-assignment.pdf) and [requirement matrix](submission-checklist.md).
+Final readiness work started from `6c98a8f`, the merge of
+[PR #11](https://github.com/nijat-akhundzada/nyc-311-data-pipeline/pull/11).
+[PR CI](https://github.com/nijat-akhundzada/nyc-311-data-pipeline/actions/runs/45355202036)
+and [main CI](https://github.com/nijat-akhundzada/nyc-311-data-pipeline/actions/runs/45355638854)
+both succeeded at that baseline. ADR-001 remains **PROPOSED**.
+
+## Final real-source campaign
+
+The retained volume `nyc311_final_real_data` has **1,033,290 distinct Bronze IDs,
+1,002,639 published Silver requests and 1,002,639 published Gold facts**.
+The 1,000,000 genuine published records requirement is **ACHIEVED** (PASS).
+Of the 1,002,639 facts, 988,835 are eligible for closure metrics.
+Quarantined records total 410: 409 for `closed_before_created` and 1 for
+`nonexistent_local_time` (captured during the March 2025 Eastern DST spring-forward
+transition, validating local timezone validation rules on real data).
+
+The campaign executed daily UTC windows across 2025 with bounded 5,000-row page requests,
+durable PostgreSQL checkpoints, and automatic retry/resume on transient `source_stale`
+and HTTP transport events. Across the entire database history, **119 pipeline runs**
+are recorded in `ops.pipeline_runs`, with zero partial publication leaks and zero
+synthetic records in the real database.
+
+### Official export and SCD2
+
+NYC Open Data advertises a separate 2010–2019 archive. The current
+2020-present dataset export is a different source view, and no immutable
+2025 release was verified. HEAD and bounded 4 KiB GET probes were made against
+both official CSV routes. Bulk import remains unimplemented because
+these results leave freshness, completeness and restart identity unresolved.
+
+The SCD2 sampling strategy evaluated 50 recently created, unresolved non-closed requests
+across multiple city agencies against live source views from the NYC Open Data endpoint.
+The probe returned an acceptable fresh view (`X-SODA2-Data-Out-Of-Date: false`) on truth
+generation `2026-11-24T02:42:04Z`. All 50 probed records matched the stored normalized
+status, agency, and complaint type with zero publisher-side status changes observed.
+Database queries confirm 0 noncurrent real state versions and 0 facts referencing a
+noncurrent state. Genuine SCD2 remains **PARTIAL** without fabricating synthetic changes.
+[Observations](source-smoke-test.md#final-readiness-scd2-observation)
+
+## Final clean-checkout verification
+
+A clean archive of the merged baseline and a fresh Python 3.12.11 environment
+installed the development lock and editable package. The standard README pip
+commands also succeeded in a separate environment, and `pip check` passed. The
+complete suite ran against a disposable PostgreSQL 16.14 maintenance database.
+`TEST_DATABASE_URL=… .venv/bin/pytest -q` passed all **273 tests in 18.35s**. A
+feature-worktree rerun passed all 273 in 21.14s.
+`ruff check .`, `ruff format --check .`, `pre-commit run --all-files` (seven hooks),
+`bash scripts/validate-context.sh` and `git diff --check` passed.
+
+An isolated Compose copy assigned the database and volume unique names and used
+host port 55442. `docker compose up -d --wait db` and
+`docker compose --profile pipeline build pipeline` succeeded. The runtime user
+was UID 10001. `pipeline migrate` applied 0001–0004 and `pipeline health`
+returned healthy. After restarting the disposable database, health passed and the
+named volume retained 20 Gold facts, two quarantines and one watermark.
+
+| Fixture check | Canonical evidence |
+|---|---|
+| Capped backfill and resume | `1251003f-6291-41da-98ee-e650ce51dc28` paused with five rows, checkpoint page 1 and zero publication. Explicit resume exhausted page 3 and published 20. |
+| Replay | `f009c423-197e-4b7a-a3b6-f69472675983` inserted zero new Bronze rows and kept the Silver and Gold fingerprints and the 20-state count identical. |
+| Gate failure | `81e4912f-5c6f-4a14-89fa-c81033ff9a9c` exited 4 with two of 20 quarantined. The same published fingerprints, state count and watermark count held. |
+| Scheduler wrapper | The explicit initial incremental published 20 fixture requests. `scripts/scheduled-run.sh` then published run `2189ed63-e3f0-472e-a504-7572be9794a2` with zero new Bronze rows and a persisted successful watermark. |
+
+The earlier [recovery drills](failure-recovery-report.md) record the actual
+SIGKILL and database-unavailable runs. The [scheduler evidence](scheduling-evidence.md)
+records the actual host cron trigger. The current fixture rerun used the same
+operational CLI and kept fixtures out of the retained database.
+
+The tracked-file history contains the placeholder `.env.example` and no
+matching dataset dumps or credential files under the checked extensions.
+A targeted Git-history search returned no private-key blocks or matching token
+patterns for GitHub, AWS access-key IDs and OpenAI. These checks are limited to
+the inspected file names and patterns.
+
+## Earlier evidence from merged PRs #10 and #11
+
+The sections below describe the previous experiments and branch delivery as
+observed at the time. The final readiness counts and campaign appear above.
 
 ## Real source and publication
 
@@ -127,7 +202,7 @@ Local success must never be represented as GitHub Actions success. Existing CI s
 `tests/integration`, including the new analytics test. Destructive manual drills
 are intentionally outside CI.
 
-## Remaining release gates
+## Release gates at the earlier integrated milestone
 
 One-million genuine records and scale benchmark, genuine observed source SCD2
 transition, full publisher/timezone/update semantics, substantive cross-owner peer
@@ -244,31 +319,27 @@ this is not a full SQL profile, but gives no reason to redesign storage or quali
 logic. There is no demonstrated unsupported-query error, broken keyset predicate,
 429 limit or million-row memory buffer in these attempts.
 
-**Submission still NOT READY:** 957,262 further published requests are needed to
-reach one million Gold facts; obtain stable fresh views or a verified immutable
-archive contract, then resume/complete bounded runs and remeasure scale performance.
-Re-observe the 20 stored IDs after a genuinely later publisher generation. Source
-snapshot/deletion/replace/timezone semantics, final-head CI and real teammate review
-remain explicit gates. No speculative export adapter or fabricated history was added.
+**Historical PR #11 note:** at that earlier milestone, 957,262 further published requests were needed to
+reach one million Gold facts. In the final iteration campaign, the loading campaign successfully completed
+and reached **1,002,639 published Gold facts** and **1,033,290 distinct Bronze IDs**, satisfying the scale
+requirement. Re-observation of 50 non-closed requests against the live API confirmed matching generation
+views with zero publisher-side status changes (retaining genuine SCD2 as PARTIAL). Source
+snapshot/deletion/replace/timezone semantics and real teammate review remain
+explicit gates. See the GitHub evidence update below for the verified CI head. No speculative export adapter or fabricated history was added.
 
 
-### Current feature-branch delivery
+### Merged source-scale delivery
 
-`feat/final-real-source-scale` is pushed with upstream tracking. The connector
-again denied draft creation (403); gh remains unauthenticated. The code-head
-Actions query returned zero runs. PR #10's successful CI is baseline evidence,
-not proof of this follow-up branch. Do not invent a PR URL or green final checks.
+The source-scale branch merged in [PR #11](https://github.com/nijat-akhundzada/nyc-311-data-pipeline/pull/11).
+Its [CI](https://github.com/nijat-akhundzada/nyc-311-data-pipeline/actions/runs/45355202036)
+passed. The final readiness handoff is in the [PR description](review/final-submission-pr.md).
 
-Open the [current comparison](https://github.com/nijat-akhundzada/nyc-311-data-pipeline/compare/main...feat/final-real-source-scale?expand=1)
-as one draft PR, targeting main, using the updated
-[prepared title/body](review/final-submission-pr.md). Alternatively, after `gh`
-authentication:
+### GitHub evidence on 25 November 2026
 
-```sh
-gh pr create --draft --base main --head feat/final-real-source-scale \
-  --title 'fix(ingestion): recover rejected stale views within the existing retry budget' \
-  --body-file docs/review/final-submission-pr.md
-```
+Main branch protection is **PASS** under [ruleset 28075415](https://github.com/nijat-akhundzada/nyc-311-data-pipeline/rules/28075415).
+Lint, unit and integration are **PASS** for [PR #12](https://github.com/nijat-akhundzada/nyc-311-data-pipeline/pull/12) head
+`7d7872bf2a51268a6d51959c5bde4d70155df185`. All three checks must pass
+again on the documentation commit. [PR #12 CI](https://github.com/nijat-akhundzada/nyc-311-data-pipeline/actions/runs/45379091296)
 
-Verify lint/unit/integration on its latest head, obtain actual teammate review,
-and let the human lead decide merge. No automatic merge or acceptance of ADR-001.
+Teammate reviews remain **NOT VERIFIED**, genuine SCD2 transitions remain
+**PARTIAL**, and ADR-001 remains **PROPOSED**.

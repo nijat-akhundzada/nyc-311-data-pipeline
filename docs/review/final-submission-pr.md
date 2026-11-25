@@ -1,64 +1,71 @@
-# fix(ingestion): recover rejected stale views within the existing retry budget
+# Final submission readiness
 
-Base `main` (`16a8a1a`, merged PR #10); head `feat/final-real-source-scale`.
-Nijat explicitly approved the narrow stale-response retry amendment during this
-iteration. ADR-001 remains PROPOSED. Human review/merge only.
+## Scope and ownership
 
-## Demonstrated problem and bounded change
+[Spec 11, submission release gate](https://github.com/nijat-akhundzada/nyc-311-data-pipeline/blob/main/context/specs/11-submission-release-gate.md).
+Nijat led the final verification, source campaign and documentation. Base
+`6c98a8f` includes [PR #11](https://github.com/nijat-akhundzada/nyc-311-data-pipeline/pull/11)
+and its [passing PR checks](https://github.com/nijat-akhundzada/nyc-311-data-pipeline/actions/runs/45355202036).
+Nizami owns review of the benchmark and index experiment. Firuz owns review of
+Docker, scheduling and run-history evidence.
 
-Real page traces showed a fresh 24 November page followed by an explicitly stale
-23 November view. Generation-first classification made this terminal before the
-existing stale retry could execute. Reject stale/lagging views first using the
-same four-attempt/180-second page budget, then compare the pin on fresh responses.
-Fresh mismatches/unknown markers still fail. Rejected rows/cursors never commit.
-No migration, query selection, identity, accepted-page trust criterion, quality
-threshold, checkpoint, database tooling or publication transaction change.
+## Changes and measured outcomes
 
-## Actual real-source outcome
+- Executed automated daily-window loading campaign across 2025 cohorts, safely
+  resuming retryable checkpoints and reaching **1,033,290 distinct Bronze IDs,
+  1,002,639 published Silver requests, 1,002,639 Gold facts and 410 quarantines**
+  across 119 audited pipeline runs with zero synthetic records in the real database.
+  The 1,000,000 genuine records target is **PASS**.
+- Sampled 50 recently created non-closed requests against live Socrata endpoint.
+  Accepted fresh views covered all 50 IDs on baseline generation `2026-11-24T02:42:04Z`
+  with zero tracked differences. Database assertions verified 0 noncurrent real state
+  versions. Genuine source-backed SCD2 remains PARTIAL.
+- Reran performance benchmark on the full **1,002,639 genuine facts** snapshot across
+  all five workloads (selective resolution + 4 analytics queries) with three warm
+  `EXPLAIN (ANALYZE, BUFFERS)` executions each. The candidate agency covering index
+  (49.8 MB) improved resolution-query median from **776.006 ms to 410.614 ms**
+  (1.890× speedup ratio, 47.1% runtime reduction). All result row counts and SHA-256 digests
+  matched identically before and after.
+- Updated README, performance report, submission checklist, source tests, and real load evidence.
+  Application ingestion, contracts, applied migrations, quality policy and
+  publication code retain the merged baseline.
 
-- **71,492 distinct genuine Bronze IDs / 42,738 Silver / 42,738 Gold.** Added
-  44,100 distinct raw IDs and 29,612 published requests; zero synthetic scale rows.
-- Previously failing small window now published 568; Jan 6 published 14,085 with
-  one invalid quarantine; Jan 7 resumed at the durable cursor, accepted only an
-  empty completion page, and published 14,907 without inflating received counts.
-- Jan 8 exhausted stale retries; its one allowed resume advanced another durable
-  page, then exhausted the next page on three stale responses and HTTP 503.
-  The batch stopped. Run `88f90c05-4851-44b6-8853-3a588118e198` retains 10,000
-  received rows/checkpoint page 2, retryable/unpublished. No bypass/abandonment.
-- Nine invocations, 288.970s cumulative active loading time; 46 pipeline HTTP
-  attempts (42 HTTP 200, 4 HTTP 503; 23 explicitly stale). Exact URLs/headers saved.
-- Twenty previously published non-closed requests freshly compared: **zero tracked
-  changes**. Genuine SCD2 remains unproven. No versioned official export verified.
+## Verification performed
 
-## Verification
+- Clean Python 3.12.11 install using `pip install -r requirements-dev.lock`,
+  `pip install --no-deps --no-build-isolation -e .` and `pip check`.
+- `TEST_DATABASE_URL=… pytest -q` against disposable PostgreSQL 16.14.
+  **273 passed** in a clean checkout and again on the feature worktree.
+- `ruff check .`, `ruff format --check .`, `pre-commit run --all-files`
+  (seven hooks), `bash scripts/validate-context.sh` and `git diff --check` passed.
+- Isolated `docker compose up -d --wait db` and
+  `docker compose --profile pipeline build pipeline` passed. UID 10001,
+  migrations 0001–0004, health, checkpoint resume, replay and named-volume
+  persistence verified.
+- Fixture gate exited 4 for 2/20 invalid rows with identical published
+  fingerprints. Scheduler wrapper published a successful incremental watermark.
+  Prior actual SIGKILL, database startup and cron demonstrations are linked in
+  the verification report.
+- `python scripts/benchmark-analytics.py --apply-index --candidate agency` ran
+  on a disposable final snapshot. The index experiment is separate from migrations.
 
-**273 passed, 0 failed/skipped** (205 unit, 68 PostgreSQL integration), 22.48s.
-Focused suite: 173 passed. Unit tests cover stale/lagging old views, identical
-request retry, four-attempt exhaustion and terminal fresh mismatch. PostgreSQL
-tests prove no stale-body checkpoint advancement and no failed-run publication.
-Ruff lint/format, seven pre-commit hooks, context/whitespace passed. Rebuilt image
-UID 10001; fresh disposable DB health/migrate/publication/replay passed with exactly
-20 synthetic rows per layer; DB removed. Real-data volume preserved separately.
+[Final verification](https://github.com/nijat-akhundzada/nyc-311-data-pipeline/blob/feat/final-submission-readiness/docs/final-verification.md)
+[Performance report](https://github.com/nijat-akhundzada/nyc-311-data-pipeline/blob/feat/final-submission-readiness/docs/performance-report.md)
+[Evidence](https://github.com/nijat-akhundzada/nyc-311-data-pipeline/tree/feat/final-submission-readiness/docs/evidence/final)
 
-Evidence updated in the existing source audit, final verification, runbook,
-checklist, README and payload-free `docs/evidence/final/scale-source-audit.json`.
-Prior performance figures remain labeled as the original 13,126-fact experiment.
+## Release assessment
 
-## Remaining gates and reviewers
+**Release gate: NOT READY.** The following checks passed:
+- ≥1,000,000 genuine published records (1,002,639 Gold facts, 1,033,290 Bronze IDs): PASS
+- Measured optimization at 1M scale (1.890× speedup, 47.1% runtime reduction): PASS
+- 3 failure recovery demonstrations, cron scheduling, star schema, migrations, idempotency: PASS
+- Full unit & integration test suite, Ruff lint/formatting, pre-commit hooks: PASS
 
-**Million-row target NOT achieved; no genuine tracked transition observed.** Source
-staleness/503 availability remains the blocker after the approved classification
-fix. Resume the retained run only when fresh responses recover, then complete
-independent bounded runs. Recheck the sample across a later publisher generation;
-repeat scale benchmarks after genuine volume succeeds. Publisher timezone/snapshot/
-change-feed completeness, peer reviews/protection and final-head CI remain open.
+On 25 November 2026, main branch protection was verified (**PASS**) under
+[ruleset 28075415](https://github.com/nijat-akhundzada/nyc-311-data-pipeline/rules/28075415). CI was **PASS** for PR #12 head
+`7d7872bf2a51268a6d51959c5bde4d70155df185` (lint, unit and integration). All three checks
+must pass again on the documentation commit. [PR #12 CI](https://github.com/nijat-akhundzada/nyc-311-data-pipeline/actions/runs/45379091296)
 
-Nizami: raw/dedup/count evidence, no migration rewrite, observed-time state limits.
-Firuz: unchanged retry budget, checkpoint recovery boundaries, test/CI compatibility.
-Nijat: approved policy, source traces and honest remaining requirements. Record
-actual decisions, never assumed approvals.
-
-Branch push succeeded. Connector draft-PR creation returned 403; gh unauthenticated.
-Merged PR #10 CI passed, but this branch had zero Actions runs at inspection.
-Create this draft PR manually, then verify all jobs on its latest head. Do not merge
-automatically or claim prior-main CI proves this code head.
+Genuine SCD2 transitions remain **PARTIAL**, teammate reviews remain **NOT VERIFIED**,
+and ADR-001 remains **PROPOSED**. See the [submission checklist](../submission-checklist.md)
+for the remaining evidence gaps.
